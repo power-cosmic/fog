@@ -1,0 +1,57 @@
+{
+  "name": "fog",
+  "version": "0.0.0",
+  "description": "buy. play. win.",
+  "main": "./lib/index.js",
+  "directories": {
+    "example": "./example",
+    "build": "./build",
+    "bin": "./bin",
+    "doc": "./doc",
+    "lib": "./lib",
+    "man": "./doc/man"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/power-cosmic/fog.git"
+  },
+  "keywords": [
+    "games",
+    "play",
+    "full-software"
+  ],
+  "contributors": [
+    {
+      "name": "Eddie Gurnee",
+      "email": "<eddie.gurnee@gmail.com>"
+    },
+    {
+      "name": "Tyler Hoffman",
+      "email": "<tyler.c.hoffman@gmail.com>"
+    },
+    {
+      "name": "Cade Sperlich",
+      "email": ""
+    }
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/power-cosmic/fog/issues"
+  },
+  "homepage": "https://github.com/power-cosmic/fog#readme",
+  "devDependencies": {
+    "chai": "^3.3.0",
+    "istanbul": "^0.3.20",
+    "mocha": "^2.3.3",
+    "sinon": "^1.16.1"
+  },
+  "dependencies": {
+    "ajaxer": "git+https://github.com/power-cosmic/ajaxer.git",
+    "requirator": "git+https://github.com/power-cosmic/requirator.git"
+  }
+}
