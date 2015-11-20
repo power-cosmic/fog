@@ -48,14 +48,16 @@
 
         <!-- thread topic -->
         <div class="topic post">
-          <h2><%=thread.title%></h2>
-          <%=thread.content%>
-          <br />
-          <span class="deemphasized author">posted by: <%=thread.user.username%></span>
+          <h1><%=thread.title%></h2>
+          <div class="padded">
+            <%=thread.content%>
+            <br />
+            <span class="deemphasized author">posted by: <%=thread.user.username%></span>
+          </div>
         </div>
 
         <!-- Display all posts -->
-        <div>
+        <div class="padded">
           <% thread.replies.forEach(function(post) {
             renderPost(post);
           }); %>

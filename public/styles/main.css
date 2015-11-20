@@ -1,6 +1,6 @@
 html, body {
   color: #ddd;
-  font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+  font-family: Tahoma, Geneva, sans-serif;
   margin: 0px;
   padding: 0px;
 }
@@ -34,12 +34,21 @@ div {
     position: relative;
 }
 
+h1, h2, h3, h4, h5, h6, .emphasized {
+  font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+  margin: 10px;
+}
+
 .deemphasized {
   color: #999;
 }
 
 .inline {
   display: inline;
+}
+
+.padded {
+  padding: 20px;
 }
 
 /*

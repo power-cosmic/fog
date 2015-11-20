@@ -13,13 +13,14 @@
   border: none;
   border-bottom: 2px solid #999;
   padding: 10px;
-  font-size: 2em;
+  font-size: 1.4em;
 }
 
 .reply {
   padding: 0px 0px 0px 10px;
   margin: 0px 0px 10px 10px;
   border-left: 1px solid #333;
+  border-left-style: dashed;
 }
 
 .author {
