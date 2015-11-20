@@ -1,12 +1,10 @@
+var Post = require('./post');
+
 var Thread = function(user, title, content) {
-  this.user = user;
+  Post.call(this, user, content);
   this.title = title;
-  this.content = content;
-  this.posts = [];
 };
 
-Thread.prototype.addPost = function(post) {
-  this.posts.push(post);
-};
+Thread.prototype = Object.create(Post.prototype);
 
 module.exports = Thread;
