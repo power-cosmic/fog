@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head %>
+    <title>fog | forums</title>
+  </head>
+  <body>
+    <header>
+      <% include ../partials/header %>
+    </header>
+
+    <main>
+      <%
+        // TODO: get this from mongo
+        var tyler = new User('thoffma7');
+        var thread = new Thread(tyler, 'hello world', 'hey folks');
+        thread.addPost(new Post(tyler, 'oh, hi'));
+      %>
+      <div class="inner-content">
+
+        <div class="post">
+          <h2><%=thread.title%></h2>
+          <%=thread.content%>
+          <br />
+          <span class="deemphasized author">posted by: <%=thread.user.username%></span>
+        </div>
+
+        <% thread.posts.forEach(function(post) { %>
+
+          <div class="post">
+            <%=post.content%>
+            <br />
+            <span class="deemphasized author">posted by: <%=post.user.username%></span>
+          </div>
+
+        <% }); %>
+
+      </div>
+
+    </main>
+
+    <footer>
+      <% include ../partials/footer %>
+    </footer>
+  </body>
+</html>

@@ -13,7 +13,25 @@ html {
 
 body {
   background-color: #001;
-  margin: 0px 0px 100px;
+  margin: 0px 0px 65px;
+}
+
+main {
+  background-color: #222;
+}
+
+.content {
+  margin: 0px 100px;
+  position: relative;
+}
+
+.inner-content {
+    margin: 0px 110px;
+    position: relative;
+}
+
+#header {
+  height: 85px;
 }
 
 #fog {
@@ -32,7 +50,7 @@ body {
 
 header {
   background-color: #001;
-  height: 85px;
+  height: 105px;
   min-width: 700px;
   position: relative;
   background-color:
@@ -41,7 +59,7 @@ header {
 footer {
   /* props to http://mystrd.at/modern-clean-css-sticky-footer/ */
   background-color: #001;
-  height: 100px;
+  height: 65px;   /* = body.margin.bottom */
   position: absolute;
   bottom: 0px;
   width: 100%;
@@ -94,6 +112,10 @@ a:hover {
 
 .deemphasized {
   color: #999;
+}
+
+.author {
+  font-weight: lighter;
 }
 
 input[type="text"], input[type="password"] {
