@@ -52,6 +52,9 @@
   },
   "dependencies": {
     "ajaxer": "git+https://github.com/power-cosmic/ajaxer.git",
+    "ejs": "^1.0.0",
+    "express": "latest",
+    "morgan": "latest",
     "requirator": "git+https://github.com/power-cosmic/requirator.git"
   }
 }

@@ -1,0 +1,29 @@
+/*
+ * The goal here is to allow for nested replies to posts.
+ * Each nested reply is indented to the left, but
+ * all replies have the same right edge.
+ */
+
+.post {
+  padding: 0px 0px 0px 10px;
+  margin: 10px 0px;
+}
+
+.topic {
+  border: none;
+  border-bottom: 2px solid #999;
+  padding: 10px;
+  font-size: 1.4em;
+}
+
+.reply {
+  padding: 0px 0px 0px 10px;
+  margin: 0px 0px 10px 10px;
+  border-left: 1px solid #333;
+  border-left-style: dashed;
+}
+
+.author {
+  font-weight: lighter;
+  font-size: 0.8rem;
+}

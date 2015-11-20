@@ -1,0 +1,96 @@
+html, body {
+  color: #ddd;
+  font-family: Tahoma, Geneva, sans-serif;
+  margin: 0px;
+  padding: 0px;
+}
+
+html {
+  background-color: #222;
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  background-color: #001;
+  margin: 0px 0px 65px;
+}
+
+main {
+  background-color: #222;
+}
+
+div {
+  padding: 10px;
+}
+
+.content {
+  margin: 0px 100px;
+  position: relative;
+}
+
+.inner-content {
+    margin: 0px 110px;
+    position: relative;
+}
+
+h1, h2, h3, h4, h5, h6, .emphasized {
+  font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+  margin: 10px;
+}
+
+.deemphasized {
+  color: #999;
+}
+
+.inline {
+  display: inline;
+}
+
+.padded {
+  padding: 20px;
+}
+
+/*
+ * Forms
+ */
+
+label {
+  display: block;
+  font-size: 0.5em;
+}
+
+input[type="text"], input[type="password"] {
+  padding: 4px 6px;
+  border-radius: 3px;
+  border: solid #222 1px;
+}
+
+/*
+ * Links
+ */
+
+a {
+  color: #999;
+  text-decoration: none;
+}
+
+a:link {
+  color: #999;
+  transition: color 1.0s;
+}
+
+a:visited {
+  color: #999;
+  transition: color 1.0s;
+}
+
+a:active {
+  color: #999;
+  transition: color 1.0s;
+}
+
+a:hover {
+  color:#ddd;
+  transition: color 1.0s;
+}

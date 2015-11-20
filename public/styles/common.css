@@ -1,0 +1,34 @@
+#header {
+  height: 85px;
+}
+
+#fog {
+  float: left;
+}
+
+#title {
+  font-size: 3em;
+}
+
+#easy-login {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+}
+
+header {
+  background-color: #001;
+  height: 105px;
+  min-width: 700px;
+  position: relative;
+  background-color:
+}
+
+footer {
+  /* props to http://mystrd.at/modern-clean-css-sticky-footer/ */
+  background-color: #001;
+  height: 65px;   /* = body.margin.bottom */
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
