@@ -8,4 +8,8 @@ Post.prototype.addReply = function(reply) {
   this.replies.push(reply);
 };
 
+Post.prototype.hasReplies = function() {
+  return this.replies.length > 0;
+};
+
 module.exports = Post;
