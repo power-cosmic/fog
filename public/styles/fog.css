@@ -6,6 +6,15 @@ html, body {
   padding: 0px;
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin: 0px 0px 100px;
+}
+
 #fog {
   float: left;
 }
@@ -25,6 +34,16 @@ header {
   height: 85px;
   min-width: 700px;
   position: relative;
+  background-color:
+}
+
+footer {
+  /* props to http://mystrd.at/modern-clean-css-sticky-footer/ */
+  background-color: #001;
+  height: 100px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
 }
 
 .entry {
