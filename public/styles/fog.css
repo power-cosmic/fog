@@ -1,5 +1,4 @@
 html, body {
-  background-color: #222;
   color: #ddd;
   font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
   margin: 0px;
@@ -7,11 +6,13 @@ html, body {
 }
 
 html {
+  background-color: #222;
   position: relative;
   min-height: 100%;
 }
 
 body {
+  background-color: #001;
   margin: 0px 0px 100px;
 }
 
