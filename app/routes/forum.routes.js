@@ -1,12 +1,9 @@
+var forums = require('../controllers/forum.controller');
+
 module.exports = function(app) {
-  app.get('/forums/thread', function(req, res) {
-    var user = require('../models/users/user');
-    var post = require('../models/forums/post');
-    var thread = require('../models/forums/thread');
-    res.render('forums/pages/forum-thread', {
-      User: user,
-      Post: post,
-      Thread: thread
-    });
-  });
+  app.route('/forums/thread/:threadId')
+    .get(forums.readThread);
+
+  app.param('threadId', forums.threadById);
+  app.param('postId', forums.postById);
 };
