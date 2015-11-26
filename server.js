@@ -1,7 +1,8 @@
-var express = require('express');
-var morgan = require('morgan');
-var app = express();
-var port = 8080;
+var express = require('express'),
+    morgan = require('morgan'),
+    app = express(),
+    config = require('./config/config')
+    port = 8080;
 
 app.set('view engine', 'ejs');
 
@@ -9,16 +10,9 @@ app.get('/', function(req, res) {
   res.render('pages/index');
 });
 
-app.get('/forums/thread', function(req, res) {
-  var user = require('./app/models/users/user');
-  var post = require('./app/models/forums/post');
-  var thread = require('./app/models/forums/thread');
-  res.render('pages/forum-thread', {
-    User: user,
-    Post: post,
-    Thread: thread
-  });
-});
+require('./app/routes/forum.routes')(app);
+
+
 
 app.use(morgan('dev'));
 app.use(express.static('./public'));
