@@ -14,20 +14,7 @@
     </header>
 
     <main>
-      <%
-        // TODO: get this from mongo
-        var tyler = new User('thoffma7');
-        var thread = new Thread(tyler, 'hello world', 'hey folks');
-        var firstPost = new Post(tyler, 'oh, hi');
-        thread.addReply(firstPost);
-        var reply = new Post(tyler, 'hello to you too');
-        firstPost.addReply(reply);
-        reply.addReply(new Post(tyler, 'nested hi'));
-        reply.replies[0].addReply(new Post(tyler, 'this is soo nested'));
-        reply.addReply(new Post(tyler, 'another nested hi'));
-        thread.addReply(new Post(tyler, 'hello!!!!!!!!1'));
-
-        var renderPost = function(post) { %>
+      <% var renderPost = function(post) { %>
           <div class="post">
 
             <!-- the post -->
