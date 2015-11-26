@@ -3,7 +3,7 @@ module.exports = function(app) {
     var user = require('../models/users/user');
     var post = require('../models/forums/post');
     var thread = require('../models/forums/thread');
-    res.render('pages/forum-thread', {
+    res.render('forums/pages/forum-thread', {
       User: user,
       Post: post,
       Thread: thread

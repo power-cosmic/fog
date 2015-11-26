@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <% include ../partials/head %>
+    <% include ../../common/partials/head %>
     <link rel="stylesheet" href="/styles/forums.css">
+    <script type="text/javascript" src="/lib/jqlite.js"></script>
+    <script type="text/javascript" src="/lib/ajaxer.js"></script>
+    <script type="text/javascript" src="/helpers/forums/replyHandler.js"></script>
     <title>fog | forums</title>
   </head>
   <body>
     <header>
-      <% include ../partials/header %>
+      <% include ../../common/partials/header %>
     </header>
 
     <main>
@@ -31,7 +34,9 @@
             <%=post.content%>
             <br />
             <span class="deemphasized author">posted by: <%=post.user.username%></span>
-
+            <div id="button">
+              <a href="" class="reply-button">reply</a>
+            </div>
             <!-- the replies -->
             <% if (post.hasReplies()) { %>
               <div class="reply">
@@ -53,6 +58,9 @@
             <%=thread.content%>
             <br />
             <span class="deemphasized author">posted by: <%=thread.user.username%></span>
+            <div id="button">
+              <a href="" class="reply-button">reply</a>
+            </div>
           </div>
         </div>
 
@@ -68,7 +76,7 @@
     </main>
 
     <footer>
-      <% include ../partials/footer %>
+      <% include ../../common/partials/footer %>
     </footer>
   </body>
 </html>
