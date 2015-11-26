@@ -1,6 +1,7 @@
-var Post = function(user, content) {
+var Post = function(user, content, id) {
   this.user = user;
   this.content = content;
+  this.id = id;
   this.replies = [];
 };
 
