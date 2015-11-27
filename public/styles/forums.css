@@ -1,7 +1,7 @@
 .forum-thread {
     border: 1px solid #333;
     background-color: #222;
-    transition: background-color 0.5s;
+    transition: background-color 0.4s;
 }
 
 .forum-thread:link {
@@ -12,8 +12,6 @@
 .forum-thread:hover {
   background-color: #333;
 }
-
-
 
 /*
  * The goal here is to allow for nested replies to posts.
