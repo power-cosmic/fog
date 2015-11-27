@@ -1,13 +1,65 @@
 var Thread = require('../models/forums/thread'),
-    Post = require('../models/forums/post');
+    Post = require('../models/forums/post'),
+    MongoClient = require('mongodb').MongoClient,
+    ObjectId = require('mongodb').ObjectID,
+    url = "mongodb://localhost/fog-test";
+
+var User = require('../models/users/user'),
+    Post = require('../models/forums/post'),
+    Thread = require('../models/forums/thread');
 
 exports.postReply = function(req, res) {
-  console.log(req.body);
+  MongoClient.connect(url, function(err, db) {
+
+    var reply = req.body,
+        threadId = ObjectId(req.body.inThread);
+
+    /*
+     * Grab the thread from the db, and put the reply
+     * in the correct location in the reply tree.
+     * The save it again. I hope there's a cleaner
+     * way to do this
+     */
+    db.collection('threads').findOne({_id: threadId}, function(err, doc) {
+      if (doc) {
+        var thread = new Thread().fromMongo(doc);
+        var replyTo = thread.getPost(reply.replyTo);
+        replyTo.addReply(new Post('thoffma7', reply.content));
+        db.collection('threads').update(
+          {_id: threadId},
+          thread.toMongo(),
+          function(err, result) {
+          if (err) {
+            console.log('error:', err);
+          }
+          db.close();
+          res.json({status: 'success'});
+        });
+      } else {
+        console.log('couldn\'t find thread');
+        db.close();
+        res.json({status: 'failure'});
+      }
+    });
+
+  });
 };
 
 exports.readThread = function(req, res) {
   res.render('forums/pages/forum-thread', {
     thread: req.thread
+  });
+};
+
+var ifThread = function(id, callback) {
+  MongoClient.connect(url, function(err, db) {
+    db.collection('threads').findOne({_id: id}, function(err, thread) {
+      if (thread) {
+        callback(true);
+      } else {
+        callback(false);
+      }
+    });
   });
 };
 
@@ -17,24 +69,14 @@ exports.postById = function(req, res, next, id) {
 };
 
 exports.threadById = function(req, res, next, id) {
-  console.log('thread id: ' + id);
 
-  var User = require('../models/users/user'),
-      Post = require('../models/forums/post'),
-      Thread = require('../models/forums/thread');
+  MongoClient.connect(url, function(err, db) {
 
-  var tyler = new User('thoffma7');
-  var thread = new Thread(tyler, 'hello world', 'hey folks', 42);
-  var firstPost = new Post(tyler, 'oh, hi');
-  thread.addReply(firstPost);
-  var reply = new Post(tyler, 'hello to you too');
-  firstPost.addReply(reply);
-  reply.addReply(new Post(tyler, 'nested hi'));
-  reply.replies[0].addReply(new Post(tyler, 'this is soo nested'));
-  reply.addReply(new Post(tyler, 'another nested hi'));
-  thread.addReply(new Post(tyler, 'hello!!!!!!!!'));
+    var cursor = db.collection('threads').findOne({}, function(err, thread) {
+      req.thread = new Thread().fromMongo(thread);
+      db.close();
+      next();
+    });
 
-  req.thread = thread;
-
-  next();
+  });
 };

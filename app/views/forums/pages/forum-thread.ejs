@@ -15,33 +15,44 @@
 
     <main>
 
+      <!-- Render Posts -->
       <% var renderPost = function(post, isHead) { %>
-          <div class="<%= (isHead)? 'topic post': 'post' %>">
+        <% if (isHead) { %>
+          <div id="topic" class="topic post"
+              data-post="<%= post.id %>">
+        <% } else { %>
+          <div class="post" data-post="<%= post.id %>">
+        <% } %>
 
-            <!-- the post -->
-            <%=post.content%>
-            <br />
-            <span class="deemphasized author">posted by: <%=post.user.username%></span>
-            <div id="button">
-              <a href="" class="reply-button">reply</a>
-            </div>
+        <% if (isHead) { %>
+          <h1><%= post.title %></h1>
+        <% } %>
 
-            <!-- the replies -->
-            <% if (!isHead && post.hasReplies()) { %>
-              <div class="reply">
-                <% post.replies.forEach(function(post) {
-                  renderPost(post);
-                }); %>
-              </div>
-            <% } %>
+        <!-- the post -->
+        <%=post.content%>
+        <br />
+        <span class="deemphasized author">posted by: <%=post.user%></span>
+        <div id="button">
+          <a href="" class="reply-button">reply</a>
+        </div>
 
+        <!-- the replies -->
+        <% if (!isHead && post.hasReplies()) { %>
+          <div class="reply">
+            <% post.replies.forEach(function(post) {
+              renderPost(post);
+            }); %>
           </div>
+        <% } %>
+
+        </div>
 
       <% } %>
-      
+
       <div class="inner-content">
 
         <!-- thread topic -->
+        <%=thread.id%>
         <% renderPost(thread, true) %>
 
         <!-- all replies -->
