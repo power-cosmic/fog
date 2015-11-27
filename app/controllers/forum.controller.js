@@ -22,23 +22,34 @@ exports.postReply = function(req, res) {
      */
     db.collection('threads').findOne({_id: threadId}, function(err, doc) {
       if (doc) {
+
+        /*
+         * construct the js version of the thread and get the post
+         * we are replying to
+         */
         var thread = new Thread().fromMongo(doc);
         var replyTo = thread.getPost(reply.replyTo);
+
+        // currently tyler gets credit for all posts
         replyTo.addReply(new Post('thoffma7', reply.content));
+
         db.collection('threads').update(
           {_id: threadId},
           thread.toMongo(),
           function(err, result) {
-          if (err) {
-            console.log('error:', err);
-          }
-          db.close();
-          res.json({status: 'success'});
+            if (err) {
+              console.log('error:', err);
+            }
+            db.close();
+            res.json({status: 'success'});
         });
       } else {
         console.log('couldn\'t find thread');
         db.close();
-        res.json({status: 'failure'});
+        res.json({
+          status: 'failure',
+          message: 'invalid thead id'
+        });
       }
     });
 
