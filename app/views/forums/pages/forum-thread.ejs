@@ -51,15 +51,22 @@
 
       <div class="inner-content">
 
-        <!-- thread topic -->
-        <% renderPost(thread, true) %>
+        <% if (thread) { %>
+          <!-- thread topic -->
+          <% renderPost(thread, true) %>
 
-        <!-- all replies -->
-        <div class="padded">
-          <% thread.replies.forEach(function(post) {
-            renderPost(post);
-          }); %>
-        </div>
+          <!-- all replies -->
+          <div class="padded">
+            <% thread.replies.forEach(function(post) {
+              renderPost(post);
+            }); %>
+          </div>
+        <% } else { %>
+          <!-- there's no thread here -->
+          <p>
+            There's nothing here! :(
+          </p>
+        <% } %>
 
       </div>
 

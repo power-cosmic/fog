@@ -16,12 +16,14 @@
         <h1>Threads</h1>
         <% threads.forEach(function(thread) { %>
 
-          <div class="forum-thread">
-            <h2><%= thread.content %></h2>
-            <span class="deemphasized">author: <%= thread.user %>
-              | replies: <%= thread.numPosts() - 1 %>
-            </span>
-          </div>
+          <a href = "/forums/thread/<%= thread.id %>">
+            <div class="forum-thread">
+              <h2><%= thread.content %></h2>
+              <span class="deemphasized">author: <%= thread.user %>
+                | replies: <%= thread.numPosts() - 1 %>
+              </span>
+            </div>
+          </a>
 
         <% }) %>
       </div>

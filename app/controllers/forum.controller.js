@@ -101,11 +101,18 @@ exports.threadById = function(req, res, next, id) {
 
   MongoClient.connect(database, function(err, db) {
 
-    db.collection('threads').findOne({}, function(err, thread) {
-      req.thread = new Thread().fromMongo(thread);
-      db.close();
+    try {
+      id = new ObjectId(id);
+      console.log(id);
+      db.collection('threads').findOne({_id: new ObjectId(id)}, function(err, thread) {
+        req.thread = thread? new Thread().fromMongo(thread): null;
+        db.close();
+        next();
+      });
+    } catch(e) {
+      console.log('invalid id: ' + id);
       next();
-    });
+    }
 
   });
 };
