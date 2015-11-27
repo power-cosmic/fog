@@ -68,6 +68,10 @@ exports.list = function(req, res) {
   });
 };
 
+exports.create = function(req, res) {
+  res.render('forums/pages/new-thread');
+};
+
 exports.readThread = function(req, res) {
   res.render('forums/pages/forum-thread', {
     thread: req.thread
