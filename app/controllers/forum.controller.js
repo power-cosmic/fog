@@ -62,23 +62,6 @@ exports.readThread = function(req, res) {
   });
 };
 
-var ifThread = function(id, callback) {
-  MongoClient.connect(url, function(err, db) {
-    db.collection('threads').findOne({_id: id}, function(err, thread) {
-      if (thread) {
-        callback(true);
-      } else {
-        callback(false);
-      }
-    });
-  });
-};
-
-exports.postById = function(req, res, next, id) {
-  console.log('post id: ' + id);
-  next();
-};
-
 exports.threadById = function(req, res, next, id) {
 
   MongoClient.connect(url, function(err, db) {

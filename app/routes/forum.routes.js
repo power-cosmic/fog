@@ -8,5 +8,4 @@ module.exports = function(app) {
     .post(forums.postReply);
 
   app.param('threadId', forums.threadById);
-  app.param('postId', forums.postById);
 };
