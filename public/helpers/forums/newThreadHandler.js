@@ -10,7 +10,12 @@ $(function() {
 
     ajaxer.post('/forums/thread', params, function(response) {
       response = JSON.parse(response);
-      console.log(response);
+
+      if (response.status === 'success') {
+        window.location = '/forums';
+      } else {
+        console.log('something went wrong');
+      }
     });
 
     return false;
