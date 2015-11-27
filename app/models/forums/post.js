@@ -15,6 +15,14 @@ Post.prototype.hasReplies = function() {
   return this.replies.length > 0;
 };
 
+Post.prototype.numPosts = function() {
+  var posts = 1;
+  this.replies.forEach(function(reply) {
+    posts += reply.numPosts();
+  });
+  return posts;
+};
+
 Post.prototype.fromMongo = function(document) {
   this.user = document.user;
   this.content = document.content;

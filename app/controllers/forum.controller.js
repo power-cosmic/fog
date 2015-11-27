@@ -2,14 +2,15 @@ var Thread = require('../models/forums/thread'),
     Post = require('../models/forums/post'),
     MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectID,
-    url = "mongodb://localhost/fog-test";
+    parseUrl = require('url').parse,
+    database = "mongodb://localhost/fog-test";
 
 var User = require('../models/users/user'),
     Post = require('../models/forums/post'),
     Thread = require('../models/forums/thread');
 
 exports.postReply = function(req, res) {
-  MongoClient.connect(url, function(err, db) {
+  MongoClient.connect(database, function(err, db) {
 
     var reply = req.body,
         threadId = ObjectId(req.body.inThread);
@@ -56,17 +57,51 @@ exports.postReply = function(req, res) {
   });
 };
 
+exports.list = function(req, res) {
+  getThreadsInRange(req.url, function(threads) {
+    console.log('results: ' + threads.length);
+
+    console.log(threads);
+    res.render('forums/pages/forum-list', {
+      threads: threads
+    });
+  });
+};
+
 exports.readThread = function(req, res) {
   res.render('forums/pages/forum-thread', {
     thread: req.thread
   });
 };
 
+var getThreadsInRange = function(url, callback) {
+  var params = parseUrl(url, true).query,
+      start = params.start || 0,
+      count = params.count || 2;
+
+  MongoClient.connect(database, function(err, db) {
+
+    var cursor = db.collection('threads').find({}, {limit: count});
+    var threads = [];
+
+    cursor.each(function(err, doc) {
+      if (doc) {
+        threads.push(new Thread().fromMongo(doc));
+      } else {
+        db.close();
+        callback(threads);
+      }
+    });
+
+  });
+
+};
+
 exports.threadById = function(req, res, next, id) {
 
-  MongoClient.connect(url, function(err, db) {
+  MongoClient.connect(database, function(err, db) {
 
-    var cursor = db.collection('threads').findOne({}, function(err, thread) {
+    db.collection('threads').findOne({}, function(err, thread) {
       req.thread = new Thread().fromMongo(thread);
       db.close();
       next();

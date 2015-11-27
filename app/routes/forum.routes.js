@@ -1,6 +1,10 @@
 var forums = require('../controllers/forum.controller');
 
 module.exports = function(app) {
+
+  app.route('/forums/threads')
+    .get(forums.list);
+
   app.route('/forums/thread/:threadId')
     .get(forums.readThread);
 

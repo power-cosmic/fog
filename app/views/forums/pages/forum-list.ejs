@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../../common/partials/head %>
+    <link rel="stylesheet" href="/styles/forums.css">
+    <title>fog | forums</title>
+  </head>
+  <body>
+
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <main>
+      <div class="inner-content">
+        <h1>Threads</h1>
+        <% threads.forEach(function(thread) { %>
+
+          <div class="forum-thread">
+            <h2><%= thread.content %></h2>
+            <span class="deemphasized">author: <%= thread.user %>
+              | replies: <%= thread.numPosts() - 1 %>
+            </span>
+          </div>
+
+        <% }) %>
+      </div>
+    </main>
+
+    <footer>
+      <% include ../../common/partials/footer %>
+    </footer>
+
+  </body>
+</html>
