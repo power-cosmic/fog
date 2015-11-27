@@ -6,7 +6,8 @@ module.exports = function(app) {
     .get(forums.list);
 
   app.route('/forums/thread/')
-    .get(forums.create);
+    .get(forums.new)
+    .post(forums.create);
 
   app.route('/forums/thread/:threadId')
     .get(forums.readThread);

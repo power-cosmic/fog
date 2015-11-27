@@ -59,17 +59,33 @@ exports.postReply = function(req, res) {
 
 exports.list = function(req, res) {
   getThreadsInRange(req.url, function(threads) {
-    console.log('results: ' + threads.length);
-
-    console.log(threads);
     res.render('forums/pages/forum-list', {
       threads: threads
     });
   });
 };
 
-exports.create = function(req, res) {
+exports.new = function(req, res) {
   res.render('forums/pages/new-thread');
+};
+
+exports.create = function(req, res) {
+  req.body.user = 'thoffma7';
+  var body = new Thread().fromMongo(req.body);
+  console.log(body);
+  MongoClient.connect(database, function(err, db) {
+    db.collection('threads').insertOne(
+      body.toMongo()
+    , function(err, result) {
+      if (err) {
+        db.close();
+        res.json({status: 'failure'});
+      } else {
+        db.close();
+        res.json({status: 'success'});
+      }
+    });
+  });
 };
 
 exports.readThread = function(req, res) {
@@ -81,7 +97,7 @@ exports.readThread = function(req, res) {
 var getThreadsInRange = function(url, callback) {
   var params = parseUrl(url, true).query,
       start = params.start || 0,
-      count = params.count || 2;
+      count = params.count || 10;
 
   MongoClient.connect(database, function(err, db) {
 
@@ -107,7 +123,6 @@ exports.threadById = function(req, res, next, id) {
 
     try {
       id = new ObjectId(id);
-      console.log(id);
       db.collection('threads').findOne({_id: new ObjectId(id)}, function(err, thread) {
         req.thread = thread? new Thread().fromMongo(thread): null;
         db.close();
