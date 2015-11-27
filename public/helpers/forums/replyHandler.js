@@ -14,6 +14,7 @@ $(function() {
       var $div = $(event.target).parent();
       $currentReplyForm = $div.append('div');
       $currentReplyForm.html(form);
+      $('#reply-content').focus();
 
       // handle cancel
       $('#cancel-reply').click(function(event) {
@@ -24,12 +25,13 @@ $(function() {
 
       // handle submit
       $('#submit-reply').click(function(event) {
-        ajaxer.post('/forums/thread/' + threadId + '/post/',
-        null,
-        function(response) {
-          console.log(response);
-        }
-      );
+        var data = {content: $('#reply-content').text()};
+        ajaxer.post('/forums/posts/42',
+          data,
+          function(response) {
+            console.log(response);
+          }
+        );
 
         return false;
       });

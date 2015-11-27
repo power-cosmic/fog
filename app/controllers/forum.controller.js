@@ -1,9 +1,11 @@
 var Thread = require('../models/forums/thread'),
     Post = require('../models/forums/post');
 
+exports.postReply = function(req, res) {
+  console.log(req.body);
+};
+
 exports.readThread = function(req, res) {
-
-
   res.render('forums/pages/forum-thread', {
     thread: req.thread
   });
@@ -22,7 +24,7 @@ exports.threadById = function(req, res, next, id) {
       Thread = require('../models/forums/thread');
 
   var tyler = new User('thoffma7');
-  var thread = new Thread(tyler, 'hello world', 'hey folks');
+  var thread = new Thread(tyler, 'hello world', 'hey folks', 42);
   var firstPost = new Post(tyler, 'oh, hi');
   thread.addReply(firstPost);
   var reply = new Post(tyler, 'hello to you too');

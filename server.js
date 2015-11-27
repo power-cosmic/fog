@@ -1,16 +1,25 @@
 var express = require('express'),
     morgan = require('morgan'),
     app = express(),
-    config = require('./config/config')
+    bodyParser = require('body-parser'),
+    config = require('./config/config'),
+    methodOverride = require('method-override'),
     port = 8080;
 
 app.set('views', './app/views');
 app.set('view engine', 'ejs');
 
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+app.use(methodOverride());
+
+app.use(morgan('dev'));
+
 require('./app/routes/common.routes')(app);
 require('./app/routes/forum.routes')(app);
 
-app.use(morgan('dev'));
 app.use(express.static('./public'));
 
 app.use(function(req, res, next) {
