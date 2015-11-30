@@ -2,8 +2,8 @@ $(function() {
   $('#submit-thread').click(function(event) {
 
     var params = {
-      title: $('#thread-title').text(),
-      content: $('#thread-content').text()
+      title: $('#thread-title').val(),
+      content: $('#thread-content').val()
     };
 
     console.log(params);

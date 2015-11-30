@@ -38,7 +38,7 @@ $(function() {
           {
             replyTo: getPostId($currentReplyForm),
             inThread: getThreadId($currentReplyForm),
-            content: $('#reply-content').text()
+            content: $('#reply-content').val()
           },
           function(response) {
             response = JSON.parse(response);
