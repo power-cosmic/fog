@@ -4,17 +4,18 @@
   "description": "buy. play. win.",
   "main": "./lib/index.js",
   "directories": {
-    "example": "./example",
-    "build": "./build",
+    "app": "./app",
+    "public": "./public",
     "bin": "./bin",
-    "doc": "./doc",
-    "lib": "./lib",
-    "man": "./doc/man"
+    "man": "./doc/man",
+    "test": "test"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "preversion": "npm test",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "postinstall": "bower i",
+    "start": "sudo node server.js"
   },
   "repository": {
     "type": "git",
@@ -25,20 +26,16 @@
     "play",
     "full-software"
   ],
-  "contributors": [
-    {
-      "name": "Eddie Gurnee",
-      "email": "<eddie.gurnee@gmail.com>"
-    },
-    {
-      "name": "Tyler Hoffman",
-      "email": "<tyler.c.hoffman@gmail.com>"
-    },
-    {
-      "name": "Cade Sperlich",
-      "email": "<csperlich@gmail.com>"
-    }
-  ],
+  "contributors": [{
+    "name": "Eddie Gurnee",
+    "email": "<eddie.gurnee@gmail.com>"
+  }, {
+    "name": "Tyler Hoffman",
+    "email": "<tyler.c.hoffman@gmail.com>"
+  }, {
+    "name": "Cade Sperlich",
+    "email": "<csperlich@gmail.com>"
+  }],
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/power-cosmic/fog/issues"
