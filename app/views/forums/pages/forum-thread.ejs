@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../../common/partials/head %>
+    <link rel="stylesheet" href="/styles/forums.css">
+    <script type="text/javascript" src="/lib/jqlite.js"></script>
+    <script type="text/javascript" src="/lib/ajaxer.js"></script>
+    <script type="text/javascript" src="/helpers/forums/replyHandler.js"></script>
+    <title>fog | forums</title>
+  </head>
+  <body>
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <main>
+
+      <!-- Render Posts -->
+      <% var renderPost = function(post, isHead) { %>
+        <% if (isHead) { %>
+          <div id="topic" class="topic post"
+              data-post="<%= post.id %>">
+        <% } else { %>
+          <div class="post" data-post="<%= post.id %>">
+        <% } %>
+
+        <% if (isHead) { %>
+          <h1><%= post.title %></h1>
+        <% } %>
+
+        <!-- the post -->
+        <%=post.content%>
+        <br />
+        <span class="deemphasized author">posted by: <%=post.user%></span>
+        <div id="button">
+          <a href="" class="reply-button">reply</a>
+        </div>
+
+        <!-- the replies -->
+        <% if (!isHead && post.hasReplies()) { %>
+          <div class="reply">
+            <% post.replies.forEach(function(post) {
+              renderPost(post);
+            }); %>
+          </div>
+        <% } %>
+
+        </div>
+
+      <% } %>
+
+      <div class="inner-content">
+
+        <% if (thread) { %>
+          <!-- thread topic -->
+          <% renderPost(thread, true) %>
+
+          <!-- all replies -->
+          <div class="padded">
+            <% thread.replies.forEach(function(post) {
+              renderPost(post);
+            }); %>
+          </div>
+        <% } else { %>
+          <!-- there's no thread here -->
+          <p>
+            There's nothing here! :(
+          </p>
+        <% } %>
+
+      </div>
+
+    </main>
+
+    <footer>
+      <% include ../../common/partials/footer %>
+    </footer>
+  </body>
+</html>

@@ -1,31 +1,30 @@
-var express = require('express');
-var morgan = require('morgan');
-var app = express();
-var port = 8080;
+var express = require('express'),
+    morgan = require('morgan'),
+    app = express(),
+    bodyParser = require('body-parser'),
+    config = require('./config/config'),
+    methodOverride = require('method-override'),
+    port = 8080;
 
+app.set('views', './app/views');
 app.set('view engine', 'ejs');
 
-app.get('/', function(req, res) {
-  res.render('pages/index');
-});
-
-app.get('/forums/thread', function(req, res) {
-  var user = require('./app/models/users/user');
-  var post = require('./app/models/forums/post');
-  var thread = require('./app/models/forums/thread');
-  res.render('pages/forum-thread', {
-    User: user,
-    Post: post,
-    Thread: thread
-  });
-});
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+app.use(methodOverride());
 
 app.use(morgan('dev'));
+
+require('./app/routes/common.routes')(app);
+require('./app/routes/forum.routes')(app);
+
 app.use(express.static('./public'));
 
 app.use(function(req, res, next) {
   res.status(404);
-  res.render('pages/404', {url: req.url});
+  res.render('common/pages/404', {url: req.url});
 });
 
 app.listen(port);

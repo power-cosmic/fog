@@ -73,24 +73,21 @@ input[type="text"], input[type="password"] {
 a {
   color: #999;
   text-decoration: none;
+  transition: color 0.4s;
 }
 
 a:link {
   color: #999;
-  transition: color 1.0s;
 }
 
 a:visited {
   color: #999;
-  transition: color 1.0s;
 }
 
 a:active {
   color: #999;
-  transition: color 1.0s;
 }
 
 a:hover {
   color:#ddd;
-  transition: color 1.0s;
 }

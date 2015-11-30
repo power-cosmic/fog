@@ -1,3 +1,33 @@
+.forum-thread {
+    border: 1px solid #333;
+    background-color: #222;
+    transition: background-color 0.4s;
+}
+
+.forum-thread:link {
+  background-color: #222;
+
+}
+
+.forum-thread:hover {
+  background-color: #333;
+}
+
+.input {
+  width: 400px;
+  padding: 0px;
+  margin: 0px;
+  color: #000;
+}
+
+input.input {
+  width: 400px;
+}
+
+textarea.input {
+  width: 500px;
+}
+
 /*
  * The goal here is to allow for nested replies to posts.
  * Each nested reply is indented to the left, but
