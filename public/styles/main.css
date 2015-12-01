@@ -39,6 +39,10 @@ h1, h2, h3, h4, h5, h6, .emphasized {
   margin: 10px;
 }
 
+a:not([href]):hover {
+  cursor: pointer;
+}
+
 .deemphasized {
   color: #999;
 }
