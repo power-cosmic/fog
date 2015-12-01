@@ -1,4 +1,5 @@
-var express = require('express'),
+var rl = require('readline').createInterface(process.stdin, process.stdout),
+    express = require('express'),
     morgan = require('morgan'),
     app = express(),
     bodyParser = require('body-parser'),
@@ -30,3 +31,9 @@ app.use(function(req, res, next) {
 
 app.listen(port);
 console.log('listening on port ' + port);
+
+rl.on('line', function(line) {
+  if (line.trim().match(/^exit|q(?:uit)?$/i)) {
+    process.exit(0);
+  }
+});
