@@ -8,3 +8,7 @@ exports.begin = function(req, res) {
     values: User.vals
   });
 };
+
+exports.auth = function(req, res) {
+  //hokay, this is probably going to be more effort then value
+};
