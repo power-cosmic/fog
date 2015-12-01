@@ -1,10 +1,11 @@
-var express = require('express'),
+var rl = require('readline').createInterface(process.stdin, process.stdout),
+    express = require('express'),
     morgan = require('morgan'),
     app = express(),
     bodyParser = require('body-parser'),
     config = require('./config/config'),
     methodOverride = require('method-override'),
-    port = 8080;
+    port = config.port || 8080;
 
 app.set('views', './app/views');
 app.set('view engine', 'ejs');
@@ -19,6 +20,7 @@ app.use(morgan('dev'));
 
 require('./app/routes/common.routes')(app);
 require('./app/routes/forum.routes')(app);
+require('./app/routes/register.routes')(app);
 
 app.use(express.static('./public'));
 
@@ -29,3 +31,9 @@ app.use(function(req, res, next) {
 
 app.listen(port);
 console.log('listening on port ' + port);
+
+rl.on('line', function(line) {
+  if (line.trim().match(/^exit|q(?:uit)?$/i)) {
+    process.exit(0);
+  }
+});

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <% include ../../common/partials/head %>
+      <link rel="stylesheet" href="/styles/register.css">
+      <script type="text/javascript" src="/lib/jqlite.js"></script>
+      <script type="text/javascript" src="/lib/ajaxer.js"></script>
+      <title>fog | register</title>
+  </head>
+
+  <body>
+
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <main>
+      <div class="inner-content">
+        <h1>Register</h1>
+
+        <form class="padded">
+          <%
+            values.forEach(function(value) {
+              var names = value.split(' '),
+                  spaced = names[0][0].toUpperCase() + names[0].slice(1), camelCase = names[0];
+              if (names.length > 1) {
+                spaced += ' ' + names[1][0].toUpperCase() + names[1].slice(1);
+                camelCase += names[1][0].toUpperCase() + names[1].slice(1);
+              }
+          %>
+
+          <p>
+            <label>
+              <%= spaced %>:
+              <input
+                type="
+                  <%=
+                    ([
+                      'email',
+                      'password'
+                    ].indexOf(value) != -1) ? value : 'text'
+                  %>"
+                name="<%= camelCase %>" />
+            </label>
+          </p>
+
+          <% }); %>
+
+          <a id="reset-user" class="emphasized">reset</a>
+          <a id="submit-user" class="emphasized">submit</a>
+        </form>
+        <!-- <a href="/register/auth/google">G auth</a> -->
+      </div> <!-- end inner-content -->
+    </main>
+
+    <footer>
+      <% include ../../common/partials/footer %>
+    </footer>
+
+  </body>
+
+</html>

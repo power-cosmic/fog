@@ -1,0 +1,8 @@
+label:not([for]) {
+  font-size: initial;
+  font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+}
+form {
+  width: 20em;
+  text-align: right;
+}

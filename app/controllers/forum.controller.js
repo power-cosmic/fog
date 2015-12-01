@@ -1,13 +1,10 @@
 var Thread = require('../models/forums/thread'),
     Post = require('../models/forums/post'),
+    User = require('../models/users/user'),
     MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectID,
     parseUrl = require('url').parse,
-    database = "mongodb://localhost/fog-test";
-
-var User = require('../models/users/user'),
-    Post = require('../models/forums/post'),
-    Thread = require('../models/forums/thread');
+    database = require('../../config/config').db;
 
 exports.postReply = function(req, res) {
   MongoClient.connect(database, function(err, db) {
