@@ -4,7 +4,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     config = require('./config/config'),
     methodOverride = require('method-override'),
-    port = 8080;
+    port = config.port || 8080;
 
 app.set('views', './app/views');
 app.set('view engine', 'ejs');

@@ -3,7 +3,7 @@ var Thread = require('../models/forums/thread'),
     MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectID,
     parseUrl = require('url').parse,
-    database = "mongodb://localhost/fog-test";
+    database = require('../../config/config').db;
 
 var User = require('../models/users/user'),
     Post = require('../models/forums/post'),
