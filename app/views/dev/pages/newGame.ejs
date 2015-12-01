@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../../common/partials/head %>
+    <link rel="stylesheet" href="/styles/forums.css">
+    <title>fog | add a game</title>
+  </head>
+  <body>
+
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <main>
+      <div class="inner-content">
+        <h1>Submit a Game</h1>
+
+        <form action="" class="padded">
+          <input type="text"
+              id="game-title"
+              name="game-title"
+              class="input"
+              placeholder="title">
+          <label for="game-title">title!</label>
+
+          <br />
+          <p>
+            Upload your game, compressed as a .zip. If you try
+            any funny business* here, you and everyone you love
+            will be immediately and permanently banned from fog. Forever.
+          </p>
+          <input type="file" id="game-file" name="game-file">
+          <label for="game-file">file</label>
+
+          <br />
+          <textarea
+              id="game-description"
+              name="game-description"
+              class="input"
+              rows="5"
+              placeholder="Description of game to be shown to players"
+          ></textarea>
+          <label for="game-description">description</label>
+
+          <br />
+          <textarea
+              id="game-instructions"
+              name="game-instructions"
+              class="input"
+              rows="5"
+              placeholder="Explanation for fog admin"
+          ></textarea>
+          <label for="game-instructions">description</label>
+
+          <br />
+          <a id="submit-game" name="submit-game">submit</a>
+
+        </form>
+
+        <div id="funny-business">
+          <p>
+            *Any attemp to upload malicious content
+            to our site consitutes "funny business".
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <% include ../../common/partials/footer %>
+    </footer>
+
+  </body>
+</html>
