@@ -2,7 +2,7 @@ var User = function(username) {
   this.username = username;
 };
 
-User.prototype.vals = [
+User.vals = [
   "username", "password", "first name", "last name", "email", "phone number"
 ];
 
