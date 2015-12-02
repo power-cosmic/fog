@@ -1,5 +1,6 @@
 var config = require('../../config/config'),
     fs = require('fs'),
+    fstream = require('fstream'),
     Game = require('../models/dev/game'),
     MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectID,
@@ -18,14 +19,30 @@ exports.readPending = function(req, res) {
 };
 
 exports.acceptGame = function(req, res, next) {
+  console.log(req.game.files.compressed);
   var game = req.game,
       inputPath = './uploads/games/pending/' + game.files.compressed,
-      outputPath = './uploads/games/published/' + game.developer + '/',
+      outputPath = './uploads/games/published/'
+          + game.developer + '/'
+          + game.sanitizedTitle,
       originalDirectoryName = game.originalFilename.replace(/\..*/, '');
 
+  console.log(game);
+  console.log(originalDirectoryName);
+  console.log('i', inputPath);
+  console.log('o', outputPath);
   // decompress file
+  // var readStream = fs.createReadStream(inputPath);
+  // var writeStream = fstream.Writer(outputPath);
+  //
+  // readStream
+  //   .pipe(unzip.Parse())
+  //   .pipe(writeStream);
   fs.createReadStream(inputPath).pipe(unzip.Extract({ path: outputPath }));
-
+  fs.renameSync(
+    outputPath + game.originalFilename.replace(/\..*/, ''),
+    outputPath + game.sanitizedTitle
+  );
 
   // insert into real db collection
   MongoClient.connect(config.db, function(err, db) {
@@ -47,14 +64,19 @@ exports.acceptGame = function(req, res, next) {
 
 };
 
-exports.addNew = function(req, res) {
+var sanitize = function(str) {
+  return str.replace(/\s+/, '_')
+    .replace(/[^a-zA-Z_]/, '');
+};
 
+exports.addNew = function(req, res) {
+  console.log(req.file)
   var body = req.body,
       file = req.file,
       filePath = '/' + file.path.replace(/(\.\.\/)*/, ''),
       fileName = file.path.replace(/(.*\/)*/, '');
-      sanitizedTitle = body.gameTitle.replace(/\s+/, '_')
-        .replace(/[^a-zA-Z_]/, '')
+      sanitizedTitle = sanitize(body.gameTitle.replace(/\..*/, '')),
+      sanitizedFileName = sanitize(file.originalname);
 
   console.log(file)
   MongoClient.connect(config.db, function(err, db) {
