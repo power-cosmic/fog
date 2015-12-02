@@ -72,12 +72,10 @@ exports.pendingGameByFile = function(req, res, next, id) {
 };
 
 exports.findPendingGame = function(req, res, next, predicate) {
-  console.log(predicate);
   MongoClient.connect(config.db, function(err, db) {
     try {
       db.collection('pendingGames').findOne(predicate,
         function (err, game) {
-          console.log('g', game)
           req.game = game;
           db.close();
           next();
