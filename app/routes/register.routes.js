@@ -4,6 +4,6 @@ module.exports = function(app) {
   app.route('/register/')
     .get(register.begin);
 
-  // app.route('/register/auth/:id')
-  //   .get(register.auth);
+  app.route('/register/auth')
+    .post(register.auth);
 };
