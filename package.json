@@ -55,6 +55,7 @@
     "method-override": "~2.2.0",
     "mongodb": "latest",
     "morgan": "latest",
+    "multer": "latest",
     "requirator": "git+https://github.com/power-cosmic/requirator.git"
   }
 }
