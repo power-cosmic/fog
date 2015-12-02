@@ -15,13 +15,13 @@
       <div class="inner-content">
         <h1>Submit a Game</h1>
 
-        <form action="" class="padded">
+        <form action="" class="padded" method="post" enctype="multipart/form-data">
           <input type="text"
-              id="game-title"
-              name="game-title"
+              id="gameTitle"
+              name="gameTitle"
               class="input"
               placeholder="title">
-          <label for="game-title">title!</label>
+          <label for="game-title">title</label>
 
           <br />
           <p>
@@ -29,31 +29,38 @@
             any funny business* here, you and everyone you love
             will be immediately and permanently banned from fog. Forever.
           </p>
-          <input type="file" id="game-file" name="game-file">
-          <label for="game-file">file</label>
+          <input type="file" id="file" name="file">
+          <label for="file" >file</label>
 
           <br />
           <textarea
-              id="game-description"
-              name="game-description"
+              id="description"
+              name="description"
               class="input"
               rows="5"
               placeholder="Description of game to be shown to players"
           ></textarea>
-          <label for="game-description">description</label>
+          <label for="description">description</label>
 
           <br />
           <textarea
-              id="game-instructions"
-              name="game-instructions"
+              id="instructions"
+              name="instructions"
               class="input"
               rows="5"
               placeholder="Explanation for fog admin"
           ></textarea>
-          <label for="game-instructions">description</label>
+          <label for="instructions">description</label>
+
+          <input type="text"
+              id="price"
+              name="price"
+              class="input"
+              placeholder="price">
+          <label for="price">suggested price</label>
 
           <br />
-          <a id="submit-game" name="submit-game">submit</a>
+          <input type="submit" id="submit-game" name="submit-game" value="submit">
 
         </form>
 
