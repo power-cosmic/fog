@@ -31,8 +31,7 @@ exports.postReply = function(req, res) {
         // currently tyler gets credit for all posts
         replyTo.addReply(new Post('thoffma7', reply.content));
 
-        db.collection('threads').update(
-          {_id: threadId},
+        db.collection('threads').update({_id: threadId},
           thread.toMongo(),
           function(err, result) {
             if (err) {
@@ -69,7 +68,6 @@ exports.new = function(req, res) {
 exports.create = function(req, res) {
   req.body.user = 'thoffma7';
   var body = new Thread().fromMongo(req.body);
-  console.log(body);
   MongoClient.connect(database, function(err, db) {
     db.collection('threads').insertOne(
       body.toMongo()

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../../common/partials/head %>
+    <link rel="stylesheet" href="/styles/forums.css">
+    <script type="text/javascript" src="/lib/jqlite.js"></script>
+
+    <% if (scripts) scripts.forEach(function(script) { %>
+      <script type="text/javascript" src="<% = gamePath + script %>"></script>
+    <% }); %>
+
+    <% if (styles) scripts.forEach(function(styles) { %>
+      <link rel="stylesheet" href="<% = gamePath + style %>">
+    <% }); %>
+
+    <script type="text/javascript" src="/helpers/forums/replyHandler.js"></script>
+    <title>fog | forums</title>
+  </head>
+  <body>
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <main>
+
+      <div id="game" data-fn="<%= startingPoint %>">
+
+      </div>
+
+
+    </main>
+
+    <footer>
+      <% include ../../common/partials/footer %>
+    </footer>
+  </body>
+</html>
