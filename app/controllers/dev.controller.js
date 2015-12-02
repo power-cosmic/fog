@@ -17,31 +17,33 @@ exports.readPending = function(req, res) {
   });
 };
 
-exports.acceptGame = function(req, res) {
+exports.acceptGame = function(req, res, next) {
   var game = req.game,
-      sanitizedTitle = game.title.replace(/\s+/, '_')
-        .replace(/[^a-zA-Z_]/, '')
       inputPath = './uploads/games/pending/' + game.files.compressed,
-      outputPath = './uploads/games/published/' + sanitizedTitle;
+      outputPath = './uploads/games/published/' + game.developer + '/',
+      originalDirectoryName = game.originalFilename.replace(/\..*/, '');
 
-      // insert into real db collection
-      MongoClient.connect(config.db, function(err, db) {
-        db.collection('games').insert({
-          title: game.title,
-          description: game.description,
-          url: outputPath,
-          config: game.config
-        }, function (err, game) {
-            req.game = game;
-            db.close();
-            next();
+  // decompress file
+  fs.createReadStream(inputPath).pipe(unzip.Extract({ path: outputPath }));
+
+
+  // insert into real db collection
+  MongoClient.connect(config.db, function(err, db) {
+    db.collection('games').insert({
+      title: game.title,
+      description: game.description,
+      gamePath: game.developer + '/' + originalDirectoryName + '/',
+      config: game.config,
+      developer: game.developer,
+      startingPoint: game.config.startingPoint
+    }, function (err, game) {
+        req.game = game;
+        db.close();
+        res.json({
+          status: 'success'
         });
-      });
-
-      fs.createReadStream(inputPath).pipe(unzip.Extract({ path: outputPath }));
-  res.json({
-    status: 'success'
-  })
+    });
+  });
 
 };
 
@@ -51,7 +53,10 @@ exports.addNew = function(req, res) {
       file = req.file,
       filePath = '/' + file.path.replace(/(\.\.\/)*/, ''),
       fileName = file.path.replace(/(.*\/)*/, '');
+      sanitizedTitle = body.gameTitle.replace(/\s+/, '_')
+        .replace(/[^a-zA-Z_]/, '')
 
+  console.log(file)
   MongoClient.connect(config.db, function(err, db) {
     if (err) {
       console.log('error: ' + err);
@@ -60,9 +65,12 @@ exports.addNew = function(req, res) {
     //   compressed: fileName
     // }, body.description, body.instructions);
     db.collection('pendingGames').insertOne({
-      title: body.title,
+      title: body.gameTitle,
       description: body.description,
-      config: body.config,
+      config: JSON.parse(body.config),
+      sanitizedTitle: sanitizedTitle,
+      developer: 'thoffman_dev',
+      originalFilename: file.originalname,
       files: {
         compressed: fileName
       }
@@ -80,7 +88,7 @@ exports.addNew = function(req, res) {
 exports.pendingFile = function(req, res) {
   res.download(
     './uploads/games/pending/' + req.game.files.compressed,
-    'game.zip'
+    game.sanitizedTitle + '.zip'
   );
 };
 

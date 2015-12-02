@@ -3,17 +3,21 @@ var config = require('../../config/config'),
     ObjectId = require('mongodb').ObjectID;
 
 exports.play = function(req, res) {
+  var game = req.game;
+  console.log('play', game);
   res.render('games/pages/game', {
-    scripts: [],
-    styles: [],
-    startingPoint: 'main'
+    title: game.title,
+    scripts: game.config.scripts || [],
+    styles: game.config.styles || [],
+    startingPoint: game.startingPoint,
+    gamePath: req.game.gamePath
   });
 };
 
 exports.getById = function(req, res, next, id) {
   MongoClient.connect(config.db, function(err, db) {
     try {
-      db.collection('games').findOne({_id: id},
+      db.collection('games').findOne({_id: ObjectId(id)},
         function (err, game) {
           req.game = game;
           db.close();
