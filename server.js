@@ -19,6 +19,7 @@ app.use(methodOverride());
 app.use(morgan('dev'));
 require('./app/routes/common.routes')(app);
 require('./app/routes/forum.routes')(app);
+require('./app/routes/game.routes')(app);
 require('./app/routes/register.routes')(app);
 require('./app/routes/dev.routes')(app);
 

@@ -6,11 +6,11 @@
     <script type="text/javascript" src="/lib/jqlite.js"></script>
 
     <% if (scripts) scripts.forEach(function(script) { %>
-      <script type="text/javascript" src="<% = gamePath + script %>"></script>
+      <script type="text/javascript" src="<%= gamePath + script %>"></script>
     <% }); %>
 
-    <% if (styles) scripts.forEach(function(styles) { %>
-      <link rel="stylesheet" href="<% = gamePath + style %>">
+    <% if (styles) styles.forEach(function(styles) { %>
+      <link rel="stylesheet" href="<%= gamePath + style %>">
     <% }); %>
 
     <script type="text/javascript" src="/helpers/forums/replyHandler.js"></script>
