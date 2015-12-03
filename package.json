@@ -26,16 +26,20 @@
     "play",
     "full-software"
   ],
-  "contributors": [{
-    "name": "Eddie Gurnee",
-    "email": "<eddie.gurnee@gmail.com>"
-  }, {
-    "name": "Tyler Hoffman",
-    "email": "<tyler.c.hoffman@gmail.com>"
-  }, {
-    "name": "Cade Sperlich",
-    "email": "<csperlich@gmail.com>"
-  }],
+  "contributors": [
+    {
+      "name": "Eddie Gurnee",
+      "email": "<eddie.gurnee@gmail.com>"
+    },
+    {
+      "name": "Tyler Hoffman",
+      "email": "<tyler.c.hoffman@gmail.com>"
+    },
+    {
+      "name": "Cade Sperlich",
+      "email": "<csperlich@gmail.com>"
+    }
+  ],
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/power-cosmic/fog/issues"
@@ -50,6 +54,7 @@
   "dependencies": {
     "ajaxer": "git+https://github.com/power-cosmic/ajaxer.git",
     "body-parser": "~1.8.0",
+    "cookie-parser": "^1.4.0",
     "ejs": "^1.0.0",
     "express": "latest",
     "fstream": "latest",

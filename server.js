@@ -3,6 +3,7 @@ var rl = require('readline').createInterface(process.stdin, process.stdout),
     morgan = require('morgan'),
     app = express(),
     bodyParser = require('body-parser'),
+    cookieParser = require('cookie-parser'),
     config = require('./config/config'),
     methodOverride = require('method-override'),
     port = config.port || 8080;
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+app.use(cookieParser(config.salt));
 app.use(methodOverride());
 
 app.use(morgan('dev'));
