@@ -4,7 +4,7 @@ var config = require('../../config/config'),
     Game = require('../models/dev/game'),
     MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectID,
-    unzip = require('unzip'),
+    unzip = require('unzip2'),
     url = require('url');
 
 exports.createNew = function(req, res) {
@@ -18,13 +18,22 @@ exports.readPending = function(req, res) {
   });
 };
 
+var extract = function(game) {
+  var inputPath = './uploads/games/pending/' + game.files.compressed,
+      outputPath = './uploads/games/published/'
+          + game.developer,
+      originalDirectoryName = game.originalFilename.replace(/\..*/, ''),
+      configPath = (outputPath + '/' + game.title + '/fog.json');
+  fs.createReadStream(inputPath).pipe(unzip.Extract({ path: outputPath }));
+};
+
 exports.acceptGame = function(req, res, next) {
   var game = req.game,
       inputPath = './uploads/games/pending/' + game.files.compressed,
       outputPath = './uploads/games/published/'
           + game.developer,
       originalDirectoryName = game.originalFilename.replace(/\..*/, ''),
-      configPath = (outputPath + '/' + game.title + '/fog.json');
+      configPath = (outputPath + '/' + game.originalFilename + '/fog.json');
           //.replace(/ /, '\\ ');
 
   console.log('!!! ' + configPath);
