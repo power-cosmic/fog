@@ -22,28 +22,35 @@ exports.acceptGame = function(req, res, next) {
   var game = req.game,
       inputPath = './uploads/games/pending/' + game.files.compressed,
       outputPath = './uploads/games/published/'
-          + game.developer
-      originalDirectoryName = game.originalFilename.replace(/\..*/, '');
+          + game.developer,
+      relativeOutputPath = '../../uploads/games/published/'
+          + game.developer,
+      originalDirectoryName = game.originalFilename.replace(/\..*/, ''),
+      configPath = (outputPath + '/' + game.title + '/fog.json');
+          //.replace(/ /, '\\ ');
 
-  fs.createReadStream(inputPath).pipe(unzip.Extract({ path: outputPath }));
+  console.log('!!! ' + configPath);
 
-  // insert into real db collection
-  MongoClient.connect(config.db, function(err, db) {
-    db.collection('games').insert({
-      title: game.title,
-      description: game.description,
-      gamePath: game.developer + '/' + originalDirectoryName + '/',
-      config: game.config,
-      developer: game.developer,
-      startingPoint: game.config.startingPoint
-    }, function (err, game) {
-        req.game = game;
-        db.close();
-        res.json({
-          status: 'success'
+  fs.createReadStream(inputPath).pipe(
+    unzip.Extract({ path: outputPath }).on('close', function(err) {
+      var gameConfig = JSON.parse(fs.readFileSync(configPath));
+
+      MongoClient.connect(config.db, function(err, db) {
+        db.collection('games').insert({
+          title: game.title,
+          description: game.description,
+          gamePath: game.developer + '/' + originalDirectoryName + '/',
+          config: gameConfig,
+          developer: game.developer
+        }, function (err, game) {
+            req.game = game;
+            db.close();
+            res.json({
+              status: 'success'
+            });
         });
-    });
-  });
+      });
+  }));
 
 };
 
@@ -70,7 +77,6 @@ exports.addNew = function(req, res) {
     db.collection('pendingGames').insertOne({
       title: body.gameTitle,
       description: body.description,
-      config: JSON.parse(body.config),
       sanitizedTitle: sanitizedTitle,
       developer: 'thoffman_dev',
       originalFilename: file.originalname,
