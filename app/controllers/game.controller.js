@@ -10,7 +10,8 @@ exports.play = function(req, res) {
     scripts: game.config.scripts || [],
     styles: game.config.styles || [],
     startingPoint: game.config.startingPoint,
-    gamePath: req.game.gamePath
+    gamePath: req.game.gamePath,
+    cookie: req.cookies
   });
 };
 

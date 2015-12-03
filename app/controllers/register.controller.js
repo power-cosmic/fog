@@ -5,7 +5,8 @@ var User = require('../models/users/user'),
 
 exports.begin = function(req, res) {
   res.render('register/pages/register-home', {
-    values: User.vals
+    values: User.vals,
+    cookie: req.cookies
   });
 };
 
