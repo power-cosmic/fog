@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../../common/partials/head %>
+    <link rel="stylesheet" href="/styles/forums.css">
+    <script type="text/javascript" src="/lib/ajaxer.js"></script>
+    <script type="text/javascript" src="/lib/jqlite.js"></script>
+
+    <% scripts.forEach(function(script) { %>
+      <script type="text/javascript" src="/game-files/<%= gamePath + script %>"></script>
+    <% }); %>
+
+    <% styles.forEach(function(style) { %>
+      <link rel="stylesheet" href="<%= gamePath + style %>">
+    <% }); %>
+
+    <script type="text/javascript" src="/helpers/games/gameKickerOff.js"></script>
+    <title>fog | <%= title %></title>
+  </head>
+  <body>
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <main>
+
+      <div id="game" data-fn="<%= startingPoint %>">
+
+      </div>
+
+
+    </main>
+
+    <footer>
+      <% include ../../common/partials/footer %>
+    </footer>
+  </body>
+</html>

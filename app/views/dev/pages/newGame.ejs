@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../../common/partials/head %>
+    <link rel="stylesheet" href="/styles/forums.css">
+    <title>fog | add a game</title>
+  </head>
+  <body>
+
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <main>
+      <div class="inner-content">
+        <h1>Submit a Game</h1>
+
+        <form action="" class="padded" method="post" enctype="multipart/form-data">
+          <input type="text"
+              id="gameTitle"
+              name="gameTitle"
+              class="input"
+              placeholder="title">
+          <label for="game-title">title</label>
+
+          <%
+            var sampleConfig = '{\n'
+                + 'scripts: [\n'
+                + '    \"main.js\"\n'
+                + '  ],\n'
+                + '  initializer: \"begin\"\n'
+                + '}'
+
+          %>
+
+          <br />
+          <p>
+            Upload your game, compressed as a .zip. If you try
+            any funny business* here, you and everyone you love
+            will be immediately and permanently banned from fog. Forever.
+          </p>
+          <input type="file" id="gameFile" name="gameFile">
+          <label for="gameFile">game file</label>
+
+          <br />
+          <p>
+            Insert your configuration json here. See the
+            <a href="/dev/configFile/">documentation</a> for the format we need.
+          </p>
+          <textarea
+              id="config"
+              name="config"
+              class="input"
+              rows="7"
+              placeholder="<%= sampleConfig %>"
+          ></textarea>
+          <label for="config">config file</label>
+
+          <br />
+          <textarea
+              id="description"
+              name="description"
+              class="input"
+              rows="5"
+              placeholder="Description of game to be shown to players"
+          ></textarea>
+          <label for="description">description</label>
+
+          <br />
+          <textarea
+              id="instructions"
+              name="instructions"
+              class="input"
+              rows="5"
+              placeholder="Explanation for fog admin"
+          ></textarea>
+          <label for="instructions">description</label>
+
+          <input type="text"
+              id="price"
+              name="price"
+              class="input"
+              placeholder="price">
+          <label for="price">suggested price</label>
+
+          <br />
+          <input type="submit" id="submit-game" name="submit-game" value="submit">
+
+        </form>
+
+        <div id="funny-business">
+          <p>
+            *Any attemp to upload malicious content
+            to our site consitutes "funny business".
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <% include ../../common/partials/footer %>
+    </footer>
+
+  </body>
+</html>

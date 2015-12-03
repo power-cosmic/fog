@@ -30,5 +30,8 @@ public/lib
 # atom files
 .DS_Store
 
+# user uploads
+uploads/*
+
 # environment settings
 config/env/*.js
