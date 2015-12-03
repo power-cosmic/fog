@@ -5,7 +5,10 @@ module.exports = function(app) {
   var libPath = path.join(__dirname, '../../public/lib/');
 
   app.get('/', function(req, res) {
-      res.render('common/pages/index');
+    // console.log(req);
+      res.render('common/pages/index', {
+        cookie: req.cookies
+      });
   });
 
   app.get('/lib/ajaxer.js', function(req, res) {
