@@ -19,30 +19,13 @@ exports.readPending = function(req, res) {
 };
 
 exports.acceptGame = function(req, res, next) {
-  console.log(req.game.files.compressed);
   var game = req.game,
       inputPath = './uploads/games/pending/' + game.files.compressed,
       outputPath = './uploads/games/published/'
-          + game.developer + '/'
-          + game.sanitizedTitle,
+          + game.developer
       originalDirectoryName = game.originalFilename.replace(/\..*/, '');
 
-  console.log(game);
-  console.log(originalDirectoryName);
-  console.log('i', inputPath);
-  console.log('o', outputPath);
-  // decompress file
-  // var readStream = fs.createReadStream(inputPath);
-  // var writeStream = fstream.Writer(outputPath);
-  //
-  // readStream
-  //   .pipe(unzip.Parse())
-  //   .pipe(writeStream);
   fs.createReadStream(inputPath).pipe(unzip.Extract({ path: outputPath }));
-  fs.renameSync(
-    outputPath + game.originalFilename.replace(/\..*/, ''),
-    outputPath + game.sanitizedTitle
-  );
 
   // insert into real db collection
   MongoClient.connect(config.db, function(err, db) {
@@ -70,7 +53,6 @@ var sanitize = function(str) {
 };
 
 exports.addNew = function(req, res) {
-  console.log(req.file)
   var body = req.body,
       file = req.file,
       filePath = '/' + file.path.replace(/(\.\.\/)*/, ''),
@@ -78,7 +60,6 @@ exports.addNew = function(req, res) {
       sanitizedTitle = sanitize(body.gameTitle.replace(/\..*/, '')),
       sanitizedFileName = sanitize(file.originalname);
 
-  console.log(file)
   MongoClient.connect(config.db, function(err, db) {
     if (err) {
       console.log('error: ' + err);
