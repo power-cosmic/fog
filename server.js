@@ -19,6 +19,16 @@ app.use(cookieParser(config.salt));
 app.use(methodOverride());
 
 app.use(morgan('dev'));
+
+app.use(function(req, res, next) {
+  if (req.body['login']) {
+    var nothingYet = login(req.body['username'], req.body['password']);
+    res.send('gamer');
+  } else {
+    next();
+  }
+});
+
 require('./app/routes/common.routes')(app);
 require('./app/routes/forum.routes')(app);
 require('./app/routes/game.routes')(app);
