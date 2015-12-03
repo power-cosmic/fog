@@ -20,7 +20,7 @@
 
         <div class="padded">
 
-          <p class="deemphasized">[status: <%= status %>]</p>
+          <p class="deemphasized">[status: <%= game.status %>]</p>
           <h3>Description</h3>
           <p class="padded"><%= game.description %></p>
 
@@ -29,10 +29,10 @@
 
           <h3>Game File</h3>
           <p  class="padded">
-            Download: <a href="/uploads/games/pending/<%= game.files.compressed %>">file</a>
+            Download: <a href="/game/<%= game._id %>/download">file</a>
           </p>
 
-          <% if (status === 'pending') { %>
+          <% if (game.status === 'pending') { %>
 
             <a id="accept-game" class="emphasized" data-id="<%= game._id %>">Accept</a>
 

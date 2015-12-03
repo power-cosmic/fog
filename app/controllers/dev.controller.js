@@ -4,7 +4,7 @@ var config = require('../../config/config'),
     Game = require('../models/dev/game'),
     MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectID,
-    unzip = require('unzip'),
+    unzip = require('unzip2'),
     url = require('url');
 
 exports.createNew = function(req, res) {
@@ -18,15 +18,22 @@ exports.readPending = function(req, res) {
   });
 };
 
+var extract = function(game) {
+  var inputPath = './uploads/games/pending/' + game.files.compressed,
+      outputPath = './uploads/games/published/'
+          + game.developer,
+      originalDirectoryName = game.originalFilename.replace(/\..*/, ''),
+      configPath = (outputPath + '/' + game.title + '/fog.json');
+  fs.createReadStream(inputPath).pipe(unzip.Extract({ path: outputPath }));
+};
+
 exports.acceptGame = function(req, res, next) {
   var game = req.game,
       inputPath = './uploads/games/pending/' + game.files.compressed,
       outputPath = './uploads/games/published/'
           + game.developer,
-      relativeOutputPath = '../../uploads/games/published/'
-          + game.developer,
       originalDirectoryName = game.originalFilename.replace(/\..*/, ''),
-      configPath = (outputPath + '/' + game.title + '/fog.json');
+      configPath = (outputPath + '/' + game.originalFilename + '/fog.json');
           //.replace(/ /, '\\ ');
 
   console.log('!!! ' + configPath);
@@ -59,45 +66,41 @@ var sanitize = function(str) {
     .replace(/[^a-zA-Z_]/, '');
 };
 
-exports.addNew = function(req, res) {
-  var body = req.body,
-      file = req.file,
-      filePath = '/' + file.path.replace(/(\.\.\/)*/, ''),
-      fileName = file.path.replace(/(.*\/)*/, '');
-      sanitizedTitle = sanitize(body.gameTitle.replace(/\..*/, '')),
-      sanitizedFileName = sanitize(file.originalname);
-
-  MongoClient.connect(config.db, function(err, db) {
-    if (err) {
-      console.log('error: ' + err);
-    }
-    // var newGame = new Game(body.gameTitle, 'thoffma7.dev', {
-    //   compressed: fileName
-    // }, body.description, body.instructions);
-    db.collection('pendingGames').insertOne({
-      title: body.gameTitle,
-      description: body.description,
-      sanitizedTitle: sanitizedTitle,
-      developer: 'thoffman_dev',
-      originalFilename: file.originalname,
-      files: {
-        compressed: fileName
-      }
-    });
-    db.close();
-    res.redirect('/dev/games/pending/' + fileName);
-    // res.json({
-    //   status: 'success',
-    //   destination: '/dev/games/pending/' + fileName
-    // });
-  });
-
-};
+// exports.addNew = function(req, res) {
+//   var body = req.body,
+//       file = req.file,
+//       filePath = '/' + file.path.replace(/(\.\.\/)*/, ''),
+//       fileName = file.path.replace(/(.*\/)*/, '');
+//       sanitizedTitle = sanitize(body.gameTitle.replace(/\..*/, '')),
+//       sanitizedFileName = sanitize(file.originalname);
+//
+//   MongoClient.connect(config.db, function(err, db) {
+//     if (err) {
+//       console.log('error: ' + err);
+//     }
+//     // var newGame = new Game(body.gameTitle, 'thoffma7.dev', {
+//     //   compressed: fileName
+//     // }, body.description, body.instructions);
+//     db.collection('pendingGames').insertOne({
+//       title: body.gameTitle,
+//       description: body.description,
+//       sanitizedTitle: sanitizedTitle,
+//       developer: 'thoffman_dev',
+//       originalFilename: file.originalname,
+//       files: {
+//         compressed: fileName
+//       }
+//     });
+//     db.close();
+//     res.redirect('/dev/games/pending/' + fileName);
+//   });
+//
+// };
 
 exports.pendingFile = function(req, res) {
   res.download(
     './uploads/games/pending/' + req.game.files.compressed,
-    game.sanitizedTitle + '.zip'
+    req.game.sanitizedTitle + '.zip'
   );
 };
 
@@ -106,6 +109,7 @@ exports.pendingGameById = function(req, res, next, id) {
 };
 
 exports.pendingGameByFile = function(req, res, next, id) {
+  console.log('id::::: ', id)
   exports.findPendingGame(req, res, next, {'files.compressed': id});
 };
 

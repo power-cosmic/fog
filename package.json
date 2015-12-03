@@ -58,6 +58,6 @@
     "morgan": "latest",
     "multer": "latest",
     "requirator": "git+https://github.com/power-cosmic/requirator.git",
-    "unzip": "latest"
+    "unzip2": "latest"
   }
 }
