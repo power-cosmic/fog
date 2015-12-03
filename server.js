@@ -40,7 +40,10 @@ app.use(express.static('./public'));
 
 app.use(function(req, res, next) {
   res.status(404);
-  res.render('common/pages/404', {url: req.url});
+  res.render('common/pages/404', {
+    url: req.url,
+    cookie: req.cookies
+  });
 });
 
 app.listen(port);
