@@ -9,7 +9,7 @@ exports.play = function(req, res) {
     title: game.title,
     scripts: game.config.scripts || [],
     styles: game.config.styles || [],
-    startingPoint: game.startingPoint,
+    startingPoint: game.config.startingPoint,
     gamePath: req.game.gamePath
   });
 };
