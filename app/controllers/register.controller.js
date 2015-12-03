@@ -10,6 +10,7 @@ exports.begin = function(req, res) {
 };
 
 function login(username, password) {
+  var out = 'err';
   MongoClient.connect(database, function(err, db) {
     db.collection('users').findOne(
       {
@@ -18,21 +19,28 @@ function login(username, password) {
           {"password":password}
         ]
       }, function(err, doc) {
+        // db.close();
         if (doc) {
-          return doc;
+          out = doc;
         } else {
-          return {
+          out = {
             status: 'failure',
             message: 'invalid username/password'
           };
         }
       });
+
+    db.close();
   });
+  return out;
 }
 
 exports.auth = function(req, res) {
-  res.json(login(req.body['username'], req.body['password']));
-  res.render('register/pages/register-home', {
-    values: [req.body['username'], req.body['password']]
-  });
+  // var lookup = login(req.cookies['username'], req.cookies['password']);
+  var lookup = login(req.body['username'], req.body['password']);
+  console.log(lookup);
+  res.end(lookup);
+  // res.render('register/pages/register-home', {
+  //   values: [req.body['username'], req.body['password']]
+  // });
 };
