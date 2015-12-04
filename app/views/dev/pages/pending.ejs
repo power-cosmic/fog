@@ -2,11 +2,11 @@
 <html>
   <head>
     <% include ../../common/partials/head %>
-    <link rel="stylesheet" href="/styles/forums.css">
+    <link rel="stylesheet" href="/styles/games.css">
     <script type="text/javascript" src="/lib/jqlite.js"></script>
     <script type="text/javascript" src="/lib/ajaxer.js"></script>
     <script type="text/javascript" src="/helpers/games/pendingGameHelper.js"></script>
-    <title>fog | add a game</title>
+    <title>fog | <%= game && game.title || '' %></title>
   </head>
   <body>
 
@@ -15,31 +15,58 @@
     </header>
 
     <main>
-      <div class="inner-content">
-        <h1><%= game.title %></h1>
+      <div class="inner-content  game-info">
 
-        <div class="padded">
+        <% if (!game) { %>
 
-          <p class="deemphasized">[status: <%= game.status %>]</p>
-          <h3>Description</h3>
-          <p class="padded"><%= game.description %></p>
+          <h2>There doesn't seem to be anything here</h2>
 
-          <h3>Instructions to Fog</h3>
-          <p class="padded"><%= game.instructions %></p>
+        <% } else { %>
 
-          <h3>Game File</h3>
-          <p  class="padded">
-            Download: <a href="/game/<%= game._id %>/download">file</a>
-          </p>
+          <h1><%= game.title %></h1>
 
-          <% if (game.status === 'pending') { %>
+          <div class="padded">
 
-            <a id="accept-game" class="emphasized" data-id="<%= game._id %>">Accept</a>
+            <div>
 
-          <% } %>
+              <span>
+                <img src="/media/<%= game.files.icon %>" class="icon" />
+              </span>
+              <span>
+              <p>
+                <span class="emphasized label">Status</span>
+                <span class="deemphasized"><%= game.status %></span>
+              </p>
+              <p>
+                <span class="emphasized label">Description </span>
+                <span class="deemphasized"><%= game.description %></span>
+              </p>
+            </div>
+            <div>
 
-        </div>
+              <span class="emphasized label">Images</span>
+              <br />
+              <% if (game.files.images) game.files.images.forEach(function(image) { %>
+                <img src="/media/<%= image %>" class="screenshot" />
+              <% }); %>
 
+
+              <p>
+                <span class="emphasized">Download </span>
+                <a href="/games/<%= game._id %>/download">file</a>
+              </p>
+
+
+            </div>
+            <div>
+              <% if (game.status === 'pending') { %>
+              <a id="accept-game" class="emphasized green big-button" data-id="<%= game._id %>">Accept</a>
+              <% } %>
+            </div>
+
+          </div>
+
+        <% } %>
       </div>
     </main>
 

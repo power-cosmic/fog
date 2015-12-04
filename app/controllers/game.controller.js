@@ -87,7 +87,7 @@ var mkdirRecursiveSync = function(directory) {
   try {
     fs.mkdirSync(directory);
   } catch (e) {
-    console.log(e)
+    //console.log(e)
     if (e.errno !== -17) {
       mkdirRecursiveSync(path.dirname(directory));
       fs.mkdirSync(directory);
@@ -96,7 +96,8 @@ var mkdirRecursiveSync = function(directory) {
 };
 
 var saveMedia = function(file, game, callback) {
-  var outputDirectory = './uploads/media/' + game.developer + '/' + game.title,
+  var mediaDirectory = './uploads/media/',
+      outputDirectory = mediaDirectory + game.developer + '/' + game.title,
       outputPath = outputDirectory + '/' + file.originalname;
 
   console.log('saving file: ' + outputPath);
@@ -104,27 +105,24 @@ var saveMedia = function(file, game, callback) {
   fs.renameSync(file.path, outputPath, function(data) {
     console.log('file saved: ' +  outputPath);
   });
-  //});
 
+  outputPath = outputPath.replace(mediaDirectory, '');
   return outputPath;
 };
 
-exports.create = function(req, res) {
+exports.newGame = function(req, res) {
+  res.render('dev/pages/newGame');
+};
+
+exports.submit = function(req, res) {
   var body = req.body,
       files = req.files;
 
-  //console.log(files)
-
   var gameFile = files['gameFile'][0],
       icon = files['icon'][0],
-      images = files['images'],
+      images = files['images'] || [],
       filePath = './' + gameFile.path.replace(/(\.\.\/)*/, '');
-      //gameFile = filePath.substring(1).replace(/(.*\/)*/, '');
 
-  //console.log('GAMEFILE',files['gameFile']);
-  //console.log(gameFile)
-
-  console.log('GAMEFILE', gameFile);
   var tempGame = {
     title: body.gameTitle,
     developer: 'thoffman_dev'
@@ -156,7 +154,7 @@ exports.create = function(req, res) {
       inserted = inserted.ops[0];
       extract(inserted);
       db.close();
-      res.redirect('/game/pending/' + inserted._id);
+      res.redirect('/games/' + inserted._id);
     });
   });
 
@@ -175,5 +173,36 @@ exports.getById = function(req, res, next, id) {
       console.log('Game not found: ' + id);
       next();
     }
+  });
+};
+
+exports.store = function(req, res) {
+  exports.getGames(function(games) {
+    res.render('games/pages/store', {
+      games: games
+    })
+  });
+};
+
+exports.getGames = function(query, callback) {
+  // allow for just a callback to be passed
+  if (!callback) {
+    callback = query;
+    query = {};
+  }
+
+  // find the games
+  MongoClient.connect(config.db, function(err, db) {
+    db.collection('games').find(query, function(err, cursor) {
+      var games = [];
+      cursor.each(function(err, game) {
+        if (game) {
+          games.push(game);
+        } else {
+          db.close();
+          callback(games);
+        }
+      });
+    });
   });
 };

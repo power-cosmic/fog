@@ -23,7 +23,6 @@ require('./app/routes/game.routes')(app);
 require('./app/routes/register.routes')(app);
 require('./app/routes/dev.routes')(app);
 
-app.use('/game-files', express.static('./uploads/games/published'));
 app.use(express.static('./public'));
 
 app.use(function(req, res, next) {

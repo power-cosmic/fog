@@ -1,4 +1,5 @@
-var game = require('../controllers/game.controller'),
+var express = require('express'),
+    game = require('../controllers/game.controller'),
     multer = require('multer'),
     gameUploads = multer({dest: './uploads/games/pending'});
 
@@ -10,20 +11,32 @@ module.exports = function(app) {
     {name: 'images', maxCount: 16}
   ]);
 
-  app.route('/game/:id/play')
+
+  app.use('/game-files', express.static('./uploads/games/published'));
+  app.use('/media', express.static('./uploads/media'));
+
+  app.route('/games/:id/play')
     .get(game.play);
 
-  app.route('/game/pending/:id')
+
+  app.route('/games/new')
+    .get(game.newGame);
+
+  app.route('/games/:id')
     .get(game.readPending);
 
-  app.route('/game/:id/accept')
+  app.route('/games/:id/accept')
     .post(game.accept);
 
-  app.route('/game/:id/download')
+  app.route('/games/:id/download')
     .get(game.download);
 
-  app.route('/game/create')
-    .post(gameSubmit, game.create);
+  app.route('/games/submit')
+    .post(gameSubmit, game.submit);
+
+
+  app.route('/store')
+    .get(game.store)
 
   app.param('id', game.getById);
 };
