@@ -6,6 +6,7 @@ var rl = require('readline').createInterface(process.stdin, process.stdout),
     config = require('./config/config'),
     methodOverride = require('method-override'),
     session = require("express-session"),
+    User = require('./app/models/users/user'),
     port = config.port || 8080;
 
 app.set('views', './app/views');
@@ -22,6 +23,11 @@ app.use(session({resave: true, saveUninitialized: true,
   secret: 'NOTSOSECRET', cookie: { maxAge: 60000}}));
 app.use(function(req, res, next) {
   res.locals.session = req.session;
+
+  //temporary for development
+  req.session.user = new User('thoffman_dev');
+  req.session.user.type = 'developer';
+
   next(null, req, res);
 });
 

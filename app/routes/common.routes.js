@@ -1,19 +1,10 @@
-var path = require('path'),
-    User = require('../models/users/user');
+var path = require('path');
 
 module.exports = function(app) {
 
   var libPath = path.join(__dirname, '../../public/lib/');
 
   app.get('/', function(req, res) {
-
-    //temporary development
-    console.log(req.session.user);
-    if(req.session.user === undefined) {
-      req.session.user = new User('Cade');
-      req.session.user.type = 'guest';
-    }
-
     res.render('common/pages/index');
   });
 
