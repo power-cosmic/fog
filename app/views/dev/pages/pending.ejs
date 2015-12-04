@@ -20,23 +20,31 @@
 
         <div class="padded">
 
-          <p class="deemphasized">[status: <%= game.status %>]</p>
-          <h3>Description</h3>
-          <p class="padded"><%= game.description %></p>
+          <img src="/media/<%= game.files.icon %>" class="icon" />
 
-          <h3>Instructions to Fog</h3>
-          <p class="padded"><%= game.instructions %></p>
+          <div>
 
-          <h3>Game File</h3>
-          <p  class="padded">
-            Download: <a href="/game/<%= game._id %>/download">file</a>
-          </p>
+            <p>
+              <span class="emphasized">Status:</span>
+              <span class="deemphasized"><%= game.status %></span>
+            </p>
+            <p>
+              <span class="emphasized">Description: </span>
+              <span class="padded deemphasized"><%= game.description %></span>
+            </p>
 
-          <% if (game.status === 'pending') { %>
+            <p>
+              <span class="emphasized">Download: </span>
+              <a href="/games/<%= game._id %>/download">file</a>
+            </p>
 
-            <a id="accept-game" class="emphasized" data-id="<%= game._id %>">Accept</a>
+            <% if (game.status === 'pending') { %>
 
-          <% } %>
+              <a id="accept-game" class="emphasized" data-id="<%= game._id %>">Accept</a>
+
+            <% } %>
+
+          </div>
 
         </div>
 
