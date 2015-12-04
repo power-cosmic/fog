@@ -15,44 +15,47 @@
     </header>
 
     <main>
-      <div class="inner-content">
+      <div class="inner-content  game-info">
         <h1><%= game.title %></h1>
 
         <div class="padded">
 
-          <span>
-          <img src="/media/<%= game.files.icon %>" class="icon" />
-          </span>
-          <span>
-          <p>
-            <span class="emphasized label">Status:</span>
-            <span class="deemphasized"><%= game.status %></span>
-          </p>
-          <p>
-            <span class="emphasized label">Description: </span>
-            <span class="deemphasized"><%= game.description %></span>
-          </p>
+          <div>
+
+            <span>
+              <img src="/media/<%= game.files.icon %>" class="icon" />
+            </span>
+            <span>
+            <p>
+              <span class="emphasized label">Status</span>
+              <span class="deemphasized"><%= game.status %></span>
+            </p>
+            <p>
+              <span class="emphasized label">Description </span>
+              <span class="deemphasized"><%= game.description %></span>
+            </p>
+          </div>
+          <div>
+
             <span class="emphasized label">Images</span>
             <br />
             <% if (game.files.images) game.files.images.forEach(function(image) { %>
               <img src="/media/<%= image %>" class="screenshot" />
             <% }); %>
-          <p>
 
-          </p>
 
-          <p>
-            <span class="emphasized">Download: </span>
-            <a href="/games/<%= game._id %>/download">file</a>
-          </p>
-          </span>
+            <p>
+              <span class="emphasized">Download </span>
+              <a href="/games/<%= game._id %>/download">file</a>
+            </p>
 
-          <% if (game.status === 'pending') { %>
 
-            <a id="accept-game" class="emphasized" data-id="<%= game._id %>">Accept</a>
-
-          <% } %>
-
+          </div>
+          <div>
+            <% if (game.status === 'pending') { %>
+            <a id="accept-game" class="emphasized green big-button" data-id="<%= game._id %>">Accept</a>
+            <% } %>
+          </div>
 
         </div>
 
