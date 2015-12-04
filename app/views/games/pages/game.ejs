@@ -3,11 +3,9 @@
   <head>
     <% include ../../common/partials/head %>
     <link rel="stylesheet" href="/styles/forums.css">
-    <script type="text/javascript" src="/lib/ajaxer.js"></script>
-    <script type="text/javascript" src="/lib/jqlite.js"></script>
 
     <% scripts.forEach(function(script) { %>
-      <script type="text/javascript" src="/game-files/<%= gamePath + script %>"></script>
+      <script type="text/javascript" src="<%= gamePath + script %>"></script>
     <% }); %>
 
     <% styles.forEach(function(style) { %>
@@ -18,13 +16,14 @@
     <title>fog | <%= title %></title>
   </head>
   <body>
+
     <header>
       <% include ../../common/partials/header %>
     </header>
 
     <main>
 
-      <div id="game" data-fn="<%= startingPoint %>">
+      <div id="game" data-fn="<%= startingPoint %>" data-path="<%= gamePath %>">
 
       </div>
 

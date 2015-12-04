@@ -15,7 +15,7 @@
       <div class="inner-content">
         <h1>Submit a Game</h1>
 
-        <form action="" class="padded" method="post" enctype="multipart/form-data">
+        <form action="/games/submit" class="padded" method="post" enctype="multipart/form-data">
           <input type="text"
               id="gameTitle"
               name="gameTitle"
@@ -43,6 +43,14 @@
           <label for="gameFile">game file</label>
 
           <br />
+          <input type="file" id="icon" name="icon">
+          <label for="gameIcon">game icon</label>
+
+          <br />
+          <input type="file" id="images" name="images" multiple="multiple">
+          <label for="gameFile">images</label>
+
+          <br />
           <textarea
               id="description"
               name="description"
@@ -53,20 +61,11 @@
           <label for="description">description</label>
 
           <br />
-          <textarea
-              id="instructions"
-              name="instructions"
-              class="input"
-              rows="5"
-              placeholder="Explanation for fog admin"
-          ></textarea>
-          <label for="instructions">description</label>
-
           <input type="text"
               id="price"
               name="price"
               class="input"
-              placeholder="price">
+              placeholder="$59.99">
           <label for="price">suggested price</label>
 
           <br />
