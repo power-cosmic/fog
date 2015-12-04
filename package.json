@@ -50,6 +50,7 @@
   "dependencies": {
     "ajaxer": "git+https://github.com/power-cosmic/ajaxer.git",
     "body-parser": "~1.8.0",
+    "decompress-zip": "latest",
     "ejs": "^1.0.0",
     "express": "latest",
     "fstream": "latest",

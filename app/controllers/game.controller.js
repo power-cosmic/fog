@@ -1,4 +1,5 @@
 var config = require('../../config/config'),
+    DecompressZip = require('decompress-zip'),
     fs = require('fs'),
     MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectID,
@@ -19,19 +20,63 @@ exports.play = function(req, res) {
 
 var extract = function(game) {
   var inputPath = './uploads/games/pending/' + game.files.compressed,
-      outputPath = './uploads/games/published/' + game.developer,
+      outputPath = './uploads/games/published/' + game.developer + '/',
       originalDirectoryName = game.originalFilename.replace(/\..*/, ''),
       configPath = (outputPath + '/' + originalDirectoryName + '/fog.json');
           //.replace(/ /, '\\ ');
+
+  // fs.mkdirSync(outputPath);
+  // fs.createReadStream(inputPath)
+  // .pipe(unzip.Parse())
+  // .on('entry', function (entry) {
+  //   var fileName = entry.path;
+  //   var type = entry.type; // 'Directory' or 'File'
+  //   var size = entry.size;
+  //   console.log(fileName);
+  //   if (fileName !== ".git") {
+  //     console.log(fileName);
+  //     entry.pipe(fs.createWriteStream(outputPath));
+  //   } else {
+  //     entry.autodrain();
+  //   }
+  // });
 
   console.log('EXTRACTING');
   console.log('in:', inputPath);
   console.log('out', outputPath)
   console.log('!!! ' + configPath);
 
+  var unzipper = new DecompressZip(inputPath);
 
-  var unzipFunction = unzip.Extract({ path: outputPath });
-  fs.createReadStream(inputPath).pipe(unzipFunction);
+  unzipper.on('error', function (err) {
+      console.log('Caught an error');
+  });
+
+  unzipper.on('extract', function (log) {
+      console.log('Finished extracting');
+
+  });
+  
+  unzipper.extract({
+      path: outputPath,
+      filter: function (file) {
+          return file.type !== "SymbolicLink";
+      }
+  });
+  console.log('done');
+
+  // var unzipper = unzip.Extract({ path: outputPath });
+  //
+  // console.log('JAXING')
+  // unzipper.on('error', function(err) {
+  //   console.log('ERROR', err);
+  // });
+  // unzipper.on('close', function(fn) {
+  //   console.log('CLOSE', fn);
+  // });
+  //
+  //
+  // fs.createReadStream(inputPath).pipe(unzipper);
 };
 
 exports.accept = function(req, res) {
