@@ -16,6 +16,9 @@ module.exports = function(app) {
   app.route('/uploads/games/pending/:pendingFile')
     .get(dev.pendingFile);
 
+  app.route('/dev/games')
+    .get(dev.restrict, dev.listDevGames);
+
   app.param('fileId', dev.pendingGameByFile);
   app.param('pendingId', dev.pendingGameById);
 };

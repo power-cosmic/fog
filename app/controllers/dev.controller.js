@@ -129,3 +129,32 @@ exports.findPendingGame = function(req, res, next, predicate) {
   });
 
 };
+
+exports.restrict = function(req, res, next) {
+  if (req.session.user.type === 'developer') {
+    next();
+  } else {
+    res.render('common/pages/restricted', {
+      restrictedMessage: 'Area Restricted to Developers Only'
+    });
+  }
+};
+
+exports.listDevGames = function(req, res) {
+  var predicate = {"developer": req.session.user.username};
+
+  MongoClient.connect(config.db, function(err, db) {
+      var cursor = db.collection('games').find(predicate);
+      var acceptedGames = [];
+      cursor.each(function(err, doc) {
+        if (doc) {
+          acceptedGames.push(new Game().fromMongo(doc));
+        } else {
+          db.close();
+          res.render('dev/pages/dev-games', {
+            acceptedGames: acceptedGames
+          });
+        }
+      });
+    });
+  };

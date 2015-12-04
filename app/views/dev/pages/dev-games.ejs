@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../../common/partials/head %>
+    <title>fog</title>
+  </head>
+  <body>
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <main>
+    <div class ="inner-content">
+      <h1>Dev Games</h1>
+        <% acceptedGames.forEach(function(acceptedGame) { %>
+          <p><%= acceptedGame.title %></p>
+        <% }) %>
+    </div>
+    </main>
+
+    <footer>
+      <% include ../../common/partials/footer %>
+    </footer>
+  </body>
+</html>
