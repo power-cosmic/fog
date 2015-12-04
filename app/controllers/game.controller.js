@@ -107,12 +107,10 @@ var saveMedia = function(file, game, callback) {
   });
 
   outputPath = outputPath.replace(mediaDirectory, '');
-  console.log(outputPath + '__-------------')
   return outputPath;
 };
 
 exports.newGame = function(req, res) {
-  console.log('NEW GAME')
   res.render('dev/pages/newGame');
 };
 
@@ -122,7 +120,7 @@ exports.submit = function(req, res) {
 
   var gameFile = files['gameFile'][0],
       icon = files['icon'][0],
-      images = files['images'],
+      images = files['images'] || [],
       filePath = './' + gameFile.path.replace(/(\.\.\/)*/, '');
 
   var tempGame = {
@@ -175,5 +173,36 @@ exports.getById = function(req, res, next, id) {
       console.log('Game not found: ' + id);
       next();
     }
+  });
+};
+
+exports.store = function(req, res) {
+  exports.getGames(function(games) {
+    res.render('games/pages/store', {
+      games: games
+    })
+  });
+};
+
+exports.getGames = function(query, callback) {
+  // allow for just a callback to be passed
+  if (!callback) {
+    callback = query;
+    query = {};
+  }
+
+  // find the games
+  MongoClient.connect(config.db, function(err, db) {
+    db.collection('games').find(query, function(err, cursor) {
+      var games = [];
+      cursor.each(function(err, game) {
+        if (game) {
+          games.push(game);
+        } else {
+          db.close();
+          callback(games);
+        }
+      });
+    });
   });
 };

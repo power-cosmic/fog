@@ -14,5 +14,33 @@
 }
 
 #accept-game {
-  
+
+}
+
+.game-box {
+  padding: 10px;
+  margin: 1px;
+  border: 1px solid #999;
+  display: inline-block;
+  width: 600px;
+}
+
+.inner-box {
+  margin: 1px;
+  padding: 1px;
+  float: left;
+}
+
+.image-holder {
+  display: inline-block;
+  width: 100px;
+}
+
+.game-content {
+  width: 480px
+}
+
+.description {
+  font-style: italic;
+  margin: 0px 10px;
 }

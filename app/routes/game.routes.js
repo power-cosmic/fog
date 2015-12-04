@@ -33,5 +33,8 @@ module.exports = function(app) {
   app.route('/games/new')
     .get(game.newGame)
 
+  app.route('/store')
+    .get(game.store)
+
   app.param('id', game.getById);
 };
