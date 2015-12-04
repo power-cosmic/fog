@@ -14,7 +14,7 @@ exports.play = function(req, res) {
     scripts: game.config.scripts || [],
     styles: game.config.styles || [],
     startingPoint: game.config.startingPoint,
-    gamePath: req.game.gamePath
+    gamePath: '/game-files/' + req.game.gamePath
   });
 };
 
@@ -56,7 +56,7 @@ var extract = function(game) {
       console.log('Finished extracting');
 
   });
-  
+
   unzipper.extract({
       path: outputPath,
       filter: function (file) {
