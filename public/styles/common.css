@@ -10,7 +10,7 @@
   font-size: 3em;
 }
 
-#easy-login {
+#easy-login, #easy-logout {
   position: absolute;
   right: 0px;
   bottom: 0px;
