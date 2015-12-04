@@ -3,6 +3,7 @@ var config = require('../../config/config'),
     fs = require('fs'),
     MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectID,
+    path = require('path'),
     unzip = require('unzip2');
 
 exports.play = function(req, res) {
@@ -18,7 +19,7 @@ exports.play = function(req, res) {
 };
 
 var extract = function(game) {
-  var inputPath = './uploads/games/pending/' + game.files.compressed,
+  var inputPath = game.files.compressed,
       outputPath = './uploads/games/published/' + game.developer + '/',
       originalDirectoryName = game.originalFilename.replace(/\..*/, ''),
       configPath = (outputPath + '/' + originalDirectoryName + '/fog.json');
@@ -70,8 +71,8 @@ exports.accept = function(req, res) {
 
 exports.download = function(req, res) {
   res.download(
-    './uploads/games/pending/' + req.game.files.compressed,
-    req.game.title + '.zip'
+    req.game.files.compressed,
+    req.game.originalFilename
   );
 };
 
@@ -81,26 +82,75 @@ exports.readPending = function(req, res) {
   });
 }
 
+var mkdirRecursiveSync = function(directory) {
+
+  try {
+    fs.mkdirSync(directory);
+  } catch (e) {
+    console.log(e)
+    if (e.errno !== -17) {
+      mkdirRecursiveSync(path.dirname(directory));
+      fs.mkdirSync(directory);
+    }
+  }
+};
+
+var saveMedia = function(file, game, callback) {
+  var outputDirectory = './uploads/media/' + game.developer + '/' + game.title,
+      outputPath = outputDirectory + '/' + file.originalname;
+
+  console.log('saving file: ' + outputPath);
+  mkdirRecursiveSync(outputDirectory);//, function() {
+  fs.renameSync(file.path, outputPath, function(data) {
+    console.log('file saved: ' +  outputPath);
+  });
+  //});
+
+  return outputPath;
+};
+
 exports.create = function(req, res) {
   var body = req.body,
-      file = req.file,
-      filePath = '/' + file.path.replace(/(\.\.\/)*/, ''),
-      fileName = file.path.replace(/(.*\/)*/, '');
+      files = req.files;
+
+  //console.log(files)
+
+  var gameFile = files['gameFile'][0],
+      icon = files['icon'][0],
+      images = files['images'],
+      filePath = './' + gameFile.path.replace(/(\.\.\/)*/, '');
+      //gameFile = filePath.substring(1).replace(/(.*\/)*/, '');
+
+  //console.log('GAMEFILE',files['gameFile']);
+  //console.log(gameFile)
+
+  console.log('GAMEFILE', gameFile);
+  var tempGame = {
+    title: body.gameTitle,
+    developer: 'thoffman_dev'
+  }
+
+  var iconLocation = saveMedia(icon, tempGame);
+  var imageLocations = [];
+  images.forEach(function(image) {
+    imageLocations.push(saveMedia(image, tempGame));
+  });
 
   MongoClient.connect(config.db, function(err, db) {
     if (err) {
       console.log('error: ' + err);
     }
-
     db.collection('games').insertOne({
       title: body.gameTitle,
       description: body.description,
       developer: 'thoffman_dev',
-      originalFilename: file.originalname,
+      originalFilename: gameFile.originalname,
       status: 'pending',
       price: body.price,
       files: {
-        compressed: fileName
+        compressed: filePath,
+        icon: iconLocation,
+        images: imageLocations
       }
     }, function(err, inserted) {
       inserted = inserted.ops[0];

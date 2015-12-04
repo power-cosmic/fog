@@ -4,6 +4,12 @@ var game = require('../controllers/game.controller'),
 
 module.exports = function(app) {
 
+  var gameSubmit = gameUploads.fields([
+    {name: 'gameFile', maxCount: 1},
+    {name: 'icon', maxCount: 1},
+    {name: 'images', maxCount: 16}
+  ]);
+
   app.route('/game/:id/play')
     .get(game.play);
 
@@ -17,7 +23,7 @@ module.exports = function(app) {
     .get(game.download);
 
   app.route('/game/create')
-    .post(gameUploads.single('gameFile'), game.create);
+    .post(gameSubmit, game.create);
 
   app.param('id', game.getById);
 };
