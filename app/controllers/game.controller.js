@@ -1,4 +1,5 @@
 var config = require('../../config/config'),
+    DecompressZip = require('decompress-zip'),
     fs = require('fs'),
     MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectID,
@@ -6,50 +7,48 @@ var config = require('../../config/config'),
 
 exports.play = function(req, res) {
   var game = req.game;
-  console.log('PLAY')
-  console.log('play', game);
+
   res.render('games/pages/game', {
     title: game.title,
     scripts: game.config.scripts || [],
     styles: game.config.styles || [],
     startingPoint: game.config.startingPoint,
-    gamePath: req.game.gamePath
+    gamePath: '/game-files/' + req.game.gamePath
   });
 };
 
 var extract = function(game) {
   var inputPath = './uploads/games/pending/' + game.files.compressed,
-      outputPath = './uploads/games/published/' + game.developer,
+      outputPath = './uploads/games/published/' + game.developer + '/',
       originalDirectoryName = game.originalFilename.replace(/\..*/, ''),
       configPath = (outputPath + '/' + originalDirectoryName + '/fog.json');
-          //.replace(/ /, '\\ ');
 
-  console.log('EXTRACTING');
-  console.log('in:', inputPath);
-  console.log('out', outputPath)
-  console.log('!!! ' + configPath);
+  var unzipper = new DecompressZip(inputPath);
 
+  unzipper.on('error', function (err) {
+      console.log('Caught an error');
+  });
 
-  var unzipFunction = unzip.Extract({ path: outputPath });
-  fs.createReadStream(inputPath).pipe(unzipFunction);
+  unzipper.on('extract', function (log) {
+      console.log('Finished extracting');
+  });
+
+  unzipper.extract({
+      path: outputPath,
+      filter: function (file) {
+          return file.type !== "SymbolicLink";
+      }
+  });
+
 };
 
 exports.accept = function(req, res) {
-  console.log("ACCEPT GAME");
   var game = req.game,
       inputPath = './uploads/games/pending/' + game.files.compressed,
       outputPath = './uploads/games/published/' + game.developer,
       originalDirectoryName = game.originalFilename.replace(/\..*/, ''),
       configPath = (outputPath + '/' + originalDirectoryName + '/fog.json');
-          //.replace(/ /, '\\ ');
 
-  console.log('ORIG', originalDirectoryName)
-  console.log('in:', inputPath);
-  console.log('out', outputPath)
-  console.log('!!! ' + configPath);
-
-
-  console.log('configPath', configPath);
   var gameConfig = JSON.parse(fs.readFileSync(configPath));
 
   MongoClient.connect(config.db, function(err, db) {
@@ -88,21 +87,14 @@ exports.create = function(req, res) {
       filePath = '/' + file.path.replace(/(\.\.\/)*/, ''),
       fileName = file.path.replace(/(.*\/)*/, '');
 
-      //sanitizedTitle = sanitize(body.gameTitle.replace(/\..*/, ''));
-      //sanitizedFileName = sanitize(file.originalname);
-  console.log(body);
-
   MongoClient.connect(config.db, function(err, db) {
     if (err) {
       console.log('error: ' + err);
     }
-    // var newGame = new Game(body.gameTitle, 'thoffma7.dev', {
-    //   compressed: fileName
-    // }, body.description, body.instructions);
+
     db.collection('games').insertOne({
       title: body.gameTitle,
       description: body.description,
-      //sanitizedTitle: sanitizedTitle,
       developer: 'thoffman_dev',
       originalFilename: file.originalname,
       status: 'pending',
@@ -113,11 +105,7 @@ exports.create = function(req, res) {
     }, function(err, inserted) {
       inserted = inserted.ops[0];
       extract(inserted);
-      console.log('---')
-      console.log(err, inserted);
-      console.log('---')
       db.close();
-      console.log('CREATED')
       res.redirect('/game/pending/' + inserted._id);
     });
   });
