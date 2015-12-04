@@ -2,7 +2,7 @@ label:not([for]) {
   font-size: initial;
   font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
 }
-form {
+form.padded {
   width: 20em;
   text-align: right;
 }

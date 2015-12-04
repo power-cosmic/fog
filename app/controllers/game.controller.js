@@ -14,6 +14,8 @@ exports.play = function(req, res) {
     scripts: game.config.scripts || [],
     styles: game.config.styles || [],
     startingPoint: game.config.startingPoint,
+    gamePath: req.game.gamePath,
+    cookie: req.cookies,
     gamePath: '/game-files/' + req.game.gamePath
   });
 };
@@ -78,7 +80,8 @@ exports.download = function(req, res) {
 
 exports.readPending = function(req, res) {
   res.render('dev/pages/pending', {
-    game: req.game
+    game: req.game,
+    cookie: req.cookies
   });
 }
 
@@ -111,7 +114,9 @@ var saveMedia = function(file, game, callback) {
 };
 
 exports.newGame = function(req, res) {
-  res.render('dev/pages/newGame');
+  res.render('dev/pages/newGame', {
+    cookie: req.cookies
+  });
 };
 
 exports.submit = function(req, res) {
@@ -179,7 +184,8 @@ exports.getById = function(req, res, next, id) {
 exports.store = function(req, res) {
   exports.getGames(function(games) {
     res.render('games/pages/store', {
-      games: games
+      games: games,
+      cookie: req.cookies
     })
   });
 };
