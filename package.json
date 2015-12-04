@@ -26,16 +26,20 @@
     "play",
     "full-software"
   ],
-  "contributors": [{
-    "name": "Eddie Gurnee",
-    "email": "<eddie.gurnee@gmail.com>"
-  }, {
-    "name": "Tyler Hoffman",
-    "email": "<tyler.c.hoffman@gmail.com>"
-  }, {
-    "name": "Cade Sperlich",
-    "email": "<csperlich@gmail.com>"
-  }],
+  "contributors": [
+    {
+      "name": "Eddie Gurnee",
+      "email": "<eddie.gurnee@gmail.com>"
+    },
+    {
+      "name": "Tyler Hoffman",
+      "email": "<tyler.c.hoffman@gmail.com>"
+    },
+    {
+      "name": "Cade Sperlich",
+      "email": "<csperlich@gmail.com>"
+    }
+  ],
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/power-cosmic/fog/issues"
@@ -52,6 +56,7 @@
     "body-parser": "~1.8.0",
     "ejs": "^1.0.0",
     "express": "latest",
+    "express-session": "^1.12.1",
     "fstream": "latest",
     "method-override": "~2.2.0",
     "mongodb": "latest",
