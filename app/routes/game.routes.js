@@ -18,7 +18,11 @@ module.exports = function(app) {
   app.route('/games/:id/play')
     .get(game.play);
 
-  app.route('/games/pending/:id')
+
+  app.route('/games/new')
+    .get(game.newGame);
+
+  app.route('/games/:id')
     .get(game.readPending);
 
   app.route('/games/:id/accept')
@@ -30,8 +34,6 @@ module.exports = function(app) {
   app.route('/games/submit')
     .post(gameSubmit, game.submit);
 
-  app.route('/games/new')
-    .get(game.newGame)
 
   app.route('/store')
     .get(game.store)

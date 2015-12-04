@@ -23,6 +23,15 @@
   border: 1px solid #999;
   display: inline-block;
   width: 600px;
+  transition: background-color 0.4s;
+}
+
+a .game-box:link {
+  background-color: #222;
+}
+
+a .game-box:hover {
+  background-color: #333;
 }
 
 .inner-box {

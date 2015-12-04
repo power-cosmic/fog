@@ -27,7 +27,9 @@
 
           <% games.forEach(function(game) { %>
 
-            <% include ../partials/game-summary %>
+            <a href="/games/<%= game._id %>">
+              <% include ../partials/game-summary %>
+            </a>
 
           <% }); %>
 

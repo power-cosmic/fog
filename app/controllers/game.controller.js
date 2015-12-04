@@ -154,7 +154,7 @@ exports.submit = function(req, res) {
       inserted = inserted.ops[0];
       extract(inserted);
       db.close();
-      res.redirect('/games/pending/' + inserted._id);
+      res.redirect('/games/' + inserted._id);
     });
   });
 
