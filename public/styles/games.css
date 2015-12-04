@@ -1,0 +1,14 @@
+.icon {
+  float: left;
+  width: 100px;
+}
+
+.screenshot {
+  width: 400px;
+}
+
+.label {
+  display: inline-block;
+  width: 120px;
+  margin: 0px;
+}
