@@ -2,24 +2,44 @@
 <html>
   <head>
     <% include ../../common/partials/head %>
-    <title>fog</title>
+    <link rel="stylesheet" href="/styles/games.css">
+    <title>fog | developer</title>
   </head>
   <body>
+
     <header>
       <% include ../../common/partials/header %>
     </header>
 
     <main>
-    <div class ="inner-content">
-      <h1>Dev Games</h1>
-        <% acceptedGames.forEach(function(acceptedGame) { %>
-          <p><%= acceptedGame.title %></p>
-        <% }) %>
-    </div>
+      <div class="inner-content">
+
+        <h1>My Games</h1>
+
+        <!-- game list -->
+        <div class="padded game-collection">
+
+          <% if (games.length === 0) { %>
+            <h3 class="deemphasized">
+              No games yet, better get crackin'
+            </h3>
+          <% } %>
+
+          <% games.forEach(function(game) { %>
+
+            <a href="/games/<%= game._id %>">
+              <% include ../../games/partials/game-summary %>
+            </a>
+
+          <% }); %>
+
+        </div>
+      </div>
     </main>
 
     <footer>
       <% include ../../common/partials/footer %>
     </footer>
+
   </body>
 </html>

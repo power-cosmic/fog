@@ -5,7 +5,8 @@ var config = require('../../config/config'),
     MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectID,
     unzip = require('unzip2'),
-    url = require('url');
+    url = require('url'),
+    games = require('./game.controller');
 
 exports.createNew = function(req, res) {
   res.render('dev/pages/newGame', {
@@ -144,9 +145,17 @@ exports.restrict = function(req, res, next) {
 };
 
 exports.listDevGames = function(req, res) {
-  var predicate = {"developer": req.session.user.username};
+  var predicate = {"developer": req.session.user.userName};
+  console.log(predicate);
 
-  MongoClient.connect(config.db, function(err, db) {
+  games.getGames(predicate, function(games){
+    res.render('dev/pages/dev-games',
+      {games: games}
+    );
+  });
+
+
+  /*MongoClient.connect(config.db, function(err, db) {
       var cursor = db.collection('games').find(predicate);
       var acceptedGames = [];
       cursor.each(function(err, doc) {
@@ -159,5 +168,5 @@ exports.listDevGames = function(req, res) {
           });
         }
       });
-    });
+    });*/
   };
