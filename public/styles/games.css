@@ -17,6 +17,12 @@
 
 }
 
+.game-collection {
+  width: 624px;
+  background-color: #111;
+  padding: 4px;
+}
+
 .game-box {
   padding: 10px;
   margin: 1px;
@@ -24,6 +30,7 @@
   display: inline-block;
   width: 600px;
   transition: background-color 0.4s;
+  background-color: #222;
 }
 
 a .game-box:link {
@@ -52,4 +59,8 @@ a .game-box:hover {
 .description {
   font-style: italic;
   margin: 0px 10px;
+}
+
+.long.input {
+  width: 500px;
 }

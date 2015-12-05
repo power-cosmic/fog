@@ -34,7 +34,6 @@ module.exports = function(app) {
   app.route('/games/submit')
     .post(gameSubmit, game.submit);
 
-
   app.route('/store')
     .get(game.store)
 

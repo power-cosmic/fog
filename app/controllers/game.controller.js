@@ -3,6 +3,7 @@ var config = require('../../config/config'),
     fs = require('fs'),
     MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectID,
+    parseUrl = require('url').parse,
     path = require('path'),
     unzip = require('unzip2');
 
@@ -177,10 +178,15 @@ exports.getById = function(req, res, next, id) {
 };
 
 exports.store = function(req, res) {
-  exports.getGames(function(games) {
-    res.render('games/pages/store', {
-      games: games
-    })
+var params = parseUrl(req.url, true).query,
+    query = params['query'] || '',
+    regex = new RegExp('.*' + query + '.*', 'i'),
+    condition = query? {title: regex} : {};
+
+  exports.getGames(condition, function(games) {
+      res.render('games/pages/store', {
+        games: games
+      });
   });
 };
 
