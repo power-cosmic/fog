@@ -92,6 +92,7 @@ exports.create = function(req, res) {
               message: 'that username is taken'
             });
           } else {
+            console.log('RESULT', result.result);
             req.session.user = result.result;
             res.render('admin/pages/register-confirmation');
           }

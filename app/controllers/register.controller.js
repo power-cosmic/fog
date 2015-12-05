@@ -95,17 +95,12 @@ exports.register = function(user, callback) {
       db.collection('users').insertOne(user,
         function (err, result) {
           db.close();
-          if(result === null) {
-            user.password = '';
-            callback(insertError, user);
+          if(result) {
+              user._id = result._id;
+              callback(success, user);
           } else {
-            if (result && result.ops && result.ops[0]) {
-              callback(success, User.fromMongo(result.ops[0]));
-            } else {
-              user.password = '';
-              callback(userExists, user);
-            }
-
+            user.password = '';
+            callback(userExists, user);
           }
       });
     } catch (e) {
