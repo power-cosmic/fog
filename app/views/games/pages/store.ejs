@@ -15,11 +15,21 @@
       <div class="inner-content">
 
         <h1>fogStore</h1>
-        <div class="padded">
+
+        <!-- search -->
+        <form action="/store" method="get" class="padded">
+          <input type="text"
+              id="query" name="query"
+              class="long input" placeholder="search" />
+          <input type="submit" id="submit-search" value="search" />
+        </form>
+
+        <!-- game list -->
+        <div class="padded game-collection">
 
           <% if (games.length === 0) { %>
             <h3 class="deemphasized">
-              There aren't any games yet
+              There's nothing here
             </h3>
           <% } %>
 
