@@ -18,7 +18,6 @@
       <div class="inner-content">
 
         <form class="" method="post">
-          <% console.log('ASDMIN', admin) %>
           <p>
             Need to add a new member to the fog team? Look no further!
           </p>
@@ -65,7 +64,6 @@
                 placeholder="<%= field.label || '' %>"
                 type="<%= field.type || 'text' %>"
                 value="<%= field.value || '' %>"/>
-                <%= field.type %>
               <label for="<%= field.name %>"><%= field.label %></label>
             <br />
           <% }); %>

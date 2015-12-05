@@ -37,9 +37,10 @@
                   'email',
                   'password'
                 ].indexOf(value) != -1) ? value : 'text';
+                var value = user[camelCase] || '';
               %>
               <input
-                type="<%= type %>" name="<%= camelCase %>" />
+                type="<%= type %>" name="<%= camelCase %>" value="<%= value %>" />
             </label>
           </p>
 
