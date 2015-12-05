@@ -185,7 +185,10 @@ exports.store = function(req, res) {
 var params = parseUrl(req.url, true).query,
     query = params['query'] || '',
     regex = new RegExp('.*' + query + '.*', 'i'),
-    condition = query? {title: regex} : {};
+    condition = query? { '$or': [
+      { title: regex },
+      { description: regex }
+    ]} : {};
 
   exports.getGames(condition, function(games) {
     res.render('games/pages/store', {
