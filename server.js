@@ -7,7 +7,10 @@ var rl = require('readline').createInterface(process.stdin, process.stdout),
     methodOverride = require('method-override'),
     session = require("express-session"),
     User = require('./app/models/users/user'),
-    port = config.port || 8080;
+
+    port = config.defaultPort || 8080,
+    secretKey = config.cookieKey || 'NOTSOSECRET',
+    cookieAge = config.cookieAge || 600000; //default 10 minutes
 
 app.set('views', './app/views');
 app.set('view engine', 'ejs');
@@ -18,11 +21,21 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(methodOverride());
 
-app.use(morgan('dev'));
+if (config.logging) {
+  app.use(morgan('dev'));
+}
 
 //setup the session
-app.use(session({resave: true, saveUninitialized: true,
-  secret: 'NOTSOSECRET', cookie: { maxAge: 600000}}));
+app.use(session(
+  {
+    resave: true,
+    saveUninitialized: true,
+    secret: secretKey,
+    cookie: {
+      maxAge: cookieAge
+    }
+  }
+));
 
 //make the session available to all ejs templates
 app.use(function(req, res, next) {
