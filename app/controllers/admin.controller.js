@@ -15,8 +15,6 @@ var User = require('../models/users/user'),
   }),
   jasonStatham = transporter;
 
-  var jasonStatham = transporter;;
-
 exports.newToken = function(req, res) {
   res.render('admin/pages/new-token');
 };
@@ -61,6 +59,7 @@ exports.sendToken = function(req, res) {
                 + 'To get set up as an admin, follow '
                 + '<a href="' + config.url + '/admin/register/' + id
                 + '">this link</a> to finalize your stuff!</p>'
+                + '<p>fog. Imagine better.</p>'
           });
 
           res.json({
