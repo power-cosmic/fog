@@ -4,4 +4,6 @@
 
 <script type="text/javascript" src="/lib/jqlite.js"></script>
 <script type="text/javascript" src="/lib/ajaxer.js"></script>
-<script type="text/javascript" src="/helpers/common/login.js"></script>
+<% if (session.user === undefined || session.user.type === 'guest') { %>
+  <script type="text/javascript" src="/helpers/common/login.js"></script>
+<% } %>
