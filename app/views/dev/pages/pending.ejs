@@ -49,14 +49,23 @@
                 <img src="/media/<%= image %>" class="screenshot" />
               <% }); %>
 
-
-              <p>
-                <span class="emphasized">Download </span>
-                <a href="/games/<%= game._id %>/download">file</a>
-              </p>
-
-
             </div>
+            <div>
+              <span class="emphasized label">Videos</span>
+                <br />
+                <% if (game.files.videos) game.files.videos.forEach(function(video) { %>
+                  <video class="video" controls>
+                    <source src="/media/<%= video %>" type="video/mp4"/>
+                  Your browser does not support HTML5 video.
+                  </video>
+                <% }); %>
+
+                <p>
+                  <span class="emphasized">Download </span>
+                  <a href="/games/<%= game._id %>/download">file</a>
+                </p>
+            </div>
+
             <div>
               <%
                 var user = session.user,

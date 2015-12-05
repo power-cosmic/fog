@@ -22,7 +22,7 @@ app.use(morgan('dev'));
 
 //setup the session
 app.use(session({resave: true, saveUninitialized: true,
-  secret: 'NOTSOSECRET', cookie: { maxAge: 60000}}));
+  secret: 'NOTSOSECRET', cookie: { maxAge: 600000}}));
 
 //make the session available to all ejs templates
 app.use(function(req, res, next) {
