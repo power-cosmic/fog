@@ -10,4 +10,7 @@ module.exports = function(app) {
 
   app.route('/login')
     .post(register.login);
+
+  app.route('/logout')
+    .get(register.logout);
 };

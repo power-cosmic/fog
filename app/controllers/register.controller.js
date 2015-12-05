@@ -9,31 +9,33 @@ exports.begin = function(req, res) {
   });
 };
 
-exports.login = function(username, password) {
+exports.login = function(req, res) {
   var out = 'err';
   MongoClient.connect(database, function(err, db) {
-    db.collection('users').findOne(
-      {
-        $and : [
-          {"username":username},
-          {"password":password}
-        ]
-      }, function(err, doc) {
-        // db.close();
-        if (doc) {
-          out = doc;
-        } else {
-          out = {
-            status: 'failure',
-            message: 'invalid username/password'
-          };
-        }
+    console.log('1');
+    console.log(req.body.username);
+    try {
+      db.collection('users').findOne(
+        {
+          $and: [
+            {"username": req.body.username},
+            {"password": req.body.password}
+          ]
+        },
+        function (err, doc) {
+          if (doc === null) {
+            res.render('common/pages/index');
+          } else {
+            req.session.user = User.fromMongo(doc);
+            res.render('common/pages/index');
+          }
+          db.close();
       });
-
-    db.close();
+    } catch (e) {
+      res.render('common/pages/index');
+    }
   });
-  return out;
-}
+};
 
 exports.auth = function(req, res) {
   // var lookup = login(req.cookies['username'], req.cookies['password']);
@@ -60,9 +62,10 @@ exports.create = function(req, res) {
 
       db.collection('users').insertOne(req.body,
         function (err, result) {
-          if(err) {
+          if(result === null) {
             res.send('failed to create new user!');
           } else {
+            console.log(result);
             var user = new User.fromMongo(result.ops[0]);
             req.session.user = user;
             console.log(req.session.user);
@@ -76,8 +79,9 @@ exports.create = function(req, res) {
       //res.render('/common/pages/index');
     }
   });
+};
 
-
-
-
+exports.logout = function(req, res) {
+  req.session.user = undefined;
+  res.render('common/pages/index');
 };

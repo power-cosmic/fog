@@ -26,9 +26,9 @@ User.toMongo = function() {
   var output = {
     username: this.userName,
     password: this.password,
-    firstname: this.firstName,
+    firstName: this.firstName,
     email: this.email,
-    phonenumber: this.phoneNumber,
+    phoneNumber: this.phoneNumber,
     type: this.type,
     _id: this._id || new ObjectId()
   }
