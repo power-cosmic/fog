@@ -63,7 +63,6 @@ exports.register = function(req, res) {
 
 exports.create = function(req, res) {
   var info = req.body;
-
   register.findById(info._id, function(err, user) {
     if (err) {
       res.json({
@@ -73,9 +72,10 @@ exports.create = function(req, res) {
     } else {
       var hash = register.hashAndSalt(info.password, user.salt);
       MongoClient.connect(config.db, function(err, db) {
-        db.collection('users').updateOne({
+        db.collection('users').findAndModify({
           _id: ObjectId(user._id)
         },
+        [['_id','asc']],
         {
           $set: {
             username: info.username,
@@ -92,8 +92,7 @@ exports.create = function(req, res) {
               message: 'that username is taken'
             });
           } else {
-            console.log('RESULT', result.result);
-            req.session.user = result.result;
+            req.session.user = result.value;
             res.render('admin/pages/register-confirmation');
           }
         });
