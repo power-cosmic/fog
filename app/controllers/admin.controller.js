@@ -63,7 +63,6 @@ exports.register = function(req, res) {
 
 exports.create = function(req, res) {
   var info = req.body;
-
   register.findById(info._id, function(err, user) {
     if (err) {
       res.json({
@@ -73,12 +72,13 @@ exports.create = function(req, res) {
     } else {
       var hash = register.hashAndSalt(info.password, user.salt);
       MongoClient.connect(config.db, function(err, db) {
-        db.collection('users').updateOne({
+        db.collection('users').findAndModify({
           _id: ObjectId(user._id)
         },
+        [['_id','asc']],
         {
           $set: {
-            username: info.userName,
+            username: info.username,
             firstName: info.firstName,
             lastName: info.lastName,
             email: info.email,
@@ -92,7 +92,7 @@ exports.create = function(req, res) {
               message: 'that username is taken'
             });
           } else {
-            req.session.user = result.result;
+            req.session.user = result.value;
             res.render('admin/pages/register-confirmation');
           }
         });
@@ -107,9 +107,9 @@ exports.auth = function(req, res, next) {
   if (user && user.type === 'admin') {
     next();
   } else {
-    var userName = user? user.userName: 'anon';
+    var username = user? user.username: 'anon';
     res.render('common/pages/restricted', {
-      restrictedMessage: userName + ' is not in the sudoers file. '
+      restrictedMessage: username + ' is not in the sudoers file. '
           + 'This incident will be reported.'
     });
   }

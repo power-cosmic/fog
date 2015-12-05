@@ -28,7 +28,7 @@ exports.postReply = function(req, res) {
         var thread = new Thread().fromMongo(doc),
             replyTo = thread.getPost(reply.replyTo),
             user = req.session.user,
-            username = user? user.userName: '[anon]';
+            username = user? user.username: '[anon]';
 
         replyTo.addReply(new Post(username, reply.content));
 
@@ -70,7 +70,10 @@ exports.new = function(req, res) {
 };
 
 exports.create = function(req, res) {
-  req.body.user = 'thoffma7';
+  var user = req.session.user,
+      username = user? user.username: '[anon]';
+
+  req.body.user = username;
   var body = new Thread().fromMongo(req.body);
   MongoClient.connect(database, function(err, db) {
     db.collection('threads').insertOne(
