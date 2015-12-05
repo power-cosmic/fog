@@ -4,5 +4,4 @@ module.exports = function(app) {
 
   app.route('/dev/games')
     .get(dev.restrict, dev.listDevGames);
-
 };

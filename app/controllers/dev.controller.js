@@ -131,11 +131,10 @@ exports.findPendingGame = function(req, res, next, predicate) {
       next();
     }
   });
-
 };
 
 exports.restrict = function(req, res, next) {
-  if (req.session.user.type === 'developer') {
+  if (req.session.user && req.session.user.type === 'developer') {
     next();
   } else {
     res.render('common/pages/restricted', {
@@ -153,20 +152,4 @@ exports.listDevGames = function(req, res) {
       {games: games}
     );
   });
-
-
-  /*MongoClient.connect(config.db, function(err, db) {
-      var cursor = db.collection('games').find(predicate);
-      var acceptedGames = [];
-      cursor.each(function(err, doc) {
-        if (doc) {
-          acceptedGames.push(new Game().fromMongo(doc));
-        } else {
-          db.close();
-          res.render('dev/pages/dev-games', {
-            acceptedGames: acceptedGames
-          });
-        }
-      });
-    });*/
-  };
+};
