@@ -56,13 +56,16 @@ exports.postReply = function(req, res) {
 exports.list = function(req, res) {
   getThreadsInRange(req.url, function(threads) {
     res.render('forums/pages/forum-list', {
-      threads: threads
+      threads: threads,
+      cookie: req.cookies
     });
   });
 };
 
 exports.new = function(req, res) {
-  res.render('forums/pages/new-thread');
+  res.render('forums/pages/new-thread', {
+    cookie: req.cookies
+  });
 };
 
 exports.create = function(req, res) {
@@ -85,7 +88,8 @@ exports.create = function(req, res) {
 
 exports.readThread = function(req, res) {
   res.render('forums/pages/forum-thread', {
-    thread: req.thread
+    thread: req.thread,
+    cookie: req.cookies
   });
 };
 

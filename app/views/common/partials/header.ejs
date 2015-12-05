@@ -6,12 +6,15 @@
       | <a href="/forums" class="emphasized">Forums</a>
     </span>
   </div>
+  <% if (typeof cookie =='undefined' || typeof cookie.loggedIn == 'undefined') { %>
   <div id="easy-login">
-    <form id="login">
+    <form id="login" action="/register/auth" method="POST">
       <input type="text" id="username" name="username" placeholder="username">
       <label for="username">username</label>
       <input type="password" id="password" name="password" placeholder="password">
       <label for="password">password</label>
     </form>
   </div>
+  <% } %>
+  
 </div>
