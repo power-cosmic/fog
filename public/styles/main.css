@@ -93,7 +93,17 @@ a:active {
 }
 
 a:hover {
-  color:#ddd;
+  color: #ddd;
+}
+
+#title a {
+  color: rgb(200,200,200);
+  transition: color 0.25s;
+}
+
+#title a:hover {
+  color:#999;
+  text-shadow:rgb(222,222,222) 1px 1px 0;
 }
 
 .big-button {

@@ -35,3 +35,6 @@ uploads/*
 
 # environment settings
 config/env/*.js
+
+# webstorm folder
+.idea

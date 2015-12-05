@@ -5,7 +5,8 @@ var config = require('../../config/config'),
     MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectID,
     unzip = require('unzip2'),
-    url = require('url');
+    url = require('url'),
+    games = require('./game.controller');
 
 exports.createNew = function(req, res) {
   res.render('dev/pages/newGame', {
@@ -130,5 +131,23 @@ exports.findPendingGame = function(req, res, next, predicate) {
       next();
     }
   });
+};
 
+exports.restrict = function(req, res, next) {
+  if (req.session.user && req.session.user.type === 'developer') {
+    next();
+  } else {
+    res.render('common/pages/restricted', {
+      restrictedMessage: 'Area Restricted to Developers Only'
+    });
+  }
+};
+
+exports.listDevGames = function(req, res) {
+  var predicate = {"developer": req.session.user.userName};
+  games.getGames(predicate, function(games){
+    res.render('dev/pages/dev-games',
+      {games: games}
+    );
+  });
 };

@@ -1,20 +1,23 @@
 <div id="header" class="content">
   <div id="fog">
-    <h1 id="title" class="inline">fog</h1>
+  <h1 id="title" class="inline emphasized"><a href="/">fog</a></h1>
     <span class="deemphasized">
-      <a href="/store" class="emphasized">Store</a>
-      | <a href="/forums" class="emphasized">Forums</a>
+      <!-- user specific links -->
+      <% if(session.user === undefined || session.user.type === 'guest') { %>
+        <% include /session/guest-header-links %>
+      <% } else if (session.user.type === 'gamer'){ %>
+        <% include /session/gamer-header-links %>
+      <% } else if (session.user.type === 'admin'){ %>
+        <% include /session/admin-header-links %>
+      <% } else if (session.user.type === 'developer'){ %>
+        <% include /session/dev-header-links %>
+      <% } %>
     </span>
   </div>
-  <% if (typeof cookie =='undefined' || typeof cookie.loggedIn == 'undefined') { %>
-  <div id="easy-login">
-    <form id="login" action="/register/auth" method="POST">
-      <input type="text" id="username" name="username" placeholder="username">
-      <label for="username">username</label>
-      <input type="password" id="password" name="password" placeholder="password">
-      <label for="password">password</label>
-    </form>
-  </div>
+  <!-- show login or logout option -->
+  <% if(session.user !== undefined && session.user.type !== 'guest') { %>
+    <% include /session/easy-logout %>
+  <% } else  { %>
+    <% include /session/easy-login %>
   <% } %>
-  
 </div>

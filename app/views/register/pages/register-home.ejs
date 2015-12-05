@@ -3,8 +3,9 @@
 
   <head>
     <% include ../../common/partials/head %>
-      <link rel="stylesheet" href="/styles/register.css">
-      <title>fog | register</title>
+    <link rel="stylesheet" href="/styles/register.css">
+    <script type="text/javascript" src="/helpers/register/newUserHandler.js"></script>
+    <title>fog | register</title>
   </head>
 
   <body>
@@ -17,7 +18,7 @@
       <div class="inner-content">
         <h1>Register</h1>
 
-        <form class="padded">
+        <form action="" method="post" class="padded">
           <%
             values.forEach(function(value) {
               var names = value.split(' '),
@@ -44,9 +45,10 @@
           </p>
 
           <% }); %>
-
-          <a id="reset-user" class="emphasized">reset</a>
-          <a id="submit-user" class="emphasized">submit</a>
+          <input type="radio" id="type" name="type" value="developer" >Developer
+          <input type="radio" id="type" name="type" value="gamer" checked="checked">Gamer <br>
+          <button type="submit" id="reset-user" value="reset-user">Reset</button>
+          <button type="submit" id="submit-user" value="submit-user">Submit</button>
         </form>
         <!-- <a href="/register/auth/google">G auth</a> -->
       </div> <!-- end inner-content -->

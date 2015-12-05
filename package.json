@@ -58,6 +58,7 @@
     "decompress-zip": "latest",
     "ejs": "^1.0.0",
     "express": "latest",
+    "express-session": "^1.12.1",
     "fstream": "latest",
     "method-override": "~2.2.0",
     "mongodb": "latest",

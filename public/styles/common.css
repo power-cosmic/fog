@@ -10,7 +10,14 @@
   font-size: 3em;
 }
 
-#easy-login {
+#login-response {
+  position: absolute;
+  right: 100px;
+  bottom: 0px;
+  color: rgb(255, 0, 102);
+}
+
+#easy-login, #easy-logout {
   position: absolute;
   right: 0px;
   bottom: 0px;
