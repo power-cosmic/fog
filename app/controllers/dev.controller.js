@@ -8,13 +8,16 @@ var config = require('../../config/config'),
     url = require('url');
 
 exports.createNew = function(req, res) {
-  res.render('dev/pages/newGame');
+  res.render('dev/pages/newGame', {
+    cookie: req.cookies
+  });
 };
 
 exports.readPending = function(req, res) {
   res.render('dev/pages/pending', {
     game: req.game,
-    status: 'pending'
+    status: 'pending',
+    cookie: req.cookies
   });
 };
 

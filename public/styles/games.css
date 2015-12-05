@@ -1,0 +1,66 @@
+.icon {
+  float: left;
+  width: 100px;
+}
+
+.screenshot {
+  width: 400px;
+}
+
+.label {
+  display: inline-block;
+  width: 80px;
+  margin: 0px 20px;
+}
+
+#accept-game {
+
+}
+
+.game-collection {
+  width: 624px;
+  background-color: #111;
+  padding: 4px;
+}
+
+.game-box {
+  padding: 10px;
+  margin: 1px;
+  border: 1px solid #999;
+  display: inline-block;
+  width: 600px;
+  transition: background-color 0.4s;
+  background-color: #222;
+}
+
+a .game-box:link {
+  background-color: #222;
+}
+
+a .game-box:hover {
+  background-color: #333;
+}
+
+.inner-box {
+  margin: 1px;
+  padding: 1px;
+  float: left;
+}
+
+.image-holder {
+  display: inline-block;
+  width: 100px;
+}
+
+.game-content {
+  width: 480px
+}
+
+.description {
+  font-style: italic;
+  margin: 0px 10px;
+}
+
+.long.input {
+  width: 500px;
+}

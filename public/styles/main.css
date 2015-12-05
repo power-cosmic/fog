@@ -105,3 +105,15 @@ a:hover {
   color:#999;
   text-shadow:rgb(222,222,222) 1px 1px 0;
 }
+
+.big-button {
+  font-size: 2em;
+  border: 3px solid #999;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.green {
+  background-color: #2c2;
+  border-color: #8f8;
+}

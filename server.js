@@ -25,8 +25,9 @@ app.use(function(req, res, next) {
   res.locals.session = req.session;
 
   //temporary for development
-  req.session.user = new User('thoffman_dev');
-  req.session.user.type = 'developer';
+  /*req.session.user = new User('thoffman_dev',
+    'tyler', 'hoffman', '1234', 'thoff@power-cosmic.org');
+  req.session.user.type = 'guest';*/
 
   next(null, req, res);
 });
@@ -37,13 +38,7 @@ require('./app/routes/game.routes')(app);
 require('./app/routes/register.routes')(app);
 require('./app/routes/dev.routes')(app);
 
-app.use('/game-files', express.static('./uploads/games/published'));
 app.use(express.static('./public'));
-
-app.use(function(req, res, next) {
-  res.status(404);
-  res.render('common/pages/404', {url: req.url});
-});
 
 app.listen(port);
 console.log('listening on port ' + port);

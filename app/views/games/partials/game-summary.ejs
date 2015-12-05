@@ -1,0 +1,19 @@
+<div class="game-box">
+  <div class="inner-box image-holder">
+    <img src="/media/<%= game.files.icon %>" class="icon" />
+  </div>
+  <div class="inner-box game-content">
+    <h2><%= game.title %></h2>
+    <p class="deemphasized description">
+      <%
+        var description = game.description,
+            maxLength = 100;
+        if (description.length > maxLength) {
+          description = description.substring(0, maxLength) + '...';
+        }
+      %>
+      <%= description %>
+    </p>
+  </div>
+
+</div>
