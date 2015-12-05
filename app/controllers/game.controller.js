@@ -122,15 +122,16 @@ exports.newGame = function(req, res) {
 exports.submit = function(req, res) {
   var body = req.body,
       files = req.files;
-
+  console.log(req.session.user);
   var gameFile = files['gameFile'][0],
       icon = files['icon'][0],
       images = files['images'] || [],
-      filePath = './' + gameFile.path.replace(/(\.\.\/)*/, '');
+      filePath = './' + gameFile.path.replace(/(\.\.\/)*/, ''),
+      developer = req.session.user.userName;
 
   var tempGame = {
     title: body.gameTitle,
-    developer: 'thoffman_dev'
+    developer: developer
   }
 
   var iconLocation = saveMedia(icon, tempGame);
@@ -146,7 +147,7 @@ exports.submit = function(req, res) {
     db.collection('games').insertOne({
       title: body.gameTitle,
       description: body.description,
-      developer: 'thoffman_dev',
+      developer: developer,
       originalFilename: gameFile.originalname,
       status: 'pending',
       price: body.price,
@@ -185,10 +186,13 @@ exports.store = function(req, res) {
 var params = parseUrl(req.url, true).query,
     query = params['query'] || '',
     regex = new RegExp('.*' + query + '.*', 'i'),
-    condition = query? { '$or': [
-      { title: regex },
-      { description: regex }
-    ]} : {};
+    condition = query? {
+      status: 'accepted',
+      '$or': [
+        { title: regex },
+        { description: regex }
+      ]
+    } : {status: 'accepted'};
 
   exports.getGames(condition, function(games) {
     res.render('games/pages/store', {
