@@ -8,7 +8,8 @@ module.exports = function(app) {
   var gameSubmit = gameUploads.fields([
     {name: 'gameFile', maxCount: 1},
     {name: 'icon', maxCount: 1},
-    {name: 'images', maxCount: 16}
+    {name: 'images', maxCount: 16},
+    {name: 'videos', maxCount: 10}
   ]);
 
 

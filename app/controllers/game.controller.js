@@ -122,10 +122,11 @@ exports.newGame = function(req, res) {
 exports.submit = function(req, res) {
   var body = req.body,
       files = req.files;
-  console.log(req.session.user);
+
   var gameFile = files['gameFile'][0],
       icon = files['icon'][0],
       images = files['images'] || [],
+      videos = files['videos'] || [],
       filePath = './' + gameFile.path.replace(/(\.\.\/)*/, ''),
       developer = req.session.user.userName;
 
@@ -138,6 +139,11 @@ exports.submit = function(req, res) {
   var imageLocations = [];
   images.forEach(function(image) {
     imageLocations.push(saveMedia(image, tempGame));
+  });
+
+  var videoLocations = [];
+  videos.forEach(function(video) {
+    videoLocations.push(saveMedia(video, tempGame));
   });
 
   MongoClient.connect(config.db, function(err, db) {
@@ -154,7 +160,8 @@ exports.submit = function(req, res) {
       files: {
         compressed: filePath,
         icon: iconLocation,
-        images: imageLocations
+        images: imageLocations,
+        videos: videoLocations
       }
     }, function(err, inserted) {
       inserted = inserted.ops[0];
