@@ -32,19 +32,21 @@
           <p>
             <label>
               <%= spaced %>:
+              <%
+                var type = ([
+                  'email',
+                  'password'
+                ].indexOf(value) != -1) ? value : 'text';
+              %>
               <input
-                type="
-                  <%=
-                    ([
-                      'email',
-                      'password'
-                    ].indexOf(value) != -1) ? value : 'text'
-                  %>"
-                name="<%= camelCase %>" />
+                type="<%= type %>" name="<%= camelCase %>" />
             </label>
           </p>
 
           <% }); %>
+          <%
+
+          %>
           <input type="radio" id="type" name="type" value="developer" >Developer
           <input type="radio" id="type" name="type" value="gamer" checked="checked">Gamer <br>
           <button type="submit" id="reset-user" value="reset-user">Reset</button>

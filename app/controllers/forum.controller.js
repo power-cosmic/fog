@@ -25,11 +25,12 @@ exports.postReply = function(req, res) {
          * construct the js version of the thread and get the post
          * we are replying to
          */
-        var thread = new Thread().fromMongo(doc);
-        var replyTo = thread.getPost(reply.replyTo);
+        var thread = new Thread().fromMongo(doc),
+            replyTo = thread.getPost(reply.replyTo),
+            user = req.session.user,
+            username = user? user.userName: '[anon]';
 
-        // currently tyler gets credit for all posts
-        replyTo.addReply(new Post('thoffma7', reply.content));
+        replyTo.addReply(new Post(username, reply.content));
 
         db.collection('threads').update({_id: threadId},
           thread.toMongo(),

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <% include ../../common/partials/head %>
+    <link rel="stylesheet" href="/styles/register.css">
+    <script type="text/javascript" src="/helpers/register/newUserHandler.js"></script>
+    <title>fog | new admin token</title>
+  </head>
+
+  <body>
+
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <main>
+      <div class="inner-content">
+
+        <form action="/admin/send-token"  class="" method="post">
+          <p>
+            Need to add a new member to the fog team? Look no further!
+          </p>
+
+          <%
+            var fields = [
+              {
+                name: 'firstName',
+                label: 'first name'
+              },
+              {
+                name: 'lastName',
+                label: 'last name'
+              },
+              {
+                name: 'email',
+                label: 'email',
+                type: 'email'
+              },
+            ];
+          %>
+
+          <% fields.forEach(function(field) { %>
+          <input type="text"
+              id="<%= field.name %>"
+              name="<%= field.name %>"
+              class="input"
+              placeholder="<%= field.label %>"
+              type="<%= field.type || 'text' %>" />
+          <label for="<%= field.name %>"><%= field.label %></label>
+          <br />
+          <% }); %>
+          <input type="submit" id="submit-admin" value="Get them registered!">
+        </form>
+
+      </div> <!-- end inner-content -->
+    </main>
+
+    <footer>
+      <% include ../../common/partials/footer %>
+    </footer>
+
+  </body>
+
+</html>

@@ -13,4 +13,5 @@ module.exports = function(app) {
 
   app.route('/logout')
     .get(register.logout);
+
 };

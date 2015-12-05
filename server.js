@@ -35,6 +35,7 @@ require('./app/routes/forum.routes')(app);
 require('./app/routes/game.routes')(app);
 require('./app/routes/register.routes')(app);
 require('./app/routes/dev.routes')(app);
+require('./app/routes/admin.routes')(app);
 
 app.use(express.static('./public'));
 
