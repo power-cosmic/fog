@@ -26,6 +26,7 @@ exports.sendToken = function(req, res) {
   var params = req.body,
       emailAddress = params.email;
   params.password = crypto.randomBytes(16);
+  params.username = crypto.randomBytes(16);
   params.type = 'admin';
 
   register.register(params, function(err, user) {
@@ -42,7 +43,7 @@ exports.sendToken = function(req, res) {
         html: '<p>Greetings from fog! Looks like you\'re a new hire. '
             + 'To get set up as an admin, follow '
             + '<a href="' + config.url + '/admin/register/' + user._id
-            + '">this link</a> to finalize your stuff!</p>'
+            + '">this link</a> and finalize your stuff!</p>'
             + '<p>fog. Imagine better.</p>'
       });
 
@@ -88,7 +89,7 @@ exports.create = function(req, res) {
           if (err) {
             res.json({
               status: 'failure',
-              message: 'unable to update user'
+              message: 'that username is taken'
             });
           } else {
             req.session.user = result.result;
