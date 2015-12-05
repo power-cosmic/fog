@@ -64,6 +64,7 @@
     "mongodb": "latest",
     "morgan": "latest",
     "multer": "latest",
+    "nodemailer": "latest",
     "requirator": "git+https://github.com/power-cosmic/requirator.git",
     "unzip2": "latest"
   }
