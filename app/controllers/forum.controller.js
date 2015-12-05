@@ -28,7 +28,7 @@ exports.postReply = function(req, res) {
         var thread = new Thread().fromMongo(doc),
             replyTo = thread.getPost(reply.replyTo),
             user = req.session.user,
-            username = user? user.userName: '[anon]';
+            username = user? user.username: '[anon]';
 
         replyTo.addReply(new Post(username, reply.content));
 

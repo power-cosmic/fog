@@ -104,7 +104,7 @@ exports.register = function(user, callback) {
           }
       });
     } catch (e) {
-      console.log('Couldn\'t create user ' + userName);
+      console.log('Couldn\'t create user ' + username);
 
     }
   });

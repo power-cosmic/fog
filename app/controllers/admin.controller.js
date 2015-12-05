@@ -78,7 +78,7 @@ exports.create = function(req, res) {
         },
         {
           $set: {
-            username: info.userName,
+            username: info.username,
             firstName: info.firstName,
             lastName: info.lastName,
             email: info.email,
@@ -108,9 +108,9 @@ exports.auth = function(req, res, next) {
   if (user && user.type === 'admin') {
     next();
   } else {
-    var userName = user? user.userName: 'anon';
+    var username = user? user.username: 'anon';
     res.render('common/pages/restricted', {
-      restrictedMessage: userName + ' is not in the sudoers file. '
+      restrictedMessage: username + ' is not in the sudoers file. '
           + 'This incident will be reported.'
     });
   }

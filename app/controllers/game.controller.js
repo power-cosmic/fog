@@ -128,7 +128,7 @@ exports.submit = function(req, res) {
       images = files['images'] || [],
       videos = files['videos'] || [],
       filePath = './' + gameFile.path.replace(/(\.\.\/)*/, ''),
-      developer = req.session.user.userName;
+      developer = req.session.user.username;
 
   var tempGame = {
     title: body.gameTitle,

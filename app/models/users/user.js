@@ -1,8 +1,8 @@
 var ObjectId = require('mongodb').ObjectID;
 
-var User = function(userName, password, salt, firstName, lastName, email,
+var User = function(username, password, salt, firstName, lastName, email,
     phoneNumber, type, id) {
-  this.userName = userName;
+  this.username = username;
   this.password = password;
   this.salt = salt;
   this.firstName = firstName;
@@ -25,7 +25,7 @@ User.fromMongo = function(document) {
 
 User.toMongo = function() {
   var output = {
-    username: this.userName,
+    username: this.username,
     password: this.password,
     salt: this.salt,
     firstName: this.firstName,
