@@ -52,50 +52,6 @@ exports.sendToken = function(req, res) {
     }
   });
 
-  // MongoClient.connect(database, function(err, db) {
-  //   if (err) {
-  //     console.log('error: ' + err);
-  //     res.json({
-  //       status: 'failure',
-  //       message: 'couldn\'t connect to database'
-  //     });
-  //   } else {
-  //     db.collection('users').insertOne({
-  //       email: emailAddress,
-  //       firstName: firstName,
-  //       lastName: lastName,
-  //       type: 'admin'
-  //     }, function (err, inserted) {
-  //       inserted = inserted.ops[0];
-  //       var id = inserted._id;
-  //
-  //       db.close();
-  //       if (err) {
-  //         res.json({
-  //           status: 'failure',
-  //           message: 'couldn\'t insert user into the database'
-  //         });
-  //       } else {
-  //
-  //         jasonStatham.sendMail({
-  //           from: emailCred.user,
-  //           to: emailAddress,
-  //           subject: 'Welcome to the fog family!',
-  //           html: '<p>Greetings from fog! Looks like you\'re a new hire. '
-  //               + 'To get set up as an admin, follow '
-  //               + '<a href="' + config.url + '/admin/register/' + id
-  //               + '">this link</a> to finalize your stuff!</p>'
-  //               + '<p>fog. Imagine better.</p>'
-  //         });
-  //
-  //         res.json({
-  //           status: 'success'
-  //         });
-  //       }
-  //     });
-  //   }
-  // });
-
 };
 
 exports.register = function(req, res) {

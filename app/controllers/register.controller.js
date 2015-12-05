@@ -11,7 +11,8 @@ var User = require('../models/users/user'),
 
 exports.begin = function(req, res) {
   res.render('register/pages/register-home', {
-    values: User.vals
+    values: User.vals,
+    user: {}
   });
 };
 
@@ -95,10 +96,16 @@ exports.register = function(user, callback) {
         function (err, result) {
           db.close();
           if(result === null) {
-            callback(insertError);
+            user.password = '';
+            callback(insertError, user);
           } else {
-            var user = new User.fromMongo(result.ops[0]);
-            callback(success, user);
+            if (result && result.ops && result.ops[0]) {
+              callback(success, User.fromMongo(result.ops[0]));
+            } else {
+              user.password = '';
+              callback(userExists, user);
+            }
+
           }
       });
     } catch (e) {
@@ -111,7 +118,10 @@ exports.register = function(user, callback) {
 exports.create = function(req, res) {
   exports.register(req.body, function(err, user) {
     if (err) {
-      res.send('failed to create new user!');
+      res.render('register/pages/register-home', {
+        values: User.vals,
+        user: user
+      });
     } else {
       req.session.user = user;
       res.render('common/pages/index');
