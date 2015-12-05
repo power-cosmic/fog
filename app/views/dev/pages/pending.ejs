@@ -58,8 +58,12 @@
 
             </div>
             <div>
-              <% if (game.status === 'pending') { %>
-              <a id="accept-game" class="emphasized green big-button" data-id="<%= game._id %>">Accept</a>
+              <%
+                var user = session.user,
+                    isAdmin = user && user.type === 'admin';
+              %>
+              <% if (game.status === 'pending' && isAdmin) { %>
+                <a id="accept-game" class="emphasized green big-button" data-id="<%= game._id %>">Accept</a>
               <% } %>
             </div>
 

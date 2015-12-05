@@ -9,6 +9,10 @@ exports.begin = function(req, res) {
   });
 };
 
+exports.newAdminToken = function(req, res) {
+  res.render('admin/pages/new-admin');
+};
+
 exports.login = function(req, res) {
   MongoClient.connect(database, function(err, db) {
     try {
