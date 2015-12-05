@@ -145,8 +145,6 @@ exports.restrict = function(req, res, next) {
 
 exports.listDevGames = function(req, res) {
   var predicate = {"developer": req.session.user.userName};
-  console.log(predicate);
-
   games.getGames(predicate, function(games){
     res.render('dev/pages/dev-games',
       {games: games}

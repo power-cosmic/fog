@@ -10,8 +10,6 @@ exports.begin = function(req, res) {
 };
 
 exports.login = function(req, res) {
-  var out = 'err';
-  console.log(req.body);
   MongoClient.connect(database, function(err, db) {
     try {
       db.collection('users').findOne(
@@ -25,9 +23,7 @@ exports.login = function(req, res) {
           if (doc === null) {
             res.send("username and password do not match");
           } else {
-            //console.log(User.fromMongo(doc));
             req.session.user = User.fromMongo(doc);
-            console.log(req.session.user);
             res.send("success");
           }
           db.close();
@@ -50,17 +46,14 @@ exports.auth = function(req, res) {
 
 exports.create = function(req, res) {
   MongoClient.connect(database, function(err, db) {
-    console.log(req.body);
     try {
       db.collection('users').insertOne(req.body,
         function (err, result) {
           if(result === null) {
             res.send('failed to create new user!');
           } else {
-            console.log(result);
             var user = new User.fromMongo(result.ops[0]);
             req.session.user = user;
-            console.log(req.session.user);
             res.render('common/pages/index');
           }
           db.close();
