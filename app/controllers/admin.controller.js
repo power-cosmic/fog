@@ -28,9 +28,6 @@ exports.sendToken = function(req, res) {
       firstName = params.firstName,
       lastName = params.lastName;
 
-  console.log(params)
-  console.log(emailAddress, firstName, lastName);
-
   MongoClient.connect(database, function(err, db) {
     if (err) {
       console.log('error: ' + err);
@@ -47,7 +44,7 @@ exports.sendToken = function(req, res) {
       }, function (err, inserted) {
         inserted = inserted.ops[0];
         var id = inserted._id;
-        console.log('id: ' + id);
+
         db.close();
         if (err) {
           res.json({
@@ -76,6 +73,41 @@ exports.sendToken = function(req, res) {
 
 };
 
+exports.register = function(req, res) {
+  res.render('admin/pages/register', {
+    admin: req.admin
+  });
+};
+
+exports.create = function(req, res) {
+  var user = req.body;
+
+  MongoClient.connect(config.db, function(err, db) {
+    db.collection('users').updateOne({
+      _id: ObjectId(user._id)
+    },
+    {
+      $set: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        password: user.password
+      }
+    }, function(err, result) {
+      if (err) {
+        res.json({
+          status: 'failure',
+          message: 'unable to update user'
+        });
+      } else {
+        req.session.user = result.result;
+        res.render('admin/pages/register-confirmation');
+      }
+    });
+  });
+};
+
 exports.auth = function(req, res, next) {
   var user = req.session.user;
   if (user && user.type === 'admin') {
@@ -87,4 +119,35 @@ exports.auth = function(req, res, next) {
           + 'This incident will be reported.'
     });
   }
+};
+
+exports.getById = function(req, res, next, id) {
+  exports.read({ _id: ObjectId(id)}, function(admin) {
+    req.admin = admin[0];
+    next();
+  });
+};
+
+exports.read = function(query, callback) {
+
+  if (!callback) {
+    callback = query;
+    query = {};
+  }
+  query.type = 'admin'
+
+  MongoClient.connect(config.db, function(err, db) {
+    db.collection('users').find(query, function(err, cursor) {
+      var admin = [];
+      cursor.each(function(err, user) {
+        if (user) {
+          admin.push(user);
+        } else {
+          db.close();
+          callback(admin);
+        }
+      });
+    });
+  });
+
 };

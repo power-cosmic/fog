@@ -17,7 +17,7 @@
     <main>
       <div class="inner-content">
 
-        <form action="/admin/send-token"  class="" method="post">
+        <form class="" method="post">
           <p>
             Need to add a new member to the fog team? Look no further!
           </p>
@@ -26,31 +26,45 @@
             var fields = [
               {
                 name: 'firstName',
-                label: 'first name'
+                label: 'first name',
+                value: admin.firstName
               },
               {
                 name: 'lastName',
-                label: 'last name'
+                label: 'last name',
+                value: admin.lastName
               },
               {
                 name: 'email',
                 label: 'email',
+                value: admin.email,
                 type: 'email'
               },
+              {
+                name: 'password',
+                label: 'password',
+                type: 'password'
+              },
+              {
+                name: 'phoneNumber',
+                label: 'phone number'
+              }
             ];
           %>
 
           <% fields.forEach(function(field) { %>
-          <input type="text"
-              id="<%= field.name %>"
-              name="<%= field.name %>"
-              class="input"
-              placeholder="<%= field.label %>"
-              type="<%= field.type || 'text' %>" />
-          <label for="<%= field.name %>"><%= field.label %></label>
-          <br />
+            <input type="text"
+                id="<%= field.name %>"
+                name="<%= field.name %>"
+                class="input"
+                placeholder="<%= field.label || '' %>"
+                type="<%= field.type || 'text' %>"
+                value="<%= field.value || '' %>"/>
+              <label for="<%= field.name %>"><%= field.label %></label>
+            <br />
           <% }); %>
-          <input type="submit" id="submit-admin" value="Get them registered!">
+          <input type="hidden" name="_id" value="<%= admin._id %>" />
+          <input type="submit" id="submit-admin" value="Register">
         </form>
 
       </div> <!-- end inner-content -->
