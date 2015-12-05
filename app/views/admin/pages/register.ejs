@@ -18,12 +18,22 @@
       <div class="inner-content">
 
         <form class="" method="post">
+          <% console.log('ASDMIN', admin) %>
           <p>
             Need to add a new member to the fog team? Look no further!
           </p>
 
           <%
             var fields = [
+              {
+                name: 'userName',
+                label: 'username'
+              },
+              {
+                name: 'password',
+                label: 'password',
+                type: 'password'
+              },
               {
                 name: 'firstName',
                 label: 'first name',
@@ -41,11 +51,6 @@
                 type: 'email'
               },
               {
-                name: 'password',
-                label: 'password',
-                type: 'password'
-              },
-              {
                 name: 'phoneNumber',
                 label: 'phone number'
               }
@@ -60,6 +65,7 @@
                 placeholder="<%= field.label || '' %>"
                 type="<%= field.type || 'text' %>"
                 value="<%= field.value || '' %>"/>
+                <%= field.type %>
               <label for="<%= field.name %>"><%= field.label %></label>
             <br />
           <% }); %>

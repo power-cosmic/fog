@@ -1,19 +1,21 @@
 var User = require('../models/users/user'),
-  MongoClient = require('mongodb').MongoClient,
-  ObjectId = require('mongodb').ObjectID,
-  nodemailer = require('nodemailer'),
-  config = require('../../config/config'),
-  database = config.db,
-  parseUrl = require('url').parse,
-  emailCred = config.email,
-  transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: emailCred
-  }, {
-    from: emailCred.user,
-    headers: {}
-  }),
-  jasonStatham = transporter;
+    MongoClient = require('mongodb').MongoClient,
+    ObjectId = require('mongodb').ObjectID,
+    nodemailer = require('nodemailer'),
+    crypto = require('crypto'),
+    config = require('../../config/config'),
+    database = config.db,
+    parseUrl = require('url').parse,
+    register = require('../controllers/register.controller')
+    emailCred = config.email,
+    transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: emailCred
+    }, {
+      from: emailCred.user,
+      headers: {}
+    }),
+    jasonStatham = transporter;
 
 exports.newToken = function(req, res) {
   res.render('admin/pages/new-token');
@@ -22,53 +24,77 @@ exports.newToken = function(req, res) {
 exports.sendToken = function(req, res) {
 
   var params = req.body,
-      emailAddress = params.email,
-      firstName = params.firstName,
-      lastName = params.lastName;
+      emailAddress = params.email;
+  params.password = crypto.randomBytes(16);
+  params.type = 'admin';
 
-  MongoClient.connect(database, function(err, db) {
+  register.register(params, function(err, user) {
     if (err) {
-      console.log('error: ' + err);
       res.json({
         status: 'failure',
-        message: 'couldn\'t connect to database'
+        message: 'couldn\'t insert user into the database'
       });
     } else {
-      db.collection('users').insertOne({
-        email: emailAddress,
-        firstName: firstName,
-        lastName: lastName,
-        type: 'admin'
-      }, function (err, inserted) {
-        inserted = inserted.ops[0];
-        var id = inserted._id;
+      jasonStatham.sendMail({
+        from: emailCred.user,
+        to: emailAddress,
+        subject: 'Welcome to the fog family!',
+        html: '<p>Greetings from fog! Looks like you\'re a new hire. '
+            + 'To get set up as an admin, follow '
+            + '<a href="' + config.url + '/admin/register/' + user._id
+            + '">this link</a> to finalize your stuff!</p>'
+            + '<p>fog. Imagine better.</p>'
+      });
 
-        db.close();
-        if (err) {
-          res.json({
-            status: 'failure',
-            message: 'couldn\'t insert user into the database'
-          });
-        } else {
-
-          jasonStatham.sendMail({
-            from: emailCred.user,
-            to: emailAddress,
-            subject: 'Welcome to the fog family!',
-            html: '<p>Greetings from fog! Looks like you\'re a new hire. '
-                + 'To get set up as an admin, follow '
-                + '<a href="' + config.url + '/admin/register/' + id
-                + '">this link</a> to finalize your stuff!</p>'
-                + '<p>fog. Imagine better.</p>'
-          });
-
-          res.json({
-            status: 'success'
-          });
-        }
+      res.json({
+        status: 'success'
       });
     }
   });
+
+  // MongoClient.connect(database, function(err, db) {
+  //   if (err) {
+  //     console.log('error: ' + err);
+  //     res.json({
+  //       status: 'failure',
+  //       message: 'couldn\'t connect to database'
+  //     });
+  //   } else {
+  //     db.collection('users').insertOne({
+  //       email: emailAddress,
+  //       firstName: firstName,
+  //       lastName: lastName,
+  //       type: 'admin'
+  //     }, function (err, inserted) {
+  //       inserted = inserted.ops[0];
+  //       var id = inserted._id;
+  //
+  //       db.close();
+  //       if (err) {
+  //         res.json({
+  //           status: 'failure',
+  //           message: 'couldn\'t insert user into the database'
+  //         });
+  //       } else {
+  //
+  //         jasonStatham.sendMail({
+  //           from: emailCred.user,
+  //           to: emailAddress,
+  //           subject: 'Welcome to the fog family!',
+  //           html: '<p>Greetings from fog! Looks like you\'re a new hire. '
+  //               + 'To get set up as an admin, follow '
+  //               + '<a href="' + config.url + '/admin/register/' + id
+  //               + '">this link</a> to finalize your stuff!</p>'
+  //               + '<p>fog. Imagine better.</p>'
+  //         });
+  //
+  //         res.json({
+  //           status: 'success'
+  //         });
+  //       }
+  //     });
+  //   }
+  // });
 
 };
 
@@ -79,32 +105,44 @@ exports.register = function(req, res) {
 };
 
 exports.create = function(req, res) {
-  var user = req.body;
+  var info = req.body;
 
-  MongoClient.connect(config.db, function(err, db) {
-    db.collection('users').updateOne({
-      _id: ObjectId(user._id)
-    },
-    {
-      $set: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        password: user.password
-      }
-    }, function(err, result) {
-      if (err) {
-        res.json({
-          status: 'failure',
-          message: 'unable to update user'
+  register.findById(info._id, function(err, user) {
+    if (err) {
+      res.json({
+        status: 'failure',
+        message: 'invalid id'
+      })
+    } else {
+      var hash = register.hashAndSalt(info.password, user.salt);
+      MongoClient.connect(config.db, function(err, db) {
+        db.collection('users').updateOne({
+          _id: ObjectId(user._id)
+        },
+        {
+          $set: {
+            username: info.userName,
+            firstName: info.firstName,
+            lastName: info.lastName,
+            email: info.email,
+            phoneNumber: info.phoneNumber,
+            password: hash,
+          }
+        }, function(err, result) {
+          if (err) {
+            res.json({
+              status: 'failure',
+              message: 'unable to update user'
+            });
+          } else {
+            req.session.user = result.result;
+            res.render('admin/pages/register-confirmation');
+          }
         });
-      } else {
-        req.session.user = result.result;
-        res.render('admin/pages/register-confirmation');
-      }
-    });
+      });
+    }
   });
+
 };
 
 exports.auth = function(req, res, next) {
@@ -134,6 +172,7 @@ exports.read = function(query, callback) {
     query = {};
   }
   query.type = 'admin'
+
 
   MongoClient.connect(config.db, function(err, db) {
     db.collection('users').find(query, function(err, cursor) {
