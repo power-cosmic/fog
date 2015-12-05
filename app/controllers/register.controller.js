@@ -51,15 +51,6 @@ exports.create = function(req, res) {
   MongoClient.connect(database, function(err, db) {
     console.log(req.body);
     try {
-      /*
-      var user = new User(req.body.username, req.body.password,
-        req.body.firstName, req.body.lastName,
-        req.body.email, req.body.phoneNumber, req.body.type);
-      */
-        //console.log(user.toMong());
-        //console.log(user);
-        //console.log('hello');
-
       db.collection('users').insertOne(req.body,
         function (err, result) {
           if(result === null) {
@@ -72,11 +63,10 @@ exports.create = function(req, res) {
             res.render('common/pages/index');
           }
           db.close();
-          //res.render('common/pages/index');
       });
     } catch (e) {
-      //console.log('UserNotFound: ' + userName);
-      //res.render('/common/pages/index');
+      console.log('Couldn\'t create user ' + userName);
+
     }
   });
 };
