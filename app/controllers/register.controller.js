@@ -11,9 +11,8 @@ exports.begin = function(req, res) {
 
 exports.login = function(req, res) {
   var out = 'err';
+  console.log(req.body);
   MongoClient.connect(database, function(err, db) {
-    console.log('1');
-    console.log(req.body.username);
     try {
       db.collection('users').findOne(
         {
@@ -24,10 +23,12 @@ exports.login = function(req, res) {
         },
         function (err, doc) {
           if (doc === null) {
-            res.render('common/pages/index');
+            res.send("username and password do not match");
           } else {
+            //console.log(User.fromMongo(doc));
             req.session.user = User.fromMongo(doc);
-            res.render('common/pages/index');
+            console.log(req.session.user);
+            res.send("success");
           }
           db.close();
       });
