@@ -36,7 +36,7 @@ div {
 
 h1, h2, h3, h4, h5, h6, .emphasized {
   font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-  margin: 10px;
+  /*margin: 10px;*/
 }
 
 a:not([href]):hover {
@@ -53,6 +53,10 @@ a:not([href]):hover {
 
 .padded {
   padding: 20px;
+}
+
+.big-menu-item {
+  margin: 14px;
 }
 
 /*
