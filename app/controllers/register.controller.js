@@ -78,8 +78,12 @@ exports.auth = function(req, res) {
 };
 
 exports.findById = function(id, callback) {
+  exports.find({_id: ObjectId(id)}, callback);
+};
+
+exports.find = function(query, callback) {
   MongoClient.connect(database, function(err, db) {
-    db.collection('users').findOne({_id: ObjectId(id)}, function(err, user) {
+    db.collection('users').findOne(query || {}, function(err, user) {
       db.close();
       callback(err, user);
     });
