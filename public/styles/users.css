@@ -1,0 +1,29 @@
+.summary {
+  padding: 10px 20px;
+  margin: 1px;
+  border: 1px solid #999;
+  display: inline-block;
+  width: 680px;
+}
+
+.inner-box {
+  margin: 1px;
+  padding: 1px;
+  float: left;
+}
+
+.left-gamer-summary {
+  width: 400px;
+}
+
+.options-box {
+  width: 200px;
+}
+
+.banned {
+  color: #d22;
+}
+
+li.option {
+  list-style-type: none;
+}

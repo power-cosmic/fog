@@ -133,6 +133,31 @@ exports.getById = function(req, res, next, id) {
   });
 };
 
+exports.getUsers = function(req, res) {
+  MongoClient.connect(config.db, function(err, db) {
+    db.collection('users').find({}, function(err, cursor) {
+      var gamers = [],
+          devs = [];
+
+      cursor.each(function(err, user) {
+        if (user) {
+          if (user.type === 'gamer') {
+            gamers.push(user);
+          } else if (user.type === 'dev') {
+            devs.push(user);
+          }
+        } else {
+          db.close();
+          res.render('admin/pages/users', {
+            gamers: gamers,
+            devs: devs
+          });
+        }
+      });
+    });
+  });
+};
+
 exports.read = function(query, callback) {
 
   if (!callback) {

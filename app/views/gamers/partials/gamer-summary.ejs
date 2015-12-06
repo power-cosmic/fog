@@ -1,0 +1,45 @@
+<% if (gamer) { %>
+
+  <div>
+    <div class="gamer summary">
+
+      <div class="deepmphasized left-gamer-summary inner-box">
+        <h3 class="emphasized">
+          <%= gamer.username %>
+        </h3>
+
+        <p class="deemphasized">
+
+          <% if (gamer.status === 'banned') { %>
+            <span class="banned">BANISHED</span>
+            <br />
+          <% } %>
+
+          <%= gamer.email %>
+          <br />
+          <%= gamer.firstName %> <%= gamer.lastName %>
+          <br />
+          Games owned: <%= gamer.games && gamer.games.length || 0 %>
+        </p>
+
+      </div>
+      <div class="inner-box options-box">
+        <h3>Options</h3>
+        <ul>
+          <li class="option">
+            <a href="users/ + <%= gamer._id %>">View profile</a>
+          </li>
+          <li class="option">
+            <% if (gamer.status === 'banned') { %>
+              <a href="admin/unban/ + <%= gamer._id %>">Unban user</a>
+            <% } else { %>
+              <a href="admin/ban/ + <%= gamer._id %>">Ban user</a>
+            <% } %>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </div>
+<% } %>
