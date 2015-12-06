@@ -35,7 +35,8 @@
               {
                 name: 'email',
                 label: 'email',
-                type: 'email'
+                type: 'email',
+                pattern: '[\\w\\d\\._]+@[\\w\\d\\._]+?\\.[\\w\\d\\._]+'
               },
             ];
           %>
@@ -46,7 +47,9 @@
               name="<%= field.name %>"
               class="input"
               placeholder="<%= field.label %>"
-              type="<%= field.type || 'text' %>" />
+              type="<%= field.type || 'text' %>"
+              <%= (field.pattern)? 'pattern=' + field.pattern : '' %>
+              required />
           <label for="<%= field.name %>"><%= field.label %></label>
           <br />
           <% }); %>
