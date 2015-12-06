@@ -2,6 +2,10 @@ var admin = require('../controllers/admin.controller');
 
 module.exports = function(app) {
 
+
+  app.route('/admin/pending')
+    .get(admin.auth, admin.readPending);
+
   app.route('/admin/new-token')
     .get(admin.auth, admin.newToken);
 

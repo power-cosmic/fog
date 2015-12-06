@@ -96,7 +96,6 @@ exports.register = function(user, callback) {
         function (err, result) {
           db.close();
           if(result) {
-              console.log('INSERTED', result.insertedId);
               user._id = result.insertedId;
               callback(success, user);
           } else {

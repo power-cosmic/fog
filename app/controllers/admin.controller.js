@@ -5,6 +5,7 @@ var User = require('../models/users/user'),
     crypto = require('crypto'),
     config = require('../../config/config'),
     database = config.db,
+    gametroller = require('../controllers/game.controller'),
     parseUrl = require('url').parse,
     register = require('../controllers/register.controller')
     emailCred = config.email,
@@ -53,6 +54,16 @@ exports.sendToken = function(req, res) {
     }
   });
 
+};
+
+exports.readPending = function(req, res) {
+  gametroller.getGames({
+    status: 'pending'
+  }, function(games) {
+    res.render('admin/pages/pending', {
+      games: games
+    });
+  })
 };
 
 exports.register = function(req, res) {
