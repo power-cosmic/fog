@@ -18,7 +18,7 @@
 }
 
 .game-collection {
-  width: 624px;
+  width: 704px;
   background-color: #111;
   padding: 4px;
 }
@@ -28,7 +28,7 @@
   margin: 1px;
   border: 1px solid #999;
   display: inline-block;
-  width: 600px;
+  width: 680px;
   transition: background-color 0.4s;
   background-color: #222;
 }
@@ -50,6 +50,10 @@ a .game-box:hover {
 .image-holder {
   display: inline-block;
   width: 100px;
+}
+
+.price-holder {
+  width: 80px;
 }
 
 .game-content {
