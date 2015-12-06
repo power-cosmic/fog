@@ -19,7 +19,6 @@ module.exports = function(app) {
   app.route('/games/:id/play')
     .get(game.play);
 
-
   app.route('/games/new')
     .get(game.newGame);
 

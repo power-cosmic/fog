@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../../common/partials/head %>
+    <link rel="stylesheet" href="/styles/games.css">
+    <title>fog | pending</title>
+  </head>
+  <body>
+
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <main>
+      <div class="inner-content">
+
+        <h1>Pending Games</h1>
+
+        <!-- game list -->
+        <div class="padded game-collection">
+
+          <% if (games.length === 0) { %>
+            <h3 class="deemphasized">
+              There's nothing here
+            </h3>
+          <% } %>
+
+          <% games.forEach(function(game) { %>
+
+            <a href="/games/<%= game._id %>">
+              <% include ../../games/partials/game-summary %>
+            </a>
+
+          <% }); %>
+
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <% include ../../common/partials/footer %>
+    </footer>
+
+  </body>
+</html>
