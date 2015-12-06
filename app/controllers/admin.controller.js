@@ -118,7 +118,7 @@ exports.auth = function(req, res, next) {
   if (user && user.type === 'admin') {
     next();
   } else {
-    var username = user? user.username: 'anon';
+    var username = user? user.username: 'Current user';
     res.render('common/pages/restricted', {
       restrictedMessage: username + ' is not in the sudoers file. '
           + 'This incident will be reported.'
