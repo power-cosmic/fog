@@ -16,12 +16,23 @@
     <main>
       <div class="inner-content  game-info">
 
+        <%
+          var user = session.user,
+              userType = user && user.type
+        %>
+
         <% if (!game) { %>
 
           <h2>There doesn't seem to be anything here</h2>
 
         <% } else { %>
 
+          <%
+
+            var images = game.files.images || [],
+                videos = game.files.videos || [];
+
+          %>
           <h1><%= game.title %></h1>
 
           <div class="padded">
@@ -45,33 +56,38 @@
 
               <span class="emphasized label">Images</span>
               <br />
-              <% if (game.files.images) game.files.images.forEach(function(image) { %>
+              <% images.forEach(function(image) { %>
+                <!-- writing images -->
                 <img src="/media/<%= image %>" class="screenshot" />
               <% }); %>
-
+              <% if (!images.length) { %>
+                  <!-- no images -->
+                  <span class="deemphasized padded">[No images uploaded]</span>
+              <% } %>
             </div>
             <div>
               <span class="emphasized label">Videos</span>
                 <br />
-                <% if (game.files.videos) game.files.videos.forEach(function(video) { %>
+                <% videos.forEach(function(video) { %>
                   <video class="video" controls>
                     <source src="/media/<%= video %>" type="video/mp4"/>
-                  Your browser does not support HTML5 video.
+                    Your browser does not support HTML5 video.
                   </video>
                 <% }); %>
-
-                <p>
-                  <span class="emphasized">Download </span>
-                  <a href="/games/<%= game._id %>/download">file</a>
-                </p>
+                <% if (!videos.length) { %>
+                  <span class="deemphasized padded">[No videos uploaded]</span>
+                <% } %>
+                <% if (userType === 'admin' || userType === 'dev') { %>
+                  <p>
+                    <span class="emphasized">Download </span>
+                    <a href="/games/<%= game._id %>/download">file</a>
+                  </p>
+                <% } %>
             </div>
 
             <div>
-              <%
-                var user = session.user,
-                    isAdmin = user && user.type === 'admin';
-              %>
-              <% if (game.status === 'pending' && isAdmin) { %>
+
+              <% if (game.status === 'pending' && userType === 'admin') { %>
                 <a id="accept-game" class="emphasized green big-button" data-id="<%= game._id %>">Accept</a>
               <% } %>
             </div>

@@ -19,7 +19,7 @@
 
         <form class="" method="post">
           <p>
-            Need to add a new member to the fog team? Look no further!
+            Looks like you're a new hire! Fill in some info so we can get to know you!
           </p>
 
           <%
@@ -47,11 +47,13 @@
                 name: 'email',
                 label: 'email',
                 value: admin.email,
-                type: 'email'
+                type: 'email',
+                pattern: '[\\w\\d\\._]+@[\\w\\d\\._]+?\\.[\\w\\d\\._]+'
               },
               {
                 name: 'phoneNumber',
-                label: 'phone number'
+                label: 'phone number',
+                pattern: '\\(?(\\d{3})\\)?[\\. -]?\\d{3}[\\. -]?\\d{4}'
               }
             ];
           %>
@@ -63,7 +65,8 @@
                 class="input"
                 placeholder="<%= field.label || '' %>"
                 type="<%= field.type || 'text' %>"
-                value="<%= field.value || '' %>"/>
+                value="<%= field.value || '' %>"
+                required />
               <label for="<%= field.name %>"><%= field.label %></label>
             <br />
           <% }); %>

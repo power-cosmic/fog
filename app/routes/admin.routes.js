@@ -16,6 +16,9 @@ module.exports = function(app) {
     .get(admin.register)
     .post(admin.create);
 
+  app.route('/admin/user-list')
+    .get(admin.auth, admin.getUsers)
+
   app.param('id', admin.getById);
 
 };

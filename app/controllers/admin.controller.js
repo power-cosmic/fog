@@ -118,7 +118,7 @@ exports.auth = function(req, res, next) {
   if (user && user.type === 'admin') {
     next();
   } else {
-    var username = user? user.username: 'anon';
+    var username = user? user.username: 'Current user';
     res.render('common/pages/restricted', {
       restrictedMessage: username + ' is not in the sudoers file. '
           + 'This incident will be reported.'
@@ -130,6 +130,31 @@ exports.getById = function(req, res, next, id) {
   exports.read({ _id: ObjectId(id)}, function(admin) {
     req.admin = admin[0];
     next();
+  });
+};
+
+exports.getUsers = function(req, res) {
+  MongoClient.connect(config.db, function(err, db) {
+    db.collection('users').find({}, function(err, cursor) {
+      var gamers = [],
+          devs = [];
+
+      cursor.each(function(err, user) {
+        if (user) {
+          if (user.type === 'gamer') {
+            gamers.push(user);
+          } else if (user.type === 'dev') {
+            devs.push(user);
+          }
+        } else {
+          db.close();
+          res.render('admin/pages/users', {
+            gamers: gamers,
+            devs: devs
+          });
+        }
+      });
+    });
   });
 };
 

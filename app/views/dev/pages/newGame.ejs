@@ -20,7 +20,8 @@
               id="gameTitle"
               name="gameTitle"
               class="input"
-              placeholder="title">
+              placeholder="title"
+              required>
           <label for="game-title">title</label>
 
           <%
@@ -39,11 +40,11 @@
             any funny business* here, you and everyone you love
             will be immediately and permanently banned from fog. Forever.
           </p>
-          <input type="file" id="gameFile" name="gameFile">
+          <input type="file" id="gameFile" name="gameFile" required>
           <label for="gameFile">game file</label>
 
           <br />
-          <input type="file" id="icon" name="icon">
+          <input type="file" id="icon" name="icon" required>
           <label for="gameIcon">game icon</label>
 
           <br />
@@ -62,15 +63,17 @@
               class="input"
               rows="5"
               placeholder="Description of game to be shown to players"
+              required
           ></textarea>
           <label for="description">description</label>
 
           <br />
-          <input type="text"
-              id="price"
-              name="price"
-              class="input"
-              placeholder="$59.99">
+          <select class="input">
+            <option value="0.00">I'm awesome: it's free!</option>
+            <option value="4.99">The game is okay: $4.99</option>
+            <option value="9.99">It's a quality indie game: $9.99</option>
+            <option value="0.00">AAA game. $59.99 plus paid DLC</option>
+          </select>
           <label for="price">suggested price</label>
 
           <br />
