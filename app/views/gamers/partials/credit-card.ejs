@@ -1,0 +1,48 @@
+<form action="<%= action %>" method="<%= method %>">
+
+  <%
+    var fields = [
+      {
+        name: 'fullName',
+        label: 'full name'
+      },
+      {
+        name: 'cardNumber',
+        label: 'card number',
+        pattern: '^\\d{16}$'
+      },
+      {
+        name: 'expirationDate',
+        label: 'expiration date',
+        pattern: '^\\d\\d[\\.\\/-]\\d\\d$'
+      },
+      {
+        name: 'securityCode',
+        label: 'security code',
+        pattern: '\\d{3}\\d?$'
+      },
+      {
+        name: 'zip',
+        label: 'zip code',
+        pattern: '\\d{5}'
+      }
+    ];
+  %>
+
+  <% fields.forEach(function(field) { %>
+    <input type="text"
+        id="<%= field.name %>"
+        name="<%= field.name || field %>"
+        class="input"
+        placeholder="<%= field.label || field %>"
+        type="<%= field.type || 'text' %>"
+        value="<%= field.value || '' %>"
+        <% if (field.pattern) { %>
+          pattern="<%= field.pattern %>"
+        <% } %>
+        required />
+      <label for="<%= field.name %>"><%= field.label %></label>
+    <br />
+  <% }); %>
+  <input type="submit" value="add card">
+</form>

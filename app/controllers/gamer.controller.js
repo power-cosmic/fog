@@ -4,7 +4,10 @@ var MongoClient = require('mongodb').MongoClient,
     database = config.db;
 
 exports.addCard = function(req, res) {
-  res.render('gamers/pages/add-card');
+  res.render('gamers/pages/add-card', {
+    action: '??',
+    method: 'post'
+  });
 };
 
 exports.auth = function(req, res, next) {
