@@ -9,7 +9,7 @@ var config = require('../../config/config'),
 
 exports.play = function(req, res) {
   var game = req.game;
-
+  console.log('play!')
   res.render('games/pages/game', {
     title: game.title,
     scripts: game.config.scripts || [],
@@ -18,6 +18,25 @@ exports.play = function(req, res) {
     gamePath: '/game-files/' + req.game.gamePath,
     cookie: req.cookies
   });
+};
+
+exports.purchase = function(req, res) {
+  var user = req.session.user;
+
+  console.log('purchase!')
+  if (user.type !== 'gamer') {
+    res.json({
+      status: 'failure',
+      message: 'You aren\'t logged in as a gamer'
+    })
+  } else if (user.creditCards && user.creditCards.length) {
+    res.render('gamers/purchase', {
+      game: req.game
+    })
+  } else {
+    req.session.desiredPage = req.url;
+    res.redirect('/gamers/add-card');
+  }
 };
 
 var extract = function(game) {

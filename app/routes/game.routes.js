@@ -16,6 +16,9 @@ module.exports = function(app) {
   app.use('/game-files', express.static('./uploads/games/published'));
   app.use('/media', express.static('./uploads/media'));
 
+  app.route('/games/:id/purchase')
+    .get(game.purchase);
+
   app.route('/games/:id/play')
     .get(game.play);
 
