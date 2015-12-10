@@ -1,0 +1,47 @@
+.col-12 {
+  width: 100%;
+}
+
+.col-3 {
+  width: 25%;
+}
+
+.col-4 {
+  width: 33%;
+}
+
+.col-5 {
+  width: 41%;
+}
+
+.col-6 {
+  width: 50%;
+}
+
+.col-8 {
+  width: 66%;
+}
+
+.bordered {
+  border: 1px solid red;
+}
+
+[class *= 'col-'] select, option {
+  padding: 18px;
+  border-radius: 5px;
+}
+
+[class *= 'col-'] {
+  float:left;
+  padding: 10px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+[class *= 'col-']>* {
+  width: 100%;
+}
+
+.little-guy {
+  width: 300px;
+}

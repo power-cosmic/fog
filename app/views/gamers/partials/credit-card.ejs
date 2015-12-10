@@ -1,48 +1,102 @@
-<form action="<%= action %>" method="<%= method %>">
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../../common/partials/head %>
+    <title>fog | add credit card</title>
+  </head>
+  <body>
 
-  <%
-    var fields = [
-      {
-        name: 'fullName',
-        label: 'full name'
-      },
-      {
-        name: 'cardNumber',
-        label: 'card number',
-        pattern: '^\\d{16}$'
-      },
-      {
-        name: 'expirationDate',
-        label: 'expiration date',
-        pattern: '^\\d\\d[\\.\\/-]\\d\\d$'
-      },
-      {
-        name: 'securityCode',
-        label: 'security code',
-        pattern: '\\d{3}\\d?$'
-      },
-      {
-        name: 'zip',
-        label: 'zip code',
-        pattern: '\\d{5}'
-      }
-    ];
-  %>
+    <header>
+      <% include ../../common/partials/header %>
+      <link rel="stylesheet" href="/styles/shoelace.css">
+    </header>
 
-  <% fields.forEach(function(field) { %>
-    <input type="text"
-        id="<%= field.name %>"
-        name="<%= field.name || field %>"
-        class="input"
-        placeholder="<%= field.label || field %>"
-        type="<%= field.type || 'text' %>"
-        value="<%= field.value || '' %>"
-        <% if (field.pattern) { %>
-          pattern="<%= field.pattern %>"
-        <% } %>
-        required />
-      <label for="<%= field.name %>"><%= field.label %></label>
-    <br />
-  <% }); %>
-  <input type="submit" value="add card">
-</form>
+    <main>
+
+      <div class="inner-content">
+        <div class="col-12">
+          <h2>Add a Credit Card</h2>
+        </div>
+        <form action="<%= action %>" method="<%= method %>" class="little-guy">
+          <%
+            var fields = [
+              {
+                name: 'fullName',
+                label: 'full name'
+              },
+              {
+                name: 'cardType',
+                type: 'select',
+                width: 4,
+                options: [
+                  {
+                    display: 'Visa',
+                    value: 'visa'
+                  },
+                  {
+                    display: 'MasterCard',
+                    value: 'masterCard'
+                  }
+                ],
+                label: 'type'
+              },
+              {
+                name: 'cardNumber',
+                width: 8,
+                label: 'card number',
+                pattern: '^(\\d{4}[- \\.]?){3}\\d{4}$',
+                placeholder: 'XXXX-XXXX-XXXX-XXXX'
+              },
+              {
+                name: 'expirationDate',
+                label: 'expiration date',
+                placeholder: 'MM-YY',
+                pattern: '^\\d{2}[\\.\\/-]\\d{2}$',
+                width: 3
+              },
+              {
+                name: 'securityCode',
+                label: 'security code',
+                placeholder: 'CVC',
+                pattern: '\\d{3}\\d?$',
+                width: 5
+              }
+            ];
+          %>
+
+          <% fields.forEach(function(field) { %>
+            <div class="col-<%= field.width || 12 %>">
+              <% if (field.type === 'select') {  %>
+                <select>
+                  <% field.options.forEach(function(option) { %>
+                    <option name="<%= field.name %>"
+                        value="<%= option.value %>"><%= option.display %></option>
+                  <% }); %>
+                </select>
+              <% } else { %>
+                <input type="text"
+                    id="<%= field.name %>"
+                    name="<%= field.name || field %>"
+                    class="input"
+                    placeholder="<%= field.placeholder || field.label || field %>"
+                    type="<%= field.type || 'text' %>"
+                    value="<%= field.value || '' %>"
+                    <% if (field.pattern) { %>
+                      pattern="<%= field.pattern %>"
+                    <% } %>
+                    required />
+              <% } %>
+              <label for="<%= field.name %>"><%= field.label %></label>
+            </div>
+          <% }); %>
+          <div class="col-4">
+            <input type="submit" value="add card">
+          </div>
+
+        </form>
+
+      </div>
+
+    </main>
+  </body>
+</html>
