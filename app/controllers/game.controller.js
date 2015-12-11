@@ -222,7 +222,6 @@ exports.submit = function(req, res) {
 };
 
 exports.getGamesById = function(ids, callback) {
-  console.log('get games')
   var idList = [];
   ids.forEach(function(id) {
     idList.push({ _id: ObjectId(id)});

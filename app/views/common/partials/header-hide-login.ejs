@@ -1,0 +1,17 @@
+<div id="header" class="content">
+  <div id="fog">
+  <h1 id="title" class="inline emphasized"><a href="/">fog</a></h1>
+    <span class="deemphasized">
+      <!-- user specific links -->
+      <% if(session.user === undefined || session.user.type === 'guest') { %>
+        <% include /session/guest-header-links %>
+      <% } else if (session.user.type === 'gamer'){ %>
+        <% include /session/gamer-header-links %>
+      <% } else if (session.user.type === 'admin'){ %>
+        <% include /session/admin-header-links %>
+      <% } else if (session.user.type === 'developer'){ %>
+        <% include /session/dev-header-links %>
+      <% } %>
+    </span>
+  </div>
+</div>
