@@ -38,9 +38,6 @@ exports.acceptGame = function(req, res, next) {
           + game.developer,
       originalDirectoryName = game.originalFilename.replace(/\..*/, ''),
       configPath = (outputPath + '/' + game.originalFilename + '/fog.json');
-          //.replace(/ /, '\\ ');
-
-  console.log('!!! ' + configPath);
 
   fs.createReadStream(inputPath).pipe(
     unzip.Extract({ path: outputPath }).on('close', function(err) {
@@ -49,6 +46,7 @@ exports.acceptGame = function(req, res, next) {
       MongoClient.connect(config.db, function(err, db) {
         db.collection('games').insert({
           title: game.title,
+          price: game.price,
           description: game.description,
           gamePath: game.developer + '/' + originalDirectoryName + '/',
           config: gameConfig,
