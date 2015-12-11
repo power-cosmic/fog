@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../../common/partials/head %>
+    <link rel="stylesheet" href="/styles/shoelace.css">
+    <title>fog | purchase</title>
+  </head>
+  <body>
+
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <div class="inner-content">
+
+      <%
+        var cardDisplay = function(card) {
+          return card.cardType + ': ' +
+              "xxxx-" + card.cardNumber.slice(-4);
+        };
+      %>
+
+      <div class="col-12">
+        <h2>Purchase <%= game.title %></h2>
+      </div>
+      <form action="/games/<%= game._id %>/purchase" method="post" id="buy-game" class="little-guy">
+
+        <input type="hidden" value="<%= game._id %>" name="gameId" />
+
+        <!-- title -->
+        <div class="col-4 deemphasized">
+          <span>Game</span>
+        </div>
+        <div class="col-8 emphasized">
+          <span><%= game.title %></span>
+        </div>
+
+        <!-- cost -->
+        <div class="col-4 deemphasized">
+          <span>Cost</span>
+        </div>
+        <div class="col-8 emphasized">
+          <span>$<%= game.price %></span>
+        </div>
+
+        <!-- credit card -->
+        <div class="col-4 deemphasized">
+          <span>Card</span>
+        </div>
+        <div class="col-8 emphasized">
+          <select form="buy-game" name="creditCard">
+            <% user.creditCards.forEach(function(card, index) { %>
+              <option name="creditCard" value="<%= index %>"><%= cardDisplay(card) %></option>
+            <% }); %>
+          </select>
+          <br />
+          <a href="/gamers/add-card" class="tiny">add new card</a>
+        </div>
+        <div class="col-4 deemphasized"><!-- spacing hack --></div>
+        <div class="col-8">
+        </div>
+
+
+
+        <!-- submit -->
+        <div class="col-4">
+
+        </div>
+        <div class="col-4">
+          <input type="submit" value="purchase" />
+        </div>
+
+      </form>
+    </div>
+  </body>
+</html>

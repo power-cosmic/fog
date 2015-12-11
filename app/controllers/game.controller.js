@@ -9,7 +9,6 @@ var config = require('../../config/config'),
 
 exports.play = function(req, res) {
   var game = req.game;
-
   res.render('games/pages/game', {
     title: game.title,
     scripts: game.config.scripts || [],
@@ -17,6 +16,49 @@ exports.play = function(req, res) {
     startingPoint: game.config.startingPoint,
     gamePath: '/game-files/' + req.game.gamePath,
     cookie: req.cookies
+  });
+};
+
+exports.checkout = function(req, res) {
+  var user = req.session.user;
+
+  req.session.desiredPage = req.url;
+
+  if (!user || user.type !== 'gamer') {
+    res.json({
+      status: 'failure',
+      message: 'You aren\'t logged in as a gamer'
+    })
+  } else if (user.creditCards && user.creditCards.length) {
+    res.render('gamers/pages/purchase', {
+      game: req.game,
+      user: user
+    })
+  } else {
+    res.redirect('/gamers/add-card');
+  }
+};
+
+exports.purchase = function(req, res) {
+  var user = req.session.user,
+      game = req.game,
+      gameInfo = {
+        id: req.game.id,
+        playTime: 0,
+        price: req.game.price
+      };
+
+  MongoClient.connect(config.db, function(err, db) {
+    db.collection('gamers').update(
+      { _id: req.session.user._id},
+      { $push: { games: gameInfo }},
+      function (err, game) {
+        req.session.user.games.push(gameInfo);
+        res.render('gamers/pages/confirmation', {
+          game: req.game
+        });
+      }
+    );
   });
 };
 
