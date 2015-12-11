@@ -34,7 +34,15 @@ exports.login = function(req, res) {
         break;
       case success:
         req.session.user = user;
-        res.send('success');
+
+        var desiredPage = req.session.desiredPage;
+
+        res.send({
+          status: 'success',
+          url: desiredPage || undefined
+        });
+
+
     }
   });
 };
