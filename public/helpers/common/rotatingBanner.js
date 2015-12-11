@@ -61,7 +61,7 @@ $(function(){
 
 	//this is gross and hacky
 	document.styleSheets[0].insertRule('#banner_window #behind_banner_window_area .imageItem {float: left;}', 0);
-	document.styleSheets[0].insertRule('#banner_window #behind_banner_window_area .imageItem img { width: '+imageWidth+'px; height:'+imageHeight+'px}', 1);
+	document.styleSheets[0].insertRule('#banner_window #behind_banner_window_area .imageItem img { display:block; width: '+imageWidth+'px; height:'+imageHeight+'px}', 1);
 
 	//add the last slide to the beginning for looping trickery
 	$behindBannerWindow.append(makeDomImage(allImages[allImages.length - 1]).element[0]);
