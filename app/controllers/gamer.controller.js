@@ -87,14 +87,12 @@ exports.submitCard = function(req, res) {
       values: req.body
     })
   } else {
-    console.log(req.session.user);
     MongoClient.connect(config.db, function(err, db) {
       db.collection('users').updateOne({
         _id: ObjectId(req.session.user._id)
       }, {
         $push: { creditCards: req.body }
       }, function(err, result) {
-        console.log('added ', req.body);
         if (req.session.user.cards) {
           req.session.user.cards = [];
         }

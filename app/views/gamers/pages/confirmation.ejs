@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../../common/partials/head %>
+    <link rel="stylesheet" href="/styles/shoelace.css">
+    <title>fog | purchase</title>
+  </head>
+  <body>
+
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <main>
+
+      <div class="inner-content">
+        <h2>Purchase confirmation</h2>
+        <p>
+          Congrats! You're now the proud owner of <%= game.title %>!
+        </p>
+
+        <a href="/games/<%= game._id %>/play">Play it now!</a>
+      </div>
+
+    </main>
+  </body>
+</html>
