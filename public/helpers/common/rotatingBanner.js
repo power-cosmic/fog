@@ -1,78 +1,47 @@
 
-$(function(){
-	var allImages = [
-		{
-			"link": "#",
-			"src": "/images/banners/s01.jpg"
-		},
-		{
-			"link": "#",
-			"src": "/images/banners/s02.jpg"
-		},
-		{
-			"link": "#",
-			"src": "/images/banners/s03.jpg"
-		},
-		{
-			"link": "#",
-			"src": "/images/banners/s04.jpg"
-		},
-		{
-			"link": "#",
-			"src": "/images/banners/s05.jpg"
-		},
-		{
-			"link": "#",
-			"src": "/images/banners/s06.jpg"
-		}
-	];
-
-
+var makeBanner = function(bannerTargetID, prevButtonID, nextButtonID,
+	imageWidth, imageHeight, milliseconds, allImages){
 
 	//GET DOM OBJECTS TO ATTACH TO
-	var prevButtonString = "#prev_image";
-	var nextButtonString = "#next_image";
-	var bannerAreaString = "#behind_banner_window_area";
-	var bannerWindowString = "#banner_window";
+	var $bannerWindow = $(bannerTargetID);
+	var $prevImageButton = $(prevButtonID);
+	var $nextImageButton = $(nextButtonID);
 
-	var $bannerWindow = $(bannerWindowString);
-
+	//create the area where images will go, only a portion of this area is viewable
 	var $behindBannerWindow = $(document.createElement('DIV'));
 	$bannerWindow.append($behindBannerWindow.element[0]);
 	$behindBannerWindow.attr('id', 'behind_banner_window_area');
-	var $prevImageButton = $(prevButtonString);
-	var $nextImageButton = $(nextButtonString);
 
-	// declare dimension variables and bookeeping vars
-	var imageWidth = 940;
-	var imageHeight = 400;
 	var activeImage = 0;
-	var milliseconds = 400;
 
 	//create the css for the banner window and behind window area
+	//the behind window area is a very wide area to store all the images
+	//side by side. The window css is set to overlow:hidden so only
+	//one image is shown at a time, (except portions of two images during sliding)
 	$bannerWindow.css('width', imageWidth+'px').css('overflow', 'hidden')
 		.css('padding', '0px');
-
 	$behindBannerWindow.css('width', (imageWidth * (allImages.length + 1)) + 'px')
 		.css('position', 'relative').css('padding', '0px');
-
-
 	$('imageItem').css('float', 'left');
 
 	//this is gross and hacky
-	document.styleSheets[0].insertRule('#banner_window #behind_banner_window_area .imageItem {float: left;}', 0);
-	document.styleSheets[0].insertRule('#banner_window #behind_banner_window_area .imageItem img { display:block; width: '+imageWidth+'px; height:'+imageHeight+'px}', 1);
+	document.styleSheets[0].insertRule('#banner_window #behind_banner_window_area' +
+			' .imageItem {float: left;}', 0);
+	document.styleSheets[0].insertRule('#banner_window #behind_banner_window_area' +
+		' .imageItem img { display:block; width: '+imageWidth+'px; height:'
+			+imageHeight+'px}', 1);
 
-	//add the last slide to the beginning for looping trickery
+	//add the last image to the beginning for looping trickery
 	$behindBannerWindow.append(makeDomImage(allImages[allImages.length - 1]).element[0]);
 
-	//create the slides
+	//create the images and add them to the area "behind" the banner window
 	for (var i = 0; i < allImages.length; i++){
 		var deal = allImages[i];
 		var imageItem = makeDomImage(deal);
 		$behindBannerWindow.append(imageItem.element[0]);
 	};
 
+	//hook up the buttons
 	$prevImageButton.click(function(){
 		goLeft();
 	});
@@ -116,4 +85,4 @@ $(function(){
 		activeImage = destinationImage;
 	}
 
-});
+};
