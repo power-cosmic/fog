@@ -167,8 +167,9 @@ exports.newGame = function(req, res) {
 exports.submit = function(req, res) {
   var body = req.body,
       files = req.files;
-
+  console.log('files');
   var gameFile = files['gameFile'][0],
+      banner = files['banner'][0],
       icon = files['icon'][0],
       images = files['images'] || [],
       videos = files['videos'] || [],
@@ -180,6 +181,7 @@ exports.submit = function(req, res) {
     developer: developer
   }
 
+  var bannerLocation = saveMedia(banner, tempGame);
   var iconLocation = saveMedia(icon, tempGame);
   var imageLocations = [];
   images.forEach(function(image) {
@@ -204,6 +206,7 @@ exports.submit = function(req, res) {
       price: body.price,
       files: {
         compressed: filePath,
+        banner: bannerLocation,
         icon: iconLocation,
         images: imageLocations,
         videos: videoLocations

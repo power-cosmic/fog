@@ -29,7 +29,8 @@
 
           <%
 
-            var images = game.files.images || [],
+            var banner = game.files.banner || '',
+                images = game.files.images || [],
                 videos = game.files.videos || [];
 
           %>
@@ -58,6 +59,10 @@
               </div>
             <% } %>
             <div>
+
+              <span class="emphasized label">Banner</span>
+              <br />
+              <img src="/media/<%= banner %>"/>
 
               <span class="emphasized label">Images</span>
               <br />
