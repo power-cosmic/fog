@@ -36,6 +36,11 @@
           <% games.forEach(function(game) { %>
 
             <a href="/games/<%= game._id %>">
+              <%
+                var message = (user && user.games[game._id])?
+                    '[owned]'
+                    : '$ ' + game.price;
+              %>
               <% include ../partials/game-summary %>
             </a>
 
