@@ -16,11 +16,6 @@
     <main>
       <div class="inner-content  game-info">
 
-        <%
-          var user = session.user,
-              userType = user && user.type
-        %>
-
         <% if (!game) { %>
 
           <h2>There doesn't seem to be anything here</h2>
@@ -30,7 +25,12 @@
           <%
 
             var images = game.files.images || [],
-                videos = game.files.videos || [];
+                videos = game.files.videos || [],
+                user = session.user,
+                userType = user && user.type,
+                canBuy = !user
+                    || userType === 'guest'
+                    || (userType === 'gamer' && user.games[game._id]);
 
           %>
           <h1><%= game.title %></h1>
@@ -52,7 +52,7 @@
                 <span class="deemphasized"><%= game.description %></span>
               </p>
             </div>
-            <% if (userType === 'gamer') { %>
+            <% if (canBuy) { %>
               <div class="label">
                 <a href="/games/<%= game._id %>/purchase" id="purchase">Purchase</a>
               </div>

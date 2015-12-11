@@ -118,6 +118,23 @@ exports.submitCard = function(req, res) {
 
 };
 
+/**
+ * A softer version of auth. No error screen,
+ * but if you need to be logged in as a gamer,
+ * you will be take to the login screen.
+ * This also records the desired url so they
+ * can be put back there post-login
+ */
+exports.requiresLogin = function(req, res, next) {
+  var user = req.session.user;
+  if (user && user.type === 'gamer') {
+    next();
+  } else {
+    req.session.desiredPage = req.url;
+    res.render('common/pages/login');
+  }
+};
+
 exports.auth = function(req, res, next) {
   var user = req.session.user;
   if (user && user.type === 'gamer') {

@@ -110,6 +110,11 @@ a:hover {
   text-shadow:rgb(222,222,222) 1px 1px 0;
 }
 
+.login-screen-login {
+  position: relative;
+  height: 100px;
+}
+
 .tiny {
   font-size: 0.7em;
   margin: 0px;

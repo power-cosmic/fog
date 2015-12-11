@@ -34,7 +34,15 @@ exports.login = function(req, res) {
         break;
       case success:
         req.session.user = user;
-        res.send('success');
+
+        var desiredPage = req.session.desiredPage;
+
+        res.send({
+          status: 'success',
+          url: desiredPage || undefined
+        });
+
+
     }
   });
 };
@@ -64,8 +72,6 @@ exports.getUser = function(username, password, callback) {
     }
   });
 };
-
-
 
 exports.auth = function(req, res) {
   // var lookup = login(req.cookies['username'], req.cookies['password']);

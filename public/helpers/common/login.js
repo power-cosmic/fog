@@ -10,8 +10,10 @@ $(function() {
         login: true
       }, {
         onSuccess: function(response) {
-          if (response === 'success') {
-            window.location.href = '/';
+          response = JSON.parse(response);
+          console.log(response, response.status);
+          if (response.status == 'success') {
+            window.location.href = response.url || location.href;
           } else {
             $('#login-response').html(response);
           }
