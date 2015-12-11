@@ -1,4 +1,4 @@
-
+define([], function() {
 var makeBanner = function(bannerTargetID, prevButtonID, nextButtonID,
 	imageWidth, imageHeight, milliseconds, allImages){
 
@@ -85,4 +85,8 @@ var makeBanner = function(bannerTargetID, prevButtonID, nextButtonID,
 		activeImage = destinationImage;
 	}
 
-};
+}
+
+return makeBanner;
+
+});

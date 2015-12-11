@@ -3,11 +3,17 @@
 <head>
   <% include ../partials/head %>
   <link rel="stylesheet" href="/styles/frontpage.css">
+  <script type="text/javascript" src="/lib/requirator/lib/requirator.js"></script>
   <script type="text/javascript" src="/helpers/common/rotatingBanner.js"></script>
   <script>
-    $(function () {
-      makeBanner("#banner_window", "#prev_image",
-      "#next_image", 940, 400, 400, [
+
+    config({
+      ajax: ajaxer,
+      baseUrl: 'helpers/common'
+    });
+    require(['rotatingBanner'], function(rotatingBanner) {
+
+      var games = [
     		{
     			"link": "#",
     			"src": "/images/banners/s01.jpg"
@@ -32,9 +38,12 @@
     			"link": "#",
     			"src": "/images/banners/s06.jpg"
     		}
-    	]
-    );
-  });
+    	];
+
+      rotatingBanner("#banner_window", "#prev_image",
+      "#next_image", 616, 353, 300, games);
+    });
+
   </script>
   <title>fog</title>
 </head>
@@ -43,10 +52,12 @@
     <% include ../partials/header %>
   </header>
   <main>
+    <div>
     <div id="banner_window">
     </div>
-    <button id="prev_image">GO LEFT</button>
-    <button id="next_image">GO RIGHT</button>
+        <button id="prev_image">GO LEFT</button>
+        <button id="next_image">GO RIGHT</button>
+    </div>
   </main>
   <footer>
     <% include ../partials/footer %>
