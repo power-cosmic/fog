@@ -218,6 +218,15 @@ exports.submit = function(req, res) {
 
 };
 
+exports.getGamesById = function(ids, callback) {
+  console.log('get games')
+  var idList = [];
+  ids.forEach(function(id) {
+    idList.push({ _id: ObjectId(id)});
+  });
+  exports.getGames({$or: idList}, callback);
+};
+
 exports.getById = function(req, res, next, id) {
   MongoClient.connect(config.db, function(err, db) {
     try {
@@ -249,7 +258,8 @@ var params = parseUrl(req.url, true).query,
   exports.getGames(condition, function(games) {
     res.render('games/pages/store', {
       games: games,
-      cookie: req.cookies
+      cookie: req.cookies,
+      user: req.session.user
     });
   });
 };

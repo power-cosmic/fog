@@ -2,6 +2,7 @@ var MongoClient = require('mongodb').MongoClient,
     ObjectId = require('mongodb').ObjectId,
     config = require('../../config/config'),
     database = config.db,
+    games = require('./game.controller'),
     creditCardFields = [
       {
         name: 'fullName',
@@ -55,7 +56,16 @@ var MongoClient = require('mongodb').MongoClient,
     };
 
 exports.library = function(req, res) {
-  res.render('gamers/pages/library');
+  games.getGamesById(Object.keys(req.session.user.games),
+    function(games) {
+      res.render('gamers/pages/library', {
+        games: games
+      });
+  });
+};
+
+exports.getGame = function(gamer, id) {
+  return gamer.games[id];
 };
 
 exports.addCard = function(req, res) {
