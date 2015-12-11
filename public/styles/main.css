@@ -110,6 +110,12 @@ a:hover {
   text-shadow:rgb(222,222,222) 1px 1px 0;
 }
 
+.tiny {
+  font-size: 0.7em;
+  margin: 0px;
+  padding: 0px;
+}
+
 .big-button {
   font-size: 2em;
   border: 3px solid #999;

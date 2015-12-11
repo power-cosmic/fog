@@ -52,6 +52,11 @@
                 <span class="deemphasized"><%= game.description %></span>
               </p>
             </div>
+            <% if (userType === 'gamer') { %>
+              <div class="label">
+                <a href="/games/<%= game._id %>/purchase" id="purchase">Purchase</a>
+              </div>
+            <% } %>
             <div>
 
               <span class="emphasized label">Images</span>

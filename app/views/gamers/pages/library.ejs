@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../../common/partials/head %>
+    <link rel="stylesheet" href="/styles/shoelace.css">
+    <link rel="stylesheet" href="/styles/games.css">
+    <title>fog | library</title>
+  </head>
+  <body>
+
+    <header>
+      <% include ../../common/partials/header %>
+    </header>
+
+    <main>
+
+      <div class="inner-content">
+        <h2>Library</h2>
+
+        <div class="padded game-collection">
+
+          <% if (!games.length) { %>
+
+            <!-- no games -->
+            <div class="padded">
+              <h3 class="emphasized">
+                You don't have any games yet
+              </h3>
+              <p class="deemphasized">
+                Maybe you should checkout
+                <a href="/store">the Store</a>
+              </p>
+            </div>
+
+          <% } else { %>
+
+            <% games.forEach(function(game) { %>
+              <a href="/games/<%= game._id %>/play">
+                <% var message = 'play' %>
+                <% include ../../games/partials/game-summary %>
+              </a>
+            <% }); %>
+
+          <% } %>
+
+        </div>
+
+      </div>
+
+    </main>
+  </body>
+</html>

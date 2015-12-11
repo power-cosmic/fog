@@ -9,7 +9,6 @@ var config = require('../../config/config'),
 
 exports.play = function(req, res) {
   var game = req.game;
-
   res.render('games/pages/game', {
     title: game.title,
     scripts: game.config.scripts || [],
@@ -17,6 +16,52 @@ exports.play = function(req, res) {
     startingPoint: game.config.startingPoint,
     gamePath: '/game-files/' + req.game.gamePath,
     cookie: req.cookies
+  });
+};
+
+exports.checkout = function(req, res) {
+  var user = req.session.user;
+
+  req.session.desiredPage = req.url;
+
+  if (!user || user.type !== 'gamer') {
+    res.json({
+      status: 'failure',
+      message: 'You aren\'t logged in as a gamer'
+    })
+  } else if (user.creditCards && user.creditCards.length) {
+    res.render('gamers/pages/purchase', {
+      game: req.game,
+      user: user
+    })
+  } else {
+    res.redirect('/gamers/add-card');
+  }
+};
+
+exports.purchase = function(req, res) {
+  var user = req.session.user,
+      game = req.game,
+      gameId = game._id,
+      gameInfo = {
+        id: gameId,
+        playTime: 0,
+        price: req.game.price
+      };
+
+  var gameObject = {};
+  gameObject['games.' + gameId] = gameInfo;
+  MongoClient.connect(config.db, function(err, db) {
+    db.collection('users').update(
+      { _id: ObjectId(user._id)},
+      { $set: gameObject},
+      function (err, game) {
+        req.session.user.games[gameId] = gameInfo;
+        res.render('gamers/pages/confirmation', {
+          game: req.game
+        });
+      }
+    );
   });
 };
 
@@ -173,6 +218,15 @@ exports.submit = function(req, res) {
 
 };
 
+exports.getGamesById = function(ids, callback) {
+  console.log('get games')
+  var idList = [];
+  ids.forEach(function(id) {
+    idList.push({ _id: ObjectId(id)});
+  });
+  exports.getGames({$or: idList}, callback);
+};
+
 exports.getById = function(req, res, next, id) {
   MongoClient.connect(config.db, function(err, db) {
     try {
@@ -204,7 +258,8 @@ var params = parseUrl(req.url, true).query,
   exports.getGames(condition, function(games) {
     res.render('games/pages/store', {
       games: games,
-      cookie: req.cookies
+      cookie: req.cookies,
+      user: req.session.user
     });
   });
 };

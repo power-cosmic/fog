@@ -47,6 +47,7 @@ require('./app/routes/common.routes')(app);
 require('./app/routes/forum.routes')(app);
 require('./app/routes/game.routes')(app);
 require('./app/routes/register.routes')(app);
+require('./app/routes/gamer.routes')(app);
 require('./app/routes/dev.routes')(app);
 require('./app/routes/admin.routes')(app);
 
