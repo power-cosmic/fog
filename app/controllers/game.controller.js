@@ -23,13 +23,13 @@ exports.play = function(req, res) {
 exports.purchase = function(req, res) {
   var user = req.session.user;
 
-  if (user.type !== 'gamer') {
+  if (!user || user.type !== 'gamer') {
     res.json({
       status: 'failure',
       message: 'You aren\'t logged in as a gamer'
     })
   } else if (user.creditCards && user.creditCards.length) {
-    res.render('gamers/purchase', {
+    res.render('gamers/pages/purchase', {
       game: req.game
     })
   } else {
