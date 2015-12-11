@@ -65,8 +65,6 @@ exports.getUser = function(username, password, callback) {
   });
 };
 
-
-
 exports.auth = function(req, res) {
   // var lookup = login(req.cookies['username'], req.cookies['password']);
   var lookup = login(req.body['username'], req.body['password']);

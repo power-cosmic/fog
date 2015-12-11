@@ -13,12 +13,11 @@ module.exports = function(app) {
     {name: 'videos', maxCount: 10}
   ]);
 
-
   app.use('/game-files', express.static('./uploads/games/published'));
   app.use('/media', express.static('./uploads/media'));
 
   app.route('/games/:id/purchase')
-    .get(gamer.auth, game.checkout)
+    .get(gamer.requiresLogin, game.checkout)
     .post(gamer.auth, game.purchase);
 
   app.route('/games/:id/play')
