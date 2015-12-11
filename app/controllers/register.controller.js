@@ -94,10 +94,6 @@ exports.register = function(user, callback) {
   user.salt = crypto.randomBytes(16);
   user.password = exports.hashAndSalt(user.password, user.salt);
 
-  if (user.type === 'gamer') {
-    user.creditCards = [];
-  }
-
   MongoClient.connect(database, function(err, db) {
     try {
       db.collection('users').insertOne(user,
@@ -121,6 +117,7 @@ exports.register = function(user, callback) {
 exports.create = function(req, res) {
   if (req.body.type === 'gamer') {
     req.body.games = [];
+    req.body.creditCards = [];
   }
   exports.register(req.body, function(err, user) {
     if (err) {

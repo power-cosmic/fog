@@ -54,6 +54,10 @@ var MongoClient = require('mongodb').MongoClient,
       };
     };
 
+exports.library = function(req, res) {
+  res.render('gamers/pages/library');
+};
+
 exports.addCard = function(req, res) {
   res.render('gamers/pages/add-card', {
     action: 'add-card',

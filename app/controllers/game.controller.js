@@ -42,18 +42,21 @@ exports.checkout = function(req, res) {
 exports.purchase = function(req, res) {
   var user = req.session.user,
       game = req.game,
+      gameId = game._id,
       gameInfo = {
-        id: req.game.id,
+        id: gameId,
         playTime: 0,
         price: req.game.price
       };
 
+  var gameObject = {};
+  gameObject['games.' + gameId] = gameInfo;
   MongoClient.connect(config.db, function(err, db) {
-    db.collection('gamers').update(
-      { _id: req.session.user._id},
-      { $push: { games: gameInfo }},
+    db.collection('users').update(
+      { _id: ObjectId(user._id)},
+      { $set: gameObject},
       function (err, game) {
-        req.session.user.games.push(gameInfo);
+        req.session.user.games[gameId] = gameInfo;
         res.render('gamers/pages/confirmation', {
           game: req.game
         });
