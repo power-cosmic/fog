@@ -23,7 +23,6 @@ exports.play = function(req, res) {
 exports.purchase = function(req, res) {
   var user = req.session.user;
 
-  console.log('purchase!')
   if (user.type !== 'gamer') {
     res.json({
       status: 'failure',
