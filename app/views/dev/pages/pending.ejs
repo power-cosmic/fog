@@ -32,7 +32,7 @@
                     || userType === 'guest'
                     || (userType === 'gamer' && user.games[game._id]);
           %>
-          
+
           <h1><%= game.title %></h1>
 
           <div class="padded">
@@ -54,7 +54,8 @@
             </div>
             <% if (canBuy) { %>
               <div class="label">
-                <a href="/games/<%= game._id %>/purchase" id="purchase">Purchase</a>
+                <a href="/games/<%= game._id %>/purchase" id="purchase"
+                    class="big-link">Purchase</a>
               </div>
             <% } %>
             <div>
@@ -97,7 +98,7 @@
             <div>
 
               <% if (game.status === 'pending' && userType === 'admin') { %>
-                <a id="accept-game" class="emphasized green big-button" data-id="<%= game._id %>">Accept</a>
+                <a id="accept-game" class="emphasized big-link" data-id="<%= game._id %>">Accept</a>
               <% } %>
             </div>
 
