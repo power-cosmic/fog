@@ -1,90 +1,118 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <% include ../../common/partials/head %>
-    <link rel="stylesheet" href="/styles/games.css">
-    <title>fog | store</title>
-  </head>
-  <body>
+<head>
+  <% include ../../common/partials/head %>
+  <link rel="stylesheet" href="/styles/games.css">
+  <title>fog | store</title>
+</head>
+<body>
 
-    <header>
-      <% include ../../common/partials/header %>
-    </header>
+  <header>
+    <% include ../../common/partials/header %>
+  </header>
 
-    <main>
-      <div class="inner-content">
+  <main>
+    <div class="inner-content">
 
-        <h1>fogStore</h1>
+      <h1>fogStore</h1>
 
-        <!-- search -->
-        <form action="/store" method="get" class="padded">
-          <input type="text"
-              id="query" name="query"
-              class="long input" placeholder="search" />
-          <input type="submit" id="submit-search" value="search" />
-        </form>
+      <!-- search -->
+      <form action="/store" method="get" class="padded">
+        <input type="text"
+        id="query" name="query"
+        class="long input" placeholder="search" />
+        <input type="submit" id="submit-search" value="search" />
+      </form>
 
-        <!-- game list -->
-        <div class="padded game-collection">
+      <!-- game list -->
+      <div class="padded game-collection">
 
-          <% if (games.length === 0) { %>
-            <h3 class="deemphasized">
-              There's nothing here
-            </h3>
+        <% if (games.length === 0) { %>
+          <h3 class="deemphasized">
+            There's nothing here
+          </h3>
           <% } %>
           <% games.forEach(function(game) { %>
 
             <a href="/games/<%= game._id %>">
 
               <%
-                var message = (session.user && session.user.type !== 'admin'
-                  && session.user.games[game._id])?
-                    '[owned]'
-                    : '$ ' + game.price;
+              var message = (session.user && session.user.type !== 'admin'
+              && session.user.games[game._id])?
+              '[owned]'
+              : '$ ' + game.price;
               %>
               <% include ../partials/game-summary %>
             </a>
 
-          <% }); %>
+            <% }); %>
 
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
 
-    <footer>
-      <% include ../../common/partials/footer %>
-    </footer>
+      <footer>
+        <% include ../../common/partials/footer %>
+      </footer>
 
-        <script>
-        function featureListener(feature) {
-          alert(feature);
-        }
+      <script>
+      function featureListener(feature) {
+        console.log(feature);
+        var gameID = feature.id.substr(0, feature.id.indexOf('featured'));
+        ajaxer.post('/games/' + gameID + '/toggle-featured',
+          {
+            id : gameID
+          }, {
+            onSuccess: function(response) {
+              //response = JSON.parse(response);
+              console.log(response, response.status);
+              /*if (response.status == 'success') {
+                //window.location.href = response.url || location.href;
+              } else {
+              //  $('#login-response').html(response);
+            }*/
+            },
+            onFail: function(response) {
 
-        function saleListener(sale) {
-          alert(sale);
-        }
-
-        var features = document.getElementsByClassName('featured-button');
-        for (var i = 0; i < features.length; i++) {
-          var feature = features[i];
-          features[i].addEventListener('click', function(event) {
-            event.preventDefault();
-            featureListener(feature);
+              console.log('fic + ' + response);
+            }
           });
-        }
+      }
 
-        var sales = document.getElementsByClassName('onsale-button');
-        console.log(sales);
-        for (var i = 0; i < sales.length; i++) {
-          var sale = sales[i];
-          sales[i].addEventListener('click', function(event) {
+      function saleListener(sale) {
+        console.log(sale);
+        var gameID = sale.id.substr(0, sale.id.indexOf('onsale'));
+      }
+
+      var features = document.getElementsByClassName('featured-button');
+      var sales = document.getElementsByClassName('onsale-button');
+
+      for (var i = 0; i < features.length; i++) {
+        (function() {
+          var k = i;
+
+          sales[k].addEventListener('change', function(event) {
+            var sale = sales[k];
             event.preventDefault();
             saleListener(sale);
           });
-        }
 
-        </script>
+          sales[k].addEventListener('click', function(event) {
+            event.preventDefault();
+          });
+
+          features[k].addEventListener('click', function(event) {
+            var feature = features[k];
+            event.preventDefault();
+            featureListener(feature);
+          });
+        })();
+      }
 
 
-  </body>
-</html>
+
+      </script>
+
+
+    </body>
+    </html>

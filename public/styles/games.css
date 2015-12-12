@@ -89,14 +89,6 @@ a .game-box:hover {
   box-shadow: -2px 3px 4px 1px black;
 }
 
-.sale-button {
-  width: 75px;
-}
-
-.feature-button {
-  width: 100px;
-}
-
 .inactive {
   opacity: .3;
   background-color: grey;

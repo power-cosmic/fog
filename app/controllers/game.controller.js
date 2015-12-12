@@ -301,3 +301,28 @@ exports.getFeatured = function(req, res) {
     res.send(games);
   }, quantity);
 };
+
+exports.toggleFeatured = function(req, res) {
+
+  console.log(req.game);
+  console.log(req.game.featured);
+
+  if (req.game.featured === undefined || req.game.featured === 'featured') {
+    console.log('yup');
+  }
+
+    /*
+  MongoClient.connect(config.db, function(err, db) {
+    db.collection('games').update(
+      { _id: ObjectId(game.id)},
+      { $set: featured: true},
+      function (err, game) {
+        req.session.user.games[gameId] = gameInfo;
+        res.render('gamers/pages/confirmation', {
+          game: req.game
+        });
+      }
+    );
+  });*/
+  res.send('pizza');
+};
