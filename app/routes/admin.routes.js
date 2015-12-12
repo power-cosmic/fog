@@ -7,9 +7,7 @@ module.exports = function(app) {
     .get(admin.auth, admin.readPending);
 
   app.route('/admin/new-token')
-    .get(admin.auth, admin.newToken);
-
-  app.route('/admin/send-token')
+    .get(admin.auth, admin.newToken)
     .post(admin.auth, admin.sendToken);
 
   app.route('/admin/register/:id')

@@ -48,8 +48,8 @@ exports.sendToken = function(req, res) {
             + '<p>fog. Imagine better.</p>'
       });
 
-      res.json({
-        status: 'success'
+      res.render('admin/pages/token-sent', {
+        email: emailAddress
       });
     }
   });
