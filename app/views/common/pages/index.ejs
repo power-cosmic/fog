@@ -11,12 +11,20 @@
     <% include ../partials/header %>
   </header>
   <main>
-    <div>
-    <div id="banner_window">
+
+    <div class="inner-content">
+      <div id="banner_window">
+
+      </div>
+      <button id="prev_image">GO LEFT</button>
+      <button id="next_image">GO RIGHT</button>
+
+      <% if (session.user && session.user.type === 'admin') { %>
+        <br />
+        <% include ../../admin/partials/admin-panel %>
+      <% } %>
     </div>
-        <button id="prev_image">GO LEFT</button>
-        <button id="next_image">GO RIGHT</button>
-    </div>
+
   </main>
   <footer>
     <% include ../partials/footer %>

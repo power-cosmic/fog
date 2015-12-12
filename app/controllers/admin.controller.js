@@ -180,7 +180,6 @@ exports.banUser = function(req, res, next) {
 };
 
 exports.unbanUser = function(req, res) {
-  console.log('unban')
   exports.setStatus(req.id, '', function(err) {
     if (err) {
       res.json({
@@ -201,7 +200,6 @@ exports.setStatus = function(userId, status, callback) {
       { _id: ObjectId(userId) },
       { $set: { status: status }},
       function(err, result) {
-        console.log(err, result);
         if (err) {
           callback(err);
         } else {

@@ -11,7 +11,6 @@ $(function() {
       }, {
         onSuccess: function(response) {
           response = JSON.parse(response);
-          console.log(response, response.status);
           if (response.status == 'success') {
             window.location.href = response.url || location.href;
           } else {

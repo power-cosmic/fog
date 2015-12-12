@@ -6,8 +6,6 @@ $(function() {
       content: $('#thread-content').val()
     };
 
-    console.log(params);
-
     ajaxer.post('/forums/thread', params, function(response) {
       response = JSON.parse(response);
 
