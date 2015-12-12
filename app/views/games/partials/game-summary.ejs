@@ -19,9 +19,10 @@
     <h4><%= message %></h4>
   </div>
   <% if (session.user && session.user.type === 'admin') { %>
+    <% var featureClasses = game.featured === true ? 'active green' : 'inactive'%>
     <div class="outer-box">
-      <button class="featured-button active green" id="<%=game._id + 'featured'%>">featured</button>
-      <select class="onsale-button inactive" id="<%=game._id + 'onsale'%>">
+      <button class="featured-button <%=featureClasses%>" id="<%=game._id%>featured">featured</button>
+      <select class="onsale-button" id="<%=game._id%>onsale">
       <% for (var i = 0; i <= 90; i = i + 5) { %>
         <option name="sale" value="<%=i%>%"><%=i%>% off</option>
       <% } %>

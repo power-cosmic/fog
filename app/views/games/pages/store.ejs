@@ -64,16 +64,15 @@
             id : gameID
           }, {
             onSuccess: function(response) {
-              //response = JSON.parse(response);
-              console.log(response, response.status);
-              /*if (response.status == 'success') {
-                //window.location.href = response.url || location.href;
-              } else {
-              //  $('#login-response').html(response);
-            }*/
+              if (response === 'true' || response === 'false') {
+                $(feature).toggleClass('active');
+                $(feature).toggleClass('pizza');
+                $(feature).toggleClass('green');
+                $(feature).toggleClass('inactive');
+              }
+
             },
             onFail: function(response) {
-
               console.log('fic + ' + response);
             }
           });

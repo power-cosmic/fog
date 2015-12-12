@@ -302,26 +302,27 @@ exports.getFeatured = function(req, res) {
 };
 
 exports.toggleFeatured = function(req, res) {
-
-  console.log(req.game);
-  console.log(req.game.featured);
-
-  if (req.game.featured === undefined || req.game.featured === 'featured') {
-    console.log('yup');
+  var featured = false;
+  if (req.game.featured === undefined || req.game.featured === false) {
+    featured = true;
   }
 
-    /*
   MongoClient.connect(config.db, function(err, db) {
-    db.collection('games').update(
-      { _id: ObjectId(game.id)},
-      { $set: featured: true},
-      function (err, game) {
-        req.session.user.games[gameId] = gameInfo;
-        res.render('gamers/pages/confirmation', {
-          game: req.game
-        });
-      }
-    );
-  });*/
-  res.send('pizza');
+    try {
+      db.collection('games').update(
+        { _id: ObjectId(req.game._id)},
+        { $set: {featured: featured}},
+        function (err, data) {
+          if (err) {
+            res.send(err);
+          } else {
+            res.send(featured);
+          }
+          db.close();
+        }
+      );
+    } catch (err) {
+      res.send(err);
+    }
+  });
 };
