@@ -32,12 +32,13 @@
               There's nothing here
             </h3>
           <% } %>
-
           <% games.forEach(function(game) { %>
 
             <a href="/games/<%= game._id %>">
+
               <%
-                var message = (user && user.games[game._id])?
+                var message = (session.user && session.user.type !== 'admin'
+                  && session.user.games[game._id])?
                     '[owned]'
                     : '$ ' + game.price;
               %>
@@ -53,6 +54,37 @@
     <footer>
       <% include ../../common/partials/footer %>
     </footer>
+
+        <script>
+        function featureListener(feature) {
+          alert(feature);
+        }
+
+        function saleListener(sale) {
+          alert(sale);
+        }
+
+        var features = document.getElementsByClassName('featured-button');
+        for (var i = 0; i < features.length; i++) {
+          var feature = features[i];
+          features[i].addEventListener('click', function(event) {
+            event.preventDefault();
+            featureListener(feature);
+          });
+        }
+
+        var sales = document.getElementsByClassName('onsale-button');
+        console.log(sales);
+        for (var i = 0; i < sales.length; i++) {
+          var sale = sales[i];
+          sales[i].addEventListener('click', function(event) {
+            event.preventDefault();
+            saleListener(sale);
+          });
+        }
+
+        </script>
+
 
   </body>
 </html>

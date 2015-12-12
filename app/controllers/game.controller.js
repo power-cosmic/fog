@@ -259,9 +259,7 @@ var params = parseUrl(req.url, true).query,
 
   exports.getGames(condition, function(games) {
     res.render('games/pages/store', {
-      games: games,
-      cookie: req.cookies,
-      user: req.session.user
+      games: games
     });
   });
 };

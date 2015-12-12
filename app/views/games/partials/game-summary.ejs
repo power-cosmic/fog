@@ -18,4 +18,14 @@
   <div class="inner-box price-holder">
     <h4><%= message %></h4>
   </div>
+  <% if (session.user && session.user.type === 'admin') { %>
+    <div class="outer-box">
+      <button class="featured-button" id="<%=game._id + 'featured'%>">feature</button>
+      <select class="onsale-button" id="<%=game._id + 'onsale'%>">
+      <% for (var i = 0; i <= 90; i = i + 5) { %>
+        <option name="sale" value="<%=i%>%"><%=i%>%</option>
+      <% } %>
+      </select>
+    </div>
+  <% } %>
 </div>
