@@ -79,6 +79,14 @@ a .game-box:hover {
   font-size: 1em;
   border: 3px solid #999;
   border-radius: 5px;
+  color:white;
+}
+
+.featured-button:hover, .onsale-button:hover {
+  opacity: 1;
+  transition: opacity 0.4s;
+  cursor: crosshair;
+  box-shadow: -2px 3px 4px 1px black;
 }
 
 .sale-button {
@@ -87,4 +95,12 @@ a .game-box:hover {
 
 .feature-button {
   width: 100px;
+}
+
+.inactive {
+  opacity: .3;
+  background-color: grey;
+}
+
+.active {
 }
