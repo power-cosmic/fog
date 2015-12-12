@@ -3,41 +3,7 @@
 <head>
   <% include ../partials/head %>
   <link rel="stylesheet" href="/styles/frontpage.css">
-  <script type="text/javascript" src="/lib/requirator/lib/requirator.js"></script>
-  <script type="text/javascript" src="/helpers/common/rotatingBanner.js"></script>
-  <script>
-
-    config({
-      ajax: ajaxer,
-      baseUrl: 'helpers/common'
-    });
-    require(['rotatingBanner'], function(rotatingBanner) {
-      ajaxer.get('/games/featured', {quantity:4}, {
-      onSuccess: function(games) {
-        games = JSON.parse(games);
-        var imageInfo = [];
-        games.forEach(function(game) {
-          imageInfo.push( {
-            link: '/games/' + game._id,
-            src: '/media/' + game.files['banner']
-          });
-        });
-
-        console.log(imageInfo);
-
-        //console.log(imageInfo);
-
-        rotatingBanner("#banner_window", "#prev_image",
-        "#next_image", 616, 353, 300, imageInfo);
-        //console.log(games);
-      },
-      onFail: function(games) {
-        console.log('fic + ' + games);
-      }
-    });
-    });
-
-  </script>
+  <script type="text/javascript" src="/helpers/home/bannerLoader.js"></script>
   <title>fog</title>
 </head>
 <body>
