@@ -19,6 +19,13 @@ module.exports = function(app) {
   app.route('/admin/user-list')
     .get(admin.auth, admin.getUsers)
 
+  app.route('/admin/ban/:userId')
+    .post(admin.banUser);
+
+  app.route('/admin/unban/:userId')
+    .post(admin.unbanUser);
+
   app.param('id', admin.getById);
+  app.param('userId', admin.setUserId);
 
 };
