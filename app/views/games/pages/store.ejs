@@ -2,6 +2,9 @@
 <html>
 <head>
   <% include ../../common/partials/head %>
+  <% if (session.user && session.user.type === 'admin') { %>
+    <script type="text/javascript" src="/helpers/games/adminStoreHelper.js"></script>
+  <% } %>
   <link rel="stylesheet" href="/styles/games.css">
   <title>fog | store</title>
 </head>
@@ -31,110 +34,23 @@
           <h3 class="deemphasized">
             There's nothing here
           </h3>
-          <% } %>
-          <% games.forEach(function(game) { %>
-
-            <a href="/games/<%= game._id %>">
-
-              <%
-              var message = (session.user && session.user.type !== 'admin'
-              && session.user.games[game._id])?
-              '[owned]'
-              : '$ ' + game.price;
-              %>
-              <% include ../partials/game-summary %>
-            </a>
-
-            <% }); %>
-
-          </div>
-        </div>
-      </main>
-
-      <footer>
-        <% include ../../common/partials/footer %>
-      </footer>
-
-      <script>
-      function featureListener(feature) {
-        console.log(feature);
-        var gameID = feature.id.substr(0, feature.id.indexOf('featured'));
-        ajaxer.post('/games/' + gameID + '/toggle-featured',
-          {
-            id : gameID
-          }, {
-            onSuccess: function(response) {
-              if (response === 'true' || response === 'false') {
-                $(feature).toggleClass('active');
-                $(feature).toggleClass('pizza');
-                $(feature).toggleClass('green');
-                $(feature).toggleClass('inactive');
-              }
-
-            },
-            onFail: function(response) {
-              console.log('fic + ' + response);
-            }
-          });
-      }
-
-      var previousSale = 0;
-
-      function saleListener(sale) {
-        var gameID = sale.id.substr(0, sale.id.indexOf('onsale'));
-        var percent = sale.options[sale.selectedIndex].value;
-        ajaxer.post('/games/' + gameID + '/update-sale',
-          {
-            sale: percent
-          }, {
-            onSuccess: function(response) {
-              if (response) {
-                if (parseInt(previousSale) === 0 && parseInt(response) !== 0 ||
-                    parseInt(previousSale) !== 0 && parseInt(response) === 0)
-                {
-                  $(sale).toggleClass('active');
-                  $(sale).toggleClass('green');
-                  $(sale).toggleClass('inactive');
-                }
-              }
-
-            },
-            onFail: function(response) {
-              console.log('fic + ' + response);
-            }
-          });
-      }
-
-      var features = document.getElementsByClassName('featured-button');
-      var sales = document.getElementsByClassName('onsale-button');
-      for (var i = 0; i < features.length; i++) {
-        (function() {
-          var k = i;
-
-          sales[k].addEventListener('change', function(event) {
-            var sale = sales[k];
-            event.preventDefault();
-            saleListener(sale);
-          });
-
-          sales[k].addEventListener('click', function(event) {
-            event.preventDefault();
-            var sale = sales[k];
-            previousSale = sale.options[sale.selectedIndex].value;
-          });
-
-          features[k].addEventListener('click', function(event) {
-            var feature = features[k];
-            event.preventDefault();
-            featureListener(feature);
-          });
-        })();
-      }
-
-
-
-      </script>
-
-
-    </body>
-    </html>
+        <% } %>
+        <% games.forEach(function(game) { %>
+          <a href="/games/<%= game._id %>">
+            <%
+            var message = (session.user && session.user.type !== 'admin'
+            && session.user.games[game._id])?
+            '[owned]'
+            : '$ ' + game.price;
+            %>
+            <% include ../partials/game-summary %>
+          </a>
+        <% }); %>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <% include ../../common/partials/footer %>
+  </footer>
+</body>
+</html>

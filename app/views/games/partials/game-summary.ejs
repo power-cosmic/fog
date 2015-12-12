@@ -21,7 +21,6 @@
   <% if (session.user && session.user.type === 'admin') { %>
     <% var featureClasses = game.featured === true ? 'active green' : 'inactive'%>
     <% var percent = game.sale || '0' %>
-    <p><%=percent%></p>
     <% var saleClasses = percent !== '0' ? 'active green' : 'inactive'%>
     <div class="outer-box">
       <button class="featured-button <%=featureClasses%>" id="<%=game._id%>featured">featured</button>
