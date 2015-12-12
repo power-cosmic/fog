@@ -23,16 +23,16 @@
         <% } else { %>
 
           <%
-
-            var images = game.files.images || [],
+            var banner = game.files.banner || '',
+                images = game.files.images || [],
                 videos = game.files.videos || [],
                 user = session.user,
                 userType = user && user.type,
                 canBuy = !user
                     || userType === 'guest'
                     || (userType === 'gamer' && user.games[game._id]);
-
           %>
+          
           <h1><%= game.title %></h1>
 
           <div class="padded">
@@ -58,6 +58,10 @@
               </div>
             <% } %>
             <div>
+
+              <span class="emphasized label">Banner</span>
+              <br />
+              <img src="/media/<%= banner %>"/>
 
               <span class="emphasized label">Images</span>
               <br />

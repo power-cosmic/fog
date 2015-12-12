@@ -8,6 +8,7 @@ module.exports = function(app) {
 
   var gameSubmit = gameUploads.fields([
     {name: 'gameFile', maxCount: 1},
+    {name: 'banner', maxCount: 1},
     {name: 'icon', maxCount: 1},
     {name: 'images', maxCount: 16},
     {name: 'videos', maxCount: 10}
@@ -15,6 +16,9 @@ module.exports = function(app) {
 
   app.use('/game-files', express.static('./uploads/games/published'));
   app.use('/media', express.static('./uploads/media'));
+
+  app.route('/games/featured')
+  .get(game.getFeatured);
 
   app.route('/games/:id/purchase')
     .get(gamer.requiresLogin, game.checkout)

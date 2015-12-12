@@ -167,8 +167,9 @@ exports.newGame = function(req, res) {
 exports.submit = function(req, res) {
   var body = req.body,
       files = req.files;
-
+  console.log('files');
   var gameFile = files['gameFile'][0],
+      banner = files['banner'][0],
       icon = files['icon'][0],
       images = files['images'] || [],
       videos = files['videos'] || [],
@@ -180,6 +181,7 @@ exports.submit = function(req, res) {
     developer: developer
   }
 
+  var bannerLocation = saveMedia(banner, tempGame);
   var iconLocation = saveMedia(icon, tempGame);
   var imageLocations = [];
   images.forEach(function(image) {
@@ -204,6 +206,7 @@ exports.submit = function(req, res) {
       price: body.price,
       files: {
         compressed: filePath,
+        banner: bannerLocation,
         icon: iconLocation,
         images: imageLocations,
         videos: videoLocations
@@ -263,17 +266,22 @@ var params = parseUrl(req.url, true).query,
   });
 };
 
-exports.getGames = function(query, callback) {
+exports.getGames = function(query, callback, limit) {
   // allow for just a callback to be passed
   if (!callback) {
     callback = query;
     query = {};
   }
 
+  //limit of 0 means no limit
+  var limit = limit || 0;
+
   // find the games
   MongoClient.connect(config.db, function(err, db) {
     db.collection('games').find(query, function(err, cursor) {
       var games = [];
+
+      cursor.limit(limit);
       cursor.each(function(err, game) {
         if (game) {
           games.push(game);
@@ -284,4 +292,14 @@ exports.getGames = function(query, callback) {
       });
     });
   });
+};
+
+/*
+  getFeatured currenty just gets the 5 most recently uploaded games
+*/
+exports.getFeatured = function(req, res) {
+  var quantity = parseInt(req.query.quantity) || 5;
+  exports.getGames({}, function(games) {
+    res.send(games);
+  }, quantity);
 };
