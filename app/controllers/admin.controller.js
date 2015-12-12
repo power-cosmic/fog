@@ -48,8 +48,8 @@ exports.sendToken = function(req, res) {
             + '<p>fog. Imagine better.</p>'
       });
 
-      res.json({
-        status: 'success'
+      res.render('admin/pages/token-sent', {
+        email: emailAddress
       });
     }
   });
@@ -157,6 +157,58 @@ exports.getUsers = function(req, res) {
     });
   });
 };
+
+exports.setUserId = function(req, res, next, id) {
+  // I'm sure there's a much better way to do this
+  req.id = id;
+  next();
+};
+
+exports.banUser = function(req, res, next) {
+  exports.setStatus(req.id, 'banned', function(err) {
+    if (err) {
+      res.json({
+        status: 'failure',
+        message: 'unable to ban user'
+      });
+    } else {
+      res.json({
+        status: 'success'
+      })
+    }
+  });
+};
+
+exports.unbanUser = function(req, res) {
+  exports.setStatus(req.id, '', function(err) {
+    if (err) {
+      res.json({
+        status: 'failure',
+        message: 'unable to unban user'
+      });
+    } else {
+      res.json({
+        status: 'success'
+      })
+    }
+  });
+};
+
+exports.setStatus = function(userId, status, callback) {
+  MongoClient.connect(config.db, function(err, db) {
+    db.collection('users').update(
+      { _id: ObjectId(userId) },
+      { $set: { status: status }},
+      function(err, result) {
+        if (err) {
+          callback(err);
+        } else {
+          callback();
+        }
+      }
+    );
+  });
+}
 
 exports.read = function(query, callback) {
 

@@ -121,11 +121,29 @@ a:hover {
   padding: 0px;
 }
 
+.error {
+  border: solid 1px #822;
+  background-color: #e33;
+  display:inline-block;
+}
+
+.big-link {
+  border: 1px solid #999;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.5rem;
+}
+
 .big-button {
   font-size: 2em;
   border: 3px solid #999;
   padding: 10px;
   border-radius: 5px;
+}
+
+.centered {
+  display: inline-block;
+  margin: auto;
 }
 
 .green {

@@ -1,4 +1,5 @@
-var forums = require('../controllers/forum.controller');
+var forums = require('../controllers/forum.controller'),
+    register = require('../controllers/register.controller');
 
 module.exports = function(app) {
 
@@ -6,14 +7,14 @@ module.exports = function(app) {
     .get(forums.list);
 
   app.route('/forums/thread/')
-    .get(forums.new)
-    .post(forums.create);
+    .get(register.requiresNonBannedLogin, forums.new)
+    .post(register.requiresNonBannedLogin, forums.create);
 
   app.route('/forums/thread/:threadId')
     .get(forums.readThread);
 
   app.route('/forums/posts/')
-    .post(forums.postReply);
+    .post(register.requiresNonBannedLogin, forums.postReply);
 
   app.param('threadId', forums.threadById);
 };

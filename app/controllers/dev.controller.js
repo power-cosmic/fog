@@ -80,7 +80,6 @@ exports.pendingGameById = function(req, res, next, id) {
 };
 
 exports.pendingGameByFile = function(req, res, next, id) {
-  console.log('id::::: ', id)
   exports.findPendingGame(req, res, next, {'files.compressed': id});
 };
 

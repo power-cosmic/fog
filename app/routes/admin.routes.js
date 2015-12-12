@@ -6,9 +6,7 @@ module.exports = function(app) {
     .get(admin.auth, admin.readPending);
 
   app.route('/admin/new-token')
-    .get(admin.auth, admin.newToken);
-
-  app.route('/admin/send-token')
+    .get(admin.auth, admin.newToken)
     .post(admin.auth, admin.sendToken);
 
   app.route('/admin/register/:id')
@@ -21,6 +19,13 @@ module.exports = function(app) {
   app.route('/admin/update-games')
     .get(admin.auth, admin.updateGames);
 
+  app.route('/admin/ban/:userId')
+    .post(admin.banUser);
+
+  app.route('/admin/unban/:userId')
+    .post(admin.unbanUser);
+
   app.param('id', admin.getById);
+  app.param('userId', admin.setUserId);
 
 };

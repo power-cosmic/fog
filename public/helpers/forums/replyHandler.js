@@ -42,7 +42,6 @@ $(function() {
           },
           function(response) {
             response = JSON.parse(response);
-            console.log(typeof response);
             if (response.status === 'success') {
               location.reload();
             } else {

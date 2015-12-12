@@ -11,11 +11,10 @@ $(function() {
       }, {
         onSuccess: function(response) {
           response = JSON.parse(response);
-          console.log(response, response.status);
           if (response.status == 'success') {
             window.location.href = response.url || location.href;
           } else {
-            $('#login-response').html(response);
+            $('#login-response').html(response.message);
           }
         },
         onFail: function(response) {

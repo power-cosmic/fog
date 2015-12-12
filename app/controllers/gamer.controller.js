@@ -111,7 +111,9 @@ exports.submitCard = function(req, res) {
           req.session.user.cards = [];
         }
         req.session.user.creditCards.push(req.body);
-        res.redirect(req.session.desiredPage);
+        var desiredPage = req.session.desiredPage;
+        req.session.desiredPage = null;
+        res.redirect(desiredPage);
       });
     });
   }
