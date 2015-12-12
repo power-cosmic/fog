@@ -15,7 +15,7 @@ $(function() {
           if (response.status == 'success') {
             window.location.href = response.url || location.href;
           } else {
-            $('#login-response').html(response);
+            $('#login-response').html(response.message);
           }
         },
         onFail: function(response) {

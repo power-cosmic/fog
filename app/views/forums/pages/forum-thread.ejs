@@ -13,6 +13,11 @@
 
     <main>
 
+      <%
+        var user = session.user,
+            canReply = user && user.status !== 'banned';
+      %>
+
       <!-- Render Posts -->
       <% var renderPost = function(post, isHead) { %>
         <% if (isHead) { %>
@@ -30,9 +35,12 @@
         <%=post.content%>
         <br />
         <span class="deemphasized author">posted by: <%=post.user%></span>
-        <div id="button">
-          <a class="reply-button">reply</a>
-        </div>
+
+        <% if (canReply) { %>
+          <div class="button">
+            <a class="reply-button">reply</a>
+          </div>
+        <% } %>
 
         <!-- the replies -->
         <% if (!isHead && post.hasReplies()) { %>
