@@ -36,8 +36,8 @@ var makeBanner = function(bannerTargetID, prevButtonID, nextButtonID,
 
 	//create the images and add them to the area "behind" the banner window
 	for (var i = 0; i < allImages.length; i++){
-		var deal = allImages[i];
-		var imageItem = makeDomImage(deal);
+		var imageInfo = allImages[i];
+		var imageItem = makeDomImage(imageInfo);
 		$behindBannerWindow.append(imageItem.element[0]);
 	};
 
@@ -49,10 +49,12 @@ var makeBanner = function(bannerTargetID, prevButtonID, nextButtonID,
 		goRight();
 	});
 
-	function makeDomImage(image){
+	function makeDomImage(imageInfo){
 		var imageItem = $(document.createElement("DIV"));
-		imageItem.attr('className', 'imageItem').css('padding', '0px').append('a')
-		.attr('href', image.link).append('img').attr('src', image.src);
+		imageItem.attr('className', 'imageItem')
+			.css('padding', '0px').append('a')
+			.attr('href', imageInfo.link).append('img')
+			.attr('src', imageInfo.src);
 		return imageItem;
 	}
 

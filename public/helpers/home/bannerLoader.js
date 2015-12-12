@@ -12,6 +12,32 @@ require(['common/bannerMaker'], function(rotatingBanner) {
 
     rotatingBanner("#banner_window", "#prev_image",
     "#next_image", 616, 353, 300, imageInfo);
+    $('.imageItem').css('position', 'relative');
+
+    var $imageItems = $('.imageItem');
+
+    var hasSale = 1;
+
+    for (var i = 0; i < games.length; i++) {
+      var game = games[i];
+      console.log(game.sale);
+      if (game.sale && game.sale !== '0') {
+        addSaleFlag($($imageItems.element[i+1]), game.sale);
+
+        //add saleFlag to secret imageItem duplicate
+        if(i == games.length - 1) {
+          addSaleFlag($($imageItems.element[0]), game.sale);
+        }
+      }
+    }
+
+    function addSaleFlag (imageItem, sale) {
+      imageItem.append('div')
+        .css('background-color', 'red')
+        .css('position', 'absolute').text('%' + sale + ' off')
+        .css('top', '0px').css('right', '0px');
+    }
+
   },
   onFail: function(games) {
     console.log('fic + ' + games);
