@@ -37,7 +37,7 @@
 
             <a href="/games/<%= game._id %>">
               <%
-                var message = (user && user.games[game._id])?
+                var message = (user && user.games && user.games[game._id])?
                     '[owned]'
                     : '$ ' + game.price;
               %>

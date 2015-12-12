@@ -135,7 +135,6 @@ var mkdirRecursiveSync = function(directory) {
   try {
     fs.mkdirSync(directory);
   } catch (e) {
-    //console.log(e)
     if (e.errno !== -17) {
       mkdirRecursiveSync(path.dirname(directory));
       fs.mkdirSync(directory);

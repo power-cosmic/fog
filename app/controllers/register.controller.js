@@ -23,14 +23,31 @@ exports.hashAndSalt = function(rawPassword, salt) {
       .digest('hex');
 };
 
+exports.requiresNonBannedLogin = function(req, res, next) {
+  var user = req.session.user;
+  if (!user) {
+    req.session.desiredPage = req.url;
+    res.render('common/pages/login');
+  } else if (user.status === 'banned') {
+    res.render('common/pages/guess-what');
+  } else {
+    next();
+  }
+};
+
 exports.login = function(req, res) {
   exports.getUser(req.body.username, req.body.password, function(err, user) {
     switch (err) {
       case invalidUsername:
-        res.send('That username doesn\'t exist');
+        res.send({
+          status: 'failure',
+          message: 'That username doesn\'t exist'});
         break;
       case invalidPassword:
-        res.send('That\'s not your password!');
+        res.send({
+            status: 'failure',
+            message: 'That\'s not your password!'
+        });
         break;
       case success:
         req.session.user = user;
@@ -127,6 +144,7 @@ exports.create = function(req, res) {
   }
   exports.register(req.body, function(err, user) {
     if (err) {
+      user.error = (err === userExists)? 'Username is taken': 'Unknown error';
       res.render('register/pages/register-home', {
         values: User.vals,
         user: user
@@ -140,5 +158,6 @@ exports.create = function(req, res) {
 
 exports.logout = function(req, res) {
   req.session.user = undefined;
+  req.session.desiredPage = undefined;
   res.render('common/pages/index');
 };

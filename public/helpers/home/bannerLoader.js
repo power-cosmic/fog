@@ -12,7 +12,6 @@ require(['common/bannerMaker'], function(rotatingBanner) {
 
     rotatingBanner("#banner_window", "#prev_image",
     "#next_image", 616, 353, 300, imageInfo);
-    //console.log(games);
   },
   onFail: function(games) {
     console.log('fic + ' + games);

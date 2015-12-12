@@ -31,9 +31,11 @@
           </li>
           <li class="option">
             <% if (gamer.status === 'banned') { %>
-              <a href="admin/unban/ + <%= gamer._id %>">Unban user</a>
+              <a href="/admin/unban/<%= gamer._id %>"
+                  class="unban" data-id="<%= gamer._id %>">Unban user</a>
             <% } else { %>
-              <a href="admin/ban/ + <%= gamer._id %>">Ban user</a>
+              <a href="/admin/ban/<%= gamer._id %>"
+                  class="ban" data-id="<%= gamer._id %>">Ban user</a>
             <% } %>
           </li>
         </ul>
