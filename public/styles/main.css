@@ -121,6 +121,12 @@ a:hover {
   padding: 0px;
 }
 
+.error {
+  border: solid 1px #822;
+  background-color: #e33;
+  display:inline-block;
+}
+
 .big-button {
   font-size: 2em;
   border: 3px solid #999;

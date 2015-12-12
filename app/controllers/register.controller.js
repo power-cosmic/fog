@@ -144,6 +144,7 @@ exports.create = function(req, res) {
   }
   exports.register(req.body, function(err, user) {
     if (err) {
+      user.error = (err === userExists)? 'Username is taken': 'Unknown error';
       res.render('register/pages/register-home', {
         values: User.vals,
         user: user
