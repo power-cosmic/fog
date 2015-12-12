@@ -292,12 +292,21 @@ exports.getGames = function(query, callback, limit) {
 };
 
 /*
-  getFeatured currenty just gets the 5 most recently uploaded games
+  Gets N games or 5 if quantity field in query is not submitted.
+  Gets featured games unless there are none, then
+    it just gets any N games.
 */
 exports.getFeatured = function(req, res) {
   var quantity = parseInt(req.query.quantity) || 5;
-  exports.getGames({}, function(games) {
-    res.send(games);
+  exports.getGames({featured: true}, function(featuredGames) {
+
+    if (featuredGames.length === 0) {
+      exports.getGames({}, function(anyGames) {
+        res.send(anyGames);
+      });
+    } else {
+      res.send(featuredGames);
+    }
   }, quantity);
 };
 
