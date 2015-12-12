@@ -326,3 +326,27 @@ exports.toggleFeatured = function(req, res) {
     }
   });
 };
+
+exports.updateSale = function(req, res) {
+  var sale = req.body.sale
+
+  MongoClient.connect(config.db, function(err, db) {
+    try {
+      db.collection('games').update(
+        { _id: ObjectId(req.game._id)},
+        { $set: {sale: sale}},
+        function (err, data) {
+          if (err) {
+            res.send(err);
+          } else {
+            res.send(sale);
+          }
+          db.close();
+        }
+      );
+    } catch (err) {
+      res.send(err);
+    }
+  });
+
+};

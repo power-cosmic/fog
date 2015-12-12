@@ -21,6 +21,9 @@ module.exports = function(app) {
   app.route('/games/featured')
     .get(game.getFeatured);
 
+  app.route('/games/:id/update-sale')
+    .post(admin.auth, game.updateSale);
+
   app.route('/games/:id/toggle-featured')
     .post(admin.auth, game.toggleFeatured);
 

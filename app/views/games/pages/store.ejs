@@ -78,14 +78,35 @@
           });
       }
 
+      var previousSale = 0;
+
       function saleListener(sale) {
-        console.log(sale);
         var gameID = sale.id.substr(0, sale.id.indexOf('onsale'));
+        var percent = sale.options[sale.selectedIndex].value;
+        ajaxer.post('/games/' + gameID + '/update-sale',
+          {
+            sale: percent
+          }, {
+            onSuccess: function(response) {
+              if (response) {
+                if (parseInt(previousSale) === 0 && parseInt(response) !== 0 ||
+                    parseInt(previousSale) !== 0 && parseInt(response) === 0)
+                {
+                  $(sale).toggleClass('active');
+                  $(sale).toggleClass('green');
+                  $(sale).toggleClass('inactive');
+                }
+              }
+
+            },
+            onFail: function(response) {
+              console.log('fic + ' + response);
+            }
+          });
       }
 
       var features = document.getElementsByClassName('featured-button');
       var sales = document.getElementsByClassName('onsale-button');
-
       for (var i = 0; i < features.length; i++) {
         (function() {
           var k = i;
@@ -98,6 +119,8 @@
 
           sales[k].addEventListener('click', function(event) {
             event.preventDefault();
+            var sale = sales[k];
+            previousSale = sale.options[sale.selectedIndex].value;
           });
 
           features[k].addEventListener('click', function(event) {
