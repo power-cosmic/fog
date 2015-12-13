@@ -32,10 +32,8 @@ require(['common/bannerMaker'], function(rotatingBanner) {
     }
 
     function addSaleFlag (imageItem, sale) {
-      imageItem.append('div')
-        .css('background-color', 'red')
-        .css('position', 'absolute').text('%' + sale + ' off')
-        .css('top', '0px').css('right', '0px');
+      imageItem.append('div').toggleClass('sale-flag')
+        .toggleClass('green').text('%' + sale + ' off');
     }
 
   },
