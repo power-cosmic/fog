@@ -30,7 +30,7 @@
                 userType = user && user.type,
                 canBuy = !user
                     || userType === 'guest'
-                    || (userType === 'gamer' && user.games[game._id]);
+                    || (userType === 'gamer' && !user.games[game._id]);
           %>
 
           <h1><%= game.title %></h1>

@@ -1,6 +1,7 @@
 var express = require('express'),
     game = require('../controllers/game.controller'),
     gamer = require('../controllers/gamer.controller'),
+    admin = require('../controllers/admin.controller'),
     multer = require('multer'),
     gameUploads = multer({dest: './uploads/games/pending'});
 
@@ -18,7 +19,13 @@ module.exports = function(app) {
   app.use('/media', express.static('./uploads/media'));
 
   app.route('/games/featured')
-  .get(game.getFeatured);
+    .get(game.getFeatured);
+
+  app.route('/games/:id/update-sale')
+    .post(admin.auth, game.updateSale);
+
+  app.route('/games/:id/toggle-featured')
+    .post(admin.auth, game.toggleFeatured);
 
   app.route('/games/:id/purchase')
     .get(gamer.requiresLogin, game.checkout)

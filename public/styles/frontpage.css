@@ -5,3 +5,29 @@
   width: 616px;
   height: 353px;
 }
+
+.overlayed {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.sale-flag {
+  top: 0px;
+  right: 0px;
+  border-bottom-left-radius: 4px;
+}
+
+.availability, .sale-flag {
+  padding: 5px;
+  font-size: 1em;
+  color:white;
+  position: absolute;
+}
+
+.availability {
+  right: 0px;
+  bottom: 0px;
+  background-color: grey;
+  border-top-left-radius: 4px;
+}

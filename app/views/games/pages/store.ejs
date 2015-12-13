@@ -1,58 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <% include ../../common/partials/head %>
-    <link rel="stylesheet" href="/styles/games.css">
-    <title>fog | store</title>
-  </head>
-  <body>
+<head>
+  <% include ../../common/partials/head %>
+  <% if (session.user && session.user.type === 'admin') { %>
+    <script type="text/javascript" src="/helpers/games/adminStoreHelper.js"></script>
+  <% } %>
+  <link rel="stylesheet" href="/styles/games.css">
+  <title>fog | store</title>
+</head>
+<body>
 
-    <header>
-      <% include ../../common/partials/header %>
-    </header>
+  <header>
+    <% include ../../common/partials/header %>
+  </header>
 
-    <main>
-      <div class="inner-content">
+  <main>
+    <div class="inner-content">
 
-        <h1>fogStore</h1>
+      <h1>fogStore</h1>
 
-        <!-- search -->
-        <form action="/store" method="get" class="padded">
-          <input type="text"
-              id="query" name="query"
-              class="long input" placeholder="search" />
-          <input type="submit" id="submit-search" value="search" />
-        </form>
+      <!-- search -->
+      <form action="/store" method="get" class="padded">
+        <input type="text"
+        id="query" name="query"
+        class="long input" placeholder="search" />
+        <input type="submit" id="submit-search" value="search" />
+      </form>
 
-        <!-- game list -->
-        <div class="padded game-collection">
+      <!-- game list -->
+      <div class="padded game-collection">
 
-          <% if (games.length === 0) { %>
-            <h3 class="deemphasized">
-              There's nothing here
-            </h3>
-          <% } %>
-
-          <% games.forEach(function(game) { %>
-
-            <a href="/games/<%= game._id %>">
-              <%
-                var message = (user && user.games && user.games[game._id])?
-                    '[owned]'
-                    : '$ ' + game.price;
-              %>
-              <% include ../partials/game-summary %>
-            </a>
-
-          <% }); %>
-
-        </div>
+        <% if (games.length === 0) { %>
+          <h3 class="deemphasized">
+            There's nothing here
+          </h3>
+        <% } %>
+        <% games.forEach(function(game) { %>
+          <a href="/games/<%= game._id %>">
+            <%
+            var message = (session.user && session.user.type !== 'admin'
+            && session.user.games[game._id])?
+            '[owned]'
+            : '$ ' + game.price;
+            %>
+            <% include ../partials/game-summary %>
+          </a>
+        <% }); %>
       </div>
-    </main>
-
-    <footer>
-      <% include ../../common/partials/footer %>
-    </footer>
-
-  </body>
+    </div>
+  </main>
+  <footer>
+    <% include ../../common/partials/footer %>
+  </footer>
+</body>
 </html>

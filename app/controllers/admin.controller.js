@@ -234,3 +234,11 @@ exports.read = function(query, callback) {
   });
 
 };
+
+exports.updateGames = function(req, res) {
+  gametroller.getGames({}, function(games) {
+    res.render('games/pages/store', {
+      games: games
+    });
+  });
+};

@@ -258,9 +258,7 @@ var params = parseUrl(req.url, true).query,
 
   exports.getGames(condition, function(games) {
     res.render('games/pages/store', {
-      games: games,
-      cookie: req.cookies,
-      user: req.session.user
+      games: games
     });
   });
 };
@@ -294,11 +292,70 @@ exports.getGames = function(query, callback, limit) {
 };
 
 /*
-  getFeatured currenty just gets the 5 most recently uploaded games
+  Gets N games or 5 if quantity field in query is not submitted.
+  Gets featured games unless there are none, then
+    it just gets any N games.
 */
 exports.getFeatured = function(req, res) {
   var quantity = parseInt(req.query.quantity) || 5;
-  exports.getGames({}, function(games) {
-    res.send(games);
+  exports.getGames({featured: true}, function(featuredGames) {
+
+    if (featuredGames.length === 0) {
+      exports.getGames({}, function(anyGames) {
+        res.send(anyGames);
+      });
+    } else {
+      res.send(featuredGames);
+    }
   }, quantity);
+};
+
+exports.toggleFeatured = function(req, res) {
+  var featured = false;
+  if (req.game.featured === undefined || req.game.featured === false) {
+    featured = true;
+  }
+
+  MongoClient.connect(config.db, function(err, db) {
+    try {
+      db.collection('games').update(
+        { _id: ObjectId(req.game._id)},
+        { $set: {featured: featured}},
+        function (err, data) {
+          if (err) {
+            res.send(err);
+          } else {
+            res.send(featured);
+          }
+          db.close();
+        }
+      );
+    } catch (err) {
+      res.send(err);
+    }
+  });
+};
+
+exports.updateSale = function(req, res) {
+  var sale = req.body.sale
+
+  MongoClient.connect(config.db, function(err, db) {
+    try {
+      db.collection('games').update(
+        { _id: ObjectId(req.game._id)},
+        { $set: {sale: sale}},
+        function (err, data) {
+          if (err) {
+            res.send(err);
+          } else {
+            res.send(sale);
+          }
+          db.close();
+        }
+      );
+    } catch (err) {
+      res.send(err);
+    }
+  });
+
 };

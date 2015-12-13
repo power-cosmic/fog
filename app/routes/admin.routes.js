@@ -2,7 +2,6 @@ var admin = require('../controllers/admin.controller');
 
 module.exports = function(app) {
 
-
   app.route('/admin/pending')
     .get(admin.auth, admin.readPending);
 
@@ -16,6 +15,9 @@ module.exports = function(app) {
 
   app.route('/admin/user-list')
     .get(admin.auth, admin.getUsers)
+
+  app.route('/admin/update-games')
+    .get(admin.auth, admin.updateGames);
 
   app.route('/admin/ban/:userId')
     .post(admin.banUser);

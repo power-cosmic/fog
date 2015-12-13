@@ -46,6 +46,11 @@ a .game-box:hover {
   padding: 1px;
   float: left;
 }
+.outer-box {
+  maring: 1px;
+  padding: 1px;
+  float: right;
+}
 
 .image-holder {
   display: inline-block;
@@ -67,4 +72,27 @@ a .game-box:hover {
 
 .long.input {
   width: 500px;
+}
+
+.featured-button, .onsale-button {
+  height: 40px;
+  font-size: 1em;
+  border: 3px solid #999;
+  border-radius: 5px;
+  color:white;
+}
+
+.featured-button:hover, .onsale-button:hover {
+  opacity: 1;
+  transition: opacity 0.4s;
+  cursor: crosshair;
+  box-shadow: -2px 3px 4px 1px black;
+}
+
+.inactive {
+  opacity: .3;
+  background-color: grey;
+}
+
+.active {
 }
