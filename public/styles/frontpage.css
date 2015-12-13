@@ -13,10 +13,21 @@
 }
 
 .sale-flag {
-  position: absolute;
   top: 0px;
   right: 0px;
+  border-bottom-left-radius: 4px;
+}
+
+.availability, .sale-flag {
+  padding: 5px;
   font-size: 1em;
-  border: 1px solid #999;
   color:white;
+  position: absolute;
+}
+
+.availability {
+  right: 0px;
+  bottom: 0px;
+  background-color: grey;
+  border-top-left-radius: 4px;
 }
