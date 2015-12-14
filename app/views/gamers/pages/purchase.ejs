@@ -40,7 +40,13 @@
           <span>Cost</span>
         </div>
         <div class="col-8 emphasized">
-          <span>$<%= game.price %></span>
+          <% if (game.sale) { %>
+            <% var newCost = game.price * (100 - game.sale) / 100; %>
+            <span class="invalid">$<%= game.price %></span>
+            <span class="sale">$<%= newCost.toFixed(2) %></span>
+          <% } else { %>
+            <span>$<%= game.price %></span>
+          <% } %>
         </div>
 
         <!-- credit card -->

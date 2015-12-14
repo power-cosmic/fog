@@ -43,6 +43,7 @@ exports.purchase = function(req, res) {
   var user = req.session.user,
       game = req.game,
       gameId = game._id,
+      discount = (100 - (game.sale || 0)) / 100,
       gameInfo = {
         id: gameId,
         playTime: 0,
