@@ -1,4 +1,5 @@
 #banner_window {
+  position: relative;
   margin: auto;
   box-shadow: 5px 5px 5px black, -5px 5px 5px black;
   border: solid grey;
@@ -30,4 +31,27 @@
   bottom: 0px;
   background-color: grey;
   border-top-left-radius: 4px;
+}
+
+.banner-button {
+  position: absolute;
+  z-index: 2;
+  margin: 90px 0px;
+  font-size: 8em;
+  font-weight: bolder;
+  cursor:pointer;
+  opacity: 0.3;
+  transition: opacity 0.3s;
+}
+
+.banner-button:hover {
+  opacity: 0.6;
+}
+
+.banner-left {
+  left: 0px;
+}
+
+.banner-right {
+  right: 0px;
 }
