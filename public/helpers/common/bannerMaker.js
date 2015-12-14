@@ -44,9 +44,11 @@ var makeBanner = function(bannerTargetID, prevButtonID, nextButtonID,
 	//hook up the buttons
 	$prevImageButton.click(function(){
 		goLeft();
+		return false;
 	});
 	$nextImageButton.click(function(){
 		goRight();
+		return false;
 	});
 
 	function makeDomImage(imageInfo){

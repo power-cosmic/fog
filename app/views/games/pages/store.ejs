@@ -42,7 +42,6 @@
             && session.user.games[game._id])?
             '[owned]'
             : '$ ' + game.price;
-            console.log(game.sale)
             if (game.sale > 0) {
               var newCost = game.price * (100 - game.sale) / 100;
               message = '<span class="invalid">$' + game.price + '</span><br />'

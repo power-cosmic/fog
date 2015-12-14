@@ -14,10 +14,13 @@
 
     <div class="inner-content">
       <div id="banner_window">
-
+        <a href="" id="prev_image" class="banner-button banner-left">
+          <img src="/images/left_arrow.png" />
+        </a>
+        <a href="" id="next_image" class="banner-button banner-right">
+          <img src="/images/right_arrow.png" />
+        </a>
       </div>
-      <button id="prev_image">GO LEFT</button>
-      <button id="next_image">GO RIGHT</button>
 
       <% if (session.user && session.user.type === 'admin') { %>
         <br />
