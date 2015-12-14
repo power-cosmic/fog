@@ -139,7 +139,7 @@ exports.register = function(user, callback) {
 
 exports.create = function(req, res) {
   if (req.body.type === 'gamer') {
-    req.body.games = [];
+    req.body.games = {};
     req.body.creditCards = [];
   }
   exports.register(req.body, function(err, user) {
