@@ -16,7 +16,7 @@
     </p>
   </div>
   <div class="inner-box price-holder">
-    <h4><%= message %></h4>
+    <h4><%- message %></h4>
   </div>
   <% if (session.user && session.user.type === 'admin') { %>
     <% var featureClasses = game.featured === true ? 'active green' : 'inactive'%>

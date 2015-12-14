@@ -150,3 +150,12 @@ a:hover {
   background-color: #2c2;
   border-color: #8f8;
 }
+
+.invalid {
+  text-decoration: line-through;
+  color: #666;
+}
+
+.sale {
+  color: #ccc;
+}
