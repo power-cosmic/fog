@@ -1,5 +1,5 @@
 require(['common/bannerMaker'], function(rotatingBanner) {
-  ajaxer.get('/games/featured', {quantity:4}, {
+  ajaxer.get('/games/featured', {}, {
     onSuccess: function(games) {
       games = JSON.parse(games);
       var imageInfo = [];

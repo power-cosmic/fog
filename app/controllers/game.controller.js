@@ -298,7 +298,7 @@ exports.getGames = function(query, callback, limit) {
     it just gets any N games.
 */
 exports.getFeatured = function(req, res) {
-  var quantity = parseInt(req.query.quantity) || 5;
+  var quantity = parseInt(req.query.quantity) || 0;
   exports.getGames({featured: true}, function(featuredGames) {
 
     if (featuredGames.length === 0) {
