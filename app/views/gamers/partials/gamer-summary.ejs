@@ -19,7 +19,7 @@
           <br />
           <%= gamer.firstName %> <%= gamer.lastName %>
           <br />
-          Games owned: <%= gamer.games && gamer.games.length || 0 %>
+          Games owned: <%= gamer.games && Object.keys(gamer.games).length || 0 %>
         </p>
 
       </div>
